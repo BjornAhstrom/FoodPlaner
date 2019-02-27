@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ExplanatoryViewController.swift
 //  FoodPlaner
 //
 //  Created by Björn Åhström on 2019-02-25.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ExplanatoryViewController: UIViewController {
     private var image = [UIImage]()
     private var i = Int()
     
-    @IBOutlet weak var skipButton: UIButton!
+    @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var explanatoryTextView: UITextView!
     @IBOutlet weak var pageStatusBar: UIPageControl!
@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setColorFontAndSizeOnButtonsAndLabels()
+        disableButton()
         
         image = [UIImage(named: "1"), UIImage(named: "2"), UIImage(named: "3")] as! [UIImage]
         imageView.isUserInteractionEnabled = true
@@ -33,11 +34,11 @@ class ViewController: UIViewController {
     }
     
     func setColorFontAndSizeOnButtonsAndLabels() {
-        skipButton.layer.cornerRadius = 15
-        skipButton.layer.borderWidth = 2
-        skipButton.layer.borderColor = Theme.current.colorForBorder.cgColor
-        skipButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 15)
-        skipButton.setTitleColor(Theme.current.textColor, for: .normal)
+        nextButton.layer.cornerRadius = 15
+        nextButton.layer.borderWidth = 2
+        nextButton.layer.borderColor = Theme.current.colorForBorder.cgColor
+        nextButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 15)
+        nextButton.setTitleColor(Theme.current.textColor, for: .normal)
     }
     
     func swipeLeftAndRight() {
@@ -65,6 +66,7 @@ class ViewController: UIViewController {
         if i == 2 {
             explanatoryTextView.text! = "third side"
             pageStatusBar.currentPage = 2
+            enableButton()
         }
     }
     
@@ -88,10 +90,11 @@ class ViewController: UIViewController {
         if i == 2 {
             explanatoryTextView.text! = "third side"
             pageStatusBar.currentPage = 2
+            enableButton()
         }
     }
     
-    @IBAction func skipButton(_ sender: UIButton) {
+    @IBAction func nextButton(_ sender: UIButton) {
         if let loginScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loginVc") as? LoginViewController {
             
             let modalStyle: UIModalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -99,5 +102,18 @@ class ViewController: UIViewController {
             self.present(loginScreen, animated: true, completion: nil)
         }
     }
+    
+    func disableButton() {
+        nextButton.isEnabled = false
+        nextButton.isHidden = true
+    }
+    
+    func enableButton() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.nextButton.isEnabled = true
+            self.nextButton.isHidden = false
+        }
+    }
+    
 }
 

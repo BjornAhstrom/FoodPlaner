@@ -1,6 +1,6 @@
 //
 //  LoginViewController.swift
-//  FoodPlaner
+//  FoodPlaner new
 //
 //  Created by Björn Åhström on 2019-02-25.
 //  Copyright © 2019 Björn Åhström. All rights reserved.
@@ -42,7 +42,7 @@ class LoginViewController: UIViewController {
         loginWithFaceBookButton.layer.borderColor = Theme.current.colorForBorder.cgColor
         loginWithFaceBookButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 20)
         loginWithFaceBookButton.setTitleColor(Theme.current.colorForBorder, for: .normal)
-      
+        
         for textfieldLabel in labelForTextField {
             textfieldLabel.layer.borderWidth = 2
             textfieldLabel.layer.borderColor = Theme.current.colorForBorder.cgColor
