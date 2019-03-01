@@ -9,52 +9,36 @@
 import UIKit
 
 class ContainerViewController: UIViewController {
-    @IBOutlet weak var sideMenuConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sideMenuTrailingConstraint: NSLayoutConstraint!
+    
+   
     
     var sideMenuOpen: Bool = false
+  
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         NotificationCenter.default.addObserver(self, selector: #selector(showSideMenu), name: NSNotification.Name( "showSideMenu"), object: nil)
-        
     }
     
     @objc func showSideMenu() {
         if sideMenuOpen {
-            sideMenuConstraint.constant = -240
+            sideMenuTrailingConstraint.constant = -240
             sideMenuOpen = false
-            sideMenuAnimationFromRightToLeft()
+            animations()
         } else {
-            sideMenuConstraint.constant = 0
+            sideMenuTrailingConstraint.constant = 0
             sideMenuOpen = true
-            sideMenuAnimationFromLeftToRight()
+            animations()
         }
     }
     
-    func sideMenuAnimationFromRightToLeft() {
-        let transition = CATransition()
-        
-        let withDuration = 0.5
-        
-        transition.duration = withDuration
-        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-        transition.type = CATransitionType.push
-        transition.subtype = CATransitionSubtype.fromRight
-        
-        self.view.layer.add(transition, forKey: kCATransition)
+    func animations() {
+        UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseInOut, animations: {self.view.layoutIfNeeded()})
     }
     
-    func sideMenuAnimationFromLeftToRight() {
-        let transition = CATransition()
-        
-        let withDuration = 0.5
-        
-        transition.duration = withDuration
-        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-        transition.type = CATransitionType.push
-        transition.subtype = CATransitionSubtype.fromLeft
-        
-        self.view.layer.add(transition, forKey: kCATransition)
-    }
+    
+    
+   
 }

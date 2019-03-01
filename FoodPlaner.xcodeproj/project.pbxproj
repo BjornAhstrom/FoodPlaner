@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E7E337922295478000CAA9A /* CheckPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E337822295478000CAA9A /* CheckPassword.swift */; };
+		1E7E337C22299D71000CAA9A /* ButtonList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E337B22299D71000CAA9A /* ButtonList.swift */; };
+		1E7E337E2229A0DA000CAA9A /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E337D2229A0DA000CAA9A /* ButtonCell.swift */; };
+		1E7E33802229A2D4000CAA9A /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E337F2229A2D4000CAA9A /* Button.swift */; };
 		1EC628E0222473B70049BCD6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC628DF222473B70049BCD6 /* AppDelegate.swift */; };
 		1EC628E2222473B70049BCD6 /* ExplanatoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC628E1222473B70049BCD6 /* ExplanatoryViewController.swift */; };
 		1EC628E5222473B70049BCD6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EC628E3222473B70049BCD6 /* Main.storyboard */; };
@@ -43,6 +47,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E7E337822295478000CAA9A /* CheckPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPassword.swift; sourceTree = "<group>"; };
+		1E7E337B22299D71000CAA9A /* ButtonList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonList.swift; sourceTree = "<group>"; };
+		1E7E337D2229A0DA000CAA9A /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
+		1E7E337F2229A2D4000CAA9A /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		1EC628DC222473B70049BCD6 /* FoodPlaner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodPlaner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EC628DF222473B70049BCD6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EC628E1222473B70049BCD6 /* ExplanatoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanatoryViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +100,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E7E33772229544C000CAA9A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1E7E337822295478000CAA9A /* CheckPassword.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1E7E337A22299D28000CAA9A /* Test Side Menu */ = {
+			isa = PBXGroup;
+			children = (
+				1E7E337B22299D71000CAA9A /* ButtonList.swift */,
+				1E7E337D2229A0DA000CAA9A /* ButtonCell.swift */,
+				1E7E337F2229A2D4000CAA9A /* Button.swift */,
+			);
+			path = "Test Side Menu";
+			sourceTree = "<group>";
+		};
 		1EC628D3222473B70049BCD6 = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +141,8 @@
 		1EC628DE222473B70049BCD6 /* FoodPlaner */ = {
 			isa = PBXGroup;
 			children = (
+				1E7E337A22299D28000CAA9A /* Test Side Menu */,
+				1E7E33772229544C000CAA9A /* Model */,
 				1EC628E3222473B70049BCD6 /* Main.storyboard */,
 				1EC628DF222473B70049BCD6 /* AppDelegate.swift */,
 				1EC6291122247DAE0049BCD6 /* Theme */,
@@ -325,14 +353,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				1EF42E3E2226F62900CE28AD /* SideMenuViewController.swift in Sources */,
+				1E7E337E2229A0DA000CAA9A /* ButtonCell.swift in Sources */,
 				1EC6291C22252C120049BCD6 /* CreateAccountViewController.swift in Sources */,
 				1EC629172224FCEE0049BCD6 /* ThemeProtocol.swift in Sources */,
+				1E7E337C22299D71000CAA9A /* ButtonList.swift in Sources */,
 				1EC62910222479D60049BCD6 /* LoginViewController.swift in Sources */,
+				1E7E33802229A2D4000CAA9A /* Button.swift in Sources */,
 				1EC629152224FCD40049BCD6 /* Theme.swift in Sources */,
 				1EC628E2222473B70049BCD6 /* ExplanatoryViewController.swift in Sources */,
 				1EC628E0222473B70049BCD6 /* AppDelegate.swift in Sources */,
 				1EF42E3F2226F62900CE28AD /* ContainerViewController.swift in Sources */,
 				1EC629192224FD2D0049BCD6 /* PinkTheme.swift in Sources */,
+				1E7E337922295478000CAA9A /* CheckPassword.swift in Sources */,
 				1EF42E402226F62900CE28AD /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

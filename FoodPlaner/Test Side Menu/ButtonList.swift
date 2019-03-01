@@ -1,16 +1,16 @@
 //
-//  SideMenuViewController.swift
+//  ButtonList.swift
 //  FoodPlaner
 //
-//  Created by Björn Åhström on 2019-02-26.
+//  Created by Björn Åhström on 2019-03-01.
 //  Copyright © 2019 Björn Åhström. All rights reserved.
 //
 
 import UIKit
 
-class SideMenuViewController: UIViewController{
+class ButtonList: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var addButtonTextField: UITextField!
+    @IBOutlet weak var addButtonTexField: UITextField!
     
     var buttons: [Button] = []
     
@@ -29,14 +29,14 @@ class SideMenuViewController: UIViewController{
     }
     
     func insertNewButtonTitle() {
-        buttons.append(Button(buttonTitle: addButtonTextField.text!))
+        buttons.append(Button(buttonTitle: addButtonTexField.text!))
         
         let indexPath = IndexPath(row: buttons.count-1, section: 0)
         tableView.beginUpdates()
         tableView.insertRows(at: [indexPath], with: .automatic)
         tableView.endUpdates()
         
-        addButtonTextField.text! = ""
+        addButtonTexField.text! = ""
         view.endEditing(true)  // Dissmis the keyboard
     }
     
@@ -56,18 +56,9 @@ class SideMenuViewController: UIViewController{
         
         return tempButtons
     }
-    
-    func shadowOnSideMenu() {
-        let shadowRect = self.view.bounds.insetBy(dx: 0, dy: 4)
-        self.view.layer.shadowColor = UIColor.black.cgColor
-        self.view.layer.shadowOpacity = 0.7
-        self.view.layer.shadowOffset = CGSize.zero
-        self.view.layer.shadowRadius = 4
-        self.view.layer.shadowPath = UIBezierPath(rect: shadowRect).cgPath
-    }
 }
 
-extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
+extension ButtonList: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return buttons.count
@@ -81,10 +72,6 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
         cell.setButtonTile(title: button)
         
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -102,7 +89,3 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
-    
-
-    
-
