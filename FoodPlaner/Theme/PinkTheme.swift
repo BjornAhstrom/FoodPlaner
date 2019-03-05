@@ -11,7 +11,7 @@ import UIKit
 class PinkTheme: ThemeProtocol {
     var fontForLabels: String = "Futura"
     
-    var textColorForLabels: UIColor = UIColor(named: "Black")!
+    var textColorForLabels: UIColor = UIColor(named: "TextColor")!
     
     var fontForButtons: String = "Futura"
     

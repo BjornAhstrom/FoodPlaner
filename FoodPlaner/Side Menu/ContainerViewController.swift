@@ -24,7 +24,7 @@ class ContainerViewController: UIViewController {
     
     @objc func showSideMenu() {
         if sideMenuOpen {
-            sideMenuTrailingConstraint.constant = -240
+            sideMenuTrailingConstraint.constant = -270
             sideMenuOpen = false
             animations()
         } else {
@@ -35,10 +35,6 @@ class ContainerViewController: UIViewController {
     }
     
     func animations() {
-        UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseInOut, animations: {self.view.layoutIfNeeded()})
+        UIView.animate(withDuration: 0.5, delay: 0.1, options: .curveEaseInOut, animations: {self.view.layoutIfNeeded()})
     }
-    
-    
-    
-   
 }

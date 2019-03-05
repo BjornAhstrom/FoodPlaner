@@ -8,9 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		1E7E337922295478000CAA9A /* CheckPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E337822295478000CAA9A /* CheckPassword.swift */; };
-		1E7E337C22299D71000CAA9A /* ButtonList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E337B22299D71000CAA9A /* ButtonList.swift */; };
 		1E7E337E2229A0DA000CAA9A /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E337D2229A0DA000CAA9A /* ButtonCell.swift */; };
 		1E7E33802229A2D4000CAA9A /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E337F2229A2D4000CAA9A /* Button.swift */; };
+		1E7E3382222C20F5000CAA9A /* Dish.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E3381222C20F5000CAA9A /* Dish.swift */; };
+		1E7E3385222C2FA3000CAA9A /* DishIngredients.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E7E3384222C2FA3000CAA9A /* DishIngredients.xib */; };
+		1E7E3389222C41C4000CAA9A /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E3388222C41C4000CAA9A /* HeaderView.swift */; };
+		1E7E338E222C4705000CAA9A /* PicturesFromRecipes.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E7E338D222C4705000CAA9A /* PicturesFromRecipes.xib */; };
+		1E7E3390222C474E000CAA9A /* HeaderPicturesFromRecipes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E338F222C474E000CAA9A /* HeaderPicturesFromRecipes.swift */; };
+		1E7E3392222C4872000CAA9A /* MyWebrecipes.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E7E3391222C4872000CAA9A /* MyWebrecipes.xib */; };
+		1E7E3394222C4898000CAA9A /* HeaderWebrecipes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E3393222C4898000CAA9A /* HeaderWebrecipes.swift */; };
+		1E7E3396222C497D000CAA9A /* WeeklyMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E7E3395222C497D000CAA9A /* WeeklyMenu.xib */; };
+		1E7E3398222C49A8000CAA9A /* HeaderWeeklyMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E3397222C49A8000CAA9A /* HeaderWeeklyMenu.swift */; };
+		1E7E339A222C4B70000CAA9A /* ViewNextToTheSidMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E3399222C4B70000CAA9A /* ViewNextToTheSidMenuViewController.swift */; };
 		1EC628E0222473B70049BCD6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC628DF222473B70049BCD6 /* AppDelegate.swift */; };
 		1EC628E2222473B70049BCD6 /* ExplanatoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC628E1222473B70049BCD6 /* ExplanatoryViewController.swift */; };
 		1EC628E5222473B70049BCD6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EC628E3222473B70049BCD6 /* Main.storyboard */; };
@@ -48,9 +57,18 @@
 
 /* Begin PBXFileReference section */
 		1E7E337822295478000CAA9A /* CheckPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPassword.swift; sourceTree = "<group>"; };
-		1E7E337B22299D71000CAA9A /* ButtonList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonList.swift; sourceTree = "<group>"; };
 		1E7E337D2229A0DA000CAA9A /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		1E7E337F2229A2D4000CAA9A /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		1E7E3381222C20F5000CAA9A /* Dish.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dish.swift; sourceTree = "<group>"; };
+		1E7E3384222C2FA3000CAA9A /* DishIngredients.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DishIngredients.xib; sourceTree = "<group>"; };
+		1E7E3388222C41C4000CAA9A /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		1E7E338D222C4705000CAA9A /* PicturesFromRecipes.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PicturesFromRecipes.xib; sourceTree = "<group>"; };
+		1E7E338F222C474E000CAA9A /* HeaderPicturesFromRecipes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderPicturesFromRecipes.swift; sourceTree = "<group>"; };
+		1E7E3391222C4872000CAA9A /* MyWebrecipes.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyWebrecipes.xib; sourceTree = "<group>"; };
+		1E7E3393222C4898000CAA9A /* HeaderWebrecipes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderWebrecipes.swift; sourceTree = "<group>"; };
+		1E7E3395222C497D000CAA9A /* WeeklyMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeeklyMenu.xib; sourceTree = "<group>"; };
+		1E7E3397222C49A8000CAA9A /* HeaderWeeklyMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderWeeklyMenu.swift; sourceTree = "<group>"; };
+		1E7E3399222C4B70000CAA9A /* ViewNextToTheSidMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewNextToTheSidMenuViewController.swift; sourceTree = "<group>"; };
 		1EC628DC222473B70049BCD6 /* FoodPlaner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodPlaner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EC628DF222473B70049BCD6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EC628E1222473B70049BCD6 /* ExplanatoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanatoryViewController.swift; sourceTree = "<group>"; };
@@ -108,14 +126,50 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		1E7E337A22299D28000CAA9A /* Test Side Menu */ = {
+		1E7E337A22299D28000CAA9A /* Button In Cell */ = {
 			isa = PBXGroup;
 			children = (
-				1E7E337B22299D71000CAA9A /* ButtonList.swift */,
 				1E7E337D2229A0DA000CAA9A /* ButtonCell.swift */,
 				1E7E337F2229A2D4000CAA9A /* Button.swift */,
 			);
-			path = "Test Side Menu";
+			path = "Button In Cell";
+			sourceTree = "<group>";
+		};
+		1E7E3383222C220A000CAA9A /* My recipes */ = {
+			isa = PBXGroup;
+			children = (
+				1E7E3381222C20F5000CAA9A /* Dish.swift */,
+				1E7E3384222C2FA3000CAA9A /* DishIngredients.xib */,
+				1E7E3388222C41C4000CAA9A /* HeaderView.swift */,
+			);
+			path = "My recipes";
+			sourceTree = "<group>";
+		};
+		1E7E338A222C4668000CAA9A /* My picturesrecipes */ = {
+			isa = PBXGroup;
+			children = (
+				1E7E338D222C4705000CAA9A /* PicturesFromRecipes.xib */,
+				1E7E338F222C474E000CAA9A /* HeaderPicturesFromRecipes.swift */,
+			);
+			path = "My picturesrecipes";
+			sourceTree = "<group>";
+		};
+		1E7E338B222C4682000CAA9A /* My webrecipes */ = {
+			isa = PBXGroup;
+			children = (
+				1E7E3391222C4872000CAA9A /* MyWebrecipes.xib */,
+				1E7E3393222C4898000CAA9A /* HeaderWebrecipes.swift */,
+			);
+			path = "My webrecipes";
+			sourceTree = "<group>";
+		};
+		1E7E338C222C4693000CAA9A /* Weekly menu */ = {
+			isa = PBXGroup;
+			children = (
+				1E7E3395222C497D000CAA9A /* WeeklyMenu.xib */,
+				1E7E3397222C49A8000CAA9A /* HeaderWeeklyMenu.swift */,
+			);
+			path = "Weekly menu";
 			sourceTree = "<group>";
 		};
 		1EC628D3222473B70049BCD6 = {
@@ -141,15 +195,19 @@
 		1EC628DE222473B70049BCD6 /* FoodPlaner */ = {
 			isa = PBXGroup;
 			children = (
-				1E7E337A22299D28000CAA9A /* Test Side Menu */,
-				1E7E33772229544C000CAA9A /* Model */,
 				1EC628E3222473B70049BCD6 /* Main.storyboard */,
 				1EC628DF222473B70049BCD6 /* AppDelegate.swift */,
+				1E7E33772229544C000CAA9A /* Model */,
 				1EC6291122247DAE0049BCD6 /* Theme */,
 				1EC6290D222476790049BCD6 /* explanatory view */,
 				1EC6290E222476D30049BCD6 /* Login Controller */,
 				1EC6291A22252B820049BCD6 /* Create Account */,
 				1EF42E3A2226F60700CE28AD /* Side Menu */,
+				1E7E337A22299D28000CAA9A /* Button In Cell */,
+				1E7E3383222C220A000CAA9A /* My recipes */,
+				1E7E338A222C4668000CAA9A /* My picturesrecipes */,
+				1E7E338B222C4682000CAA9A /* My webrecipes */,
+				1E7E338C222C4693000CAA9A /* Weekly menu */,
 				1EC628E6222473B70049BCD6 /* Assets.xcassets */,
 				1EC628E8222473B70049BCD6 /* LaunchScreen.storyboard */,
 				1EC628EB222473B70049BCD6 /* Info.plist */,
@@ -216,6 +274,7 @@
 				1EF42E3C2226F62900CE28AD /* ContainerViewController.swift */,
 				1EF42E3D2226F62900CE28AD /* MainViewController.swift */,
 				1EF42E3B2226F62900CE28AD /* SideMenuViewController.swift */,
+				1E7E3399222C4B70000CAA9A /* ViewNextToTheSidMenuViewController.swift */,
 			);
 			path = "Side Menu";
 			sourceTree = "<group>";
@@ -324,9 +383,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E7E3392222C4872000CAA9A /* MyWebrecipes.xib in Resources */,
 				1EC628EA222473B70049BCD6 /* LaunchScreen.storyboard in Resources */,
 				1EC6291322247DE00049BCD6 /* Color.xcassets in Resources */,
 				1EC628E7222473B70049BCD6 /* Assets.xcassets in Resources */,
+				1E7E3385222C2FA3000CAA9A /* DishIngredients.xib in Resources */,
+				1E7E3396222C497D000CAA9A /* WeeklyMenu.xib in Resources */,
+				1E7E338E222C4705000CAA9A /* PicturesFromRecipes.xib in Resources */,
 				1EC628E5222473B70049BCD6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -352,17 +415,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E7E3394222C4898000CAA9A /* HeaderWebrecipes.swift in Sources */,
 				1EF42E3E2226F62900CE28AD /* SideMenuViewController.swift in Sources */,
+				1E7E3390222C474E000CAA9A /* HeaderPicturesFromRecipes.swift in Sources */,
 				1E7E337E2229A0DA000CAA9A /* ButtonCell.swift in Sources */,
 				1EC6291C22252C120049BCD6 /* CreateAccountViewController.swift in Sources */,
+				1E7E339A222C4B70000CAA9A /* ViewNextToTheSidMenuViewController.swift in Sources */,
 				1EC629172224FCEE0049BCD6 /* ThemeProtocol.swift in Sources */,
-				1E7E337C22299D71000CAA9A /* ButtonList.swift in Sources */,
 				1EC62910222479D60049BCD6 /* LoginViewController.swift in Sources */,
 				1E7E33802229A2D4000CAA9A /* Button.swift in Sources */,
 				1EC629152224FCD40049BCD6 /* Theme.swift in Sources */,
 				1EC628E2222473B70049BCD6 /* ExplanatoryViewController.swift in Sources */,
 				1EC628E0222473B70049BCD6 /* AppDelegate.swift in Sources */,
+				1E7E3382222C20F5000CAA9A /* Dish.swift in Sources */,
+				1E7E3389222C41C4000CAA9A /* HeaderView.swift in Sources */,
 				1EF42E3F2226F62900CE28AD /* ContainerViewController.swift in Sources */,
+				1E7E3398222C49A8000CAA9A /* HeaderWeeklyMenu.swift in Sources */,
 				1EC629192224FD2D0049BCD6 /* PinkTheme.swift in Sources */,
 				1E7E337922295478000CAA9A /* CheckPassword.swift in Sources */,
 				1EF42E402226F62900CE28AD /* MainViewController.swift in Sources */,

@@ -9,13 +9,17 @@
 import UIKit
 
 class MainViewController: UIViewController {
-
+    @IBOutlet weak var mainView: UIView!
+    
+    var test: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
     }
     
     @IBAction func moreTappedButton() {
-        print("Show side menu")
         NotificationCenter.default.post(name: NSNotification.Name("showSideMenu"), object: nil)
     }
 }
