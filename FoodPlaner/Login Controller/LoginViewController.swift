@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
     
     @IBOutlet var labelForTextField: [UILabel]!
     
+    private var createAccountId: String = "createAccountId"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -51,7 +53,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func createANewAccountButton(_ sender: UIButton) {
-        if let createAccountViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "createAccount") as? CreateAccountViewController {
+        if let createAccountViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: createAccountId) as? CreateAccountViewController {
             
             let modalStyle: UIModalTransitionStyle = UIModalTransitionStyle.crossDissolve
             createAccountViewController.modalTransitionStyle = modalStyle

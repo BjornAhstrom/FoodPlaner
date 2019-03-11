@@ -10,17 +10,16 @@ import Foundation
 import UIKit
 
 class Dish {
-    var dishTitle: String
+    var dishName: String
     var dishImage: UIImage
-    var ingredients: [String] = []
-    var cooking: String
+    var ingredientsAndAmount: [Ingredient] = []
+    var cooking: UITextView
     
     
-    init(dishTitle: String, dishImage: UIImage, ingredients: [String], cooking: String) {
-        self.dishTitle = dishTitle
+    init(dishTitle: String, dishImage: UIImage, ingredientsAndAmount: [Ingredient], cooking: UITextView) {
+        self.dishName = dishTitle
         self.dishImage = dishImage
-        self.ingredients = ingredients
+        self.ingredientsAndAmount = ingredientsAndAmount
         self.cooking = cooking
-        
     }
 }

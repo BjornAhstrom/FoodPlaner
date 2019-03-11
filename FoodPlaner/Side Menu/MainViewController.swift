@@ -15,8 +15,16 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(showScreen), name: NSNotification.Name( "addAndShowDish"), object: nil)
         
+//        NotificationCenter.default.addObserver(self, selector: #selector(showSideMenu), name: NSNotification.Name( "showSideMenu"), object: nil)
+//
+//        NotificationCenter.default.addObserver(self, selector: #selector(showSideMenu), name: NSNotification.Name( "showSideMenu"), object: nil)
         
+    }
+    
+    @objc func showScreen() {
+        performSegue(withIdentifier: "addAndShowDishSegue", sender: nil)
     }
     
     @IBAction func moreTappedButton() {

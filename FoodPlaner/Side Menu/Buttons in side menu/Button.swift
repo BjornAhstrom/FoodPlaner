@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class Button {
-    var buttonTitle: String
+    var buttonTitle: String = ""
     
     init(buttonTitle: String) {
         self.buttonTitle = buttonTitle

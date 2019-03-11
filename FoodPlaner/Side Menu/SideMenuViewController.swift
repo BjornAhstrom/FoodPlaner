@@ -8,31 +8,21 @@
 
 import UIKit
 
-class SideMenuViewController: UIViewController{
+class SideMenuViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButtonTextField: UITextField!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var shoppingListButton: UIButton!
     
-    var names = [String]()
-    var identities = [String]()
     var buttons: [Button] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setColorFontAndSizeOnButtonsAndLebels()
-        buttons = creteArray()
+        buttons = createFourPredefinedButtons()
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.delegate = self
         tableView.dataSource = self
-        names = ["My recipes", "My picturerecipes", "My webrecipes", "Weekly menu"]
-        identities = ["A", "B", "C", "D"]
-    }
-    
-    
-    @IBAction func testButton(_ sender: UIButton) {
-        NotificationCenter.default.post(name: NSNotification.Name("showView"), object: nil)
-        NotificationCenter.default.post(name: NSNotification.Name("showSideMenu"), object: nil)
     }
     
     func setColorFontAndSizeOnButtonsAndLebels() {
@@ -49,14 +39,13 @@ class SideMenuViewController: UIViewController{
         view.layer.borderWidth = 2
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 4
-        
     }
     
-    @IBAction func addButtons(_ sender: UIButton) {
-        insertNewButtonTitle()
+    @IBAction func addANewButton(_ sender: UIButton) {
+        addANewButtonAndSetLabelText()
     }
     
-    func insertNewButtonTitle() {
+    func addANewButtonAndSetLabelText() {
         if addButtonTextField.text! == "" {
             alertMessage(titel: "Your button most have a name")
         } else {
@@ -68,17 +57,17 @@ class SideMenuViewController: UIViewController{
             tableView.endUpdates()
             
             addButtonTextField.text! = ""
-            view.endEditing(true)  // Dissmis the keyboard
+            view.endEditing(true)  // Dismiss the keyboard
         }
     }
     
-    func creteArray() -> [Button] {
+    func createFourPredefinedButtons() -> [Button] {
         var tempButtons: [Button] = []
         
-        let button1 = Button(buttonTitle: "Veckans meny")
-        let button2 = Button(buttonTitle: "Mina recept")
-        let button3 = Button(buttonTitle: "Mina recept från bilder")
-        let button4 = Button(buttonTitle: "Mina webb recept")
+        let button1 = Button(buttonTitle: "Mina recept")
+        let button2 = Button(buttonTitle: "Mina recept från bilder")
+        let button3 = Button(buttonTitle: "Mina webb recept")
+        let button4 = Button(buttonTitle: "Veckans meny")
         
         tempButtons.append(button1)
         tempButtons.append(button2)
@@ -98,12 +87,12 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let button = buttons[indexPath.row]
         
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "buttonCell") as! ButtonCell
         
         cell.setButtonTile(title: button)
         
         let backgroundView = UIView()
-
         backgroundView.backgroundColor = UIColor.white
         cell.selectedBackgroundView = backgroundView
         
@@ -111,11 +100,19 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       tableView.deselectRow(at: indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: false)
+        let destination = UIViewController() as? DishesViewController
+        navigationController?.pushViewController(destination!, animated: true)
         
-        let vcName = identities[indexPath.row]
-        let viewController = storyboard?.instantiateViewController(withIdentifier: vcName)
-        self.navigationController?.pushViewController(viewController!, animated: true)
+        switch indexPath.row {
+        case 0: NotificationCenter.default.post(name: NSNotification.Name("addAndShowDish"), object: nil)
+        case 1: print("1")
+        case 2: print("2")
+        case 3: print("3")
+        default: break
+        }
+        
+        NotificationCenter.default.post(name: NSNotification.Name("showSideMenu"), object: nil)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

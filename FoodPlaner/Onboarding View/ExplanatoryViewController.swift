@@ -17,6 +17,8 @@ class ExplanatoryViewController: UIViewController {
     @IBOutlet weak var explanatoryTextView: UITextView!
     @IBOutlet weak var pageStatusBar: UIPageControl!
     
+    private var loginVcId: String = "loginVcId"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -95,7 +97,7 @@ class ExplanatoryViewController: UIViewController {
     }
     
     @IBAction func nextButton(_ sender: UIButton) {
-        if let loginScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loginVc") as? LoginViewController {
+        if let loginScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: loginVcId) as? LoginViewController {
             
             let modalStyle: UIModalTransitionStyle = UIModalTransitionStyle.crossDissolve
             loginScreen.modalTransitionStyle = modalStyle

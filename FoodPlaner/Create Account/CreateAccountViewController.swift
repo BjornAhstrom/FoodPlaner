@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CreateAccountViewController: UIViewController {
+class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet private weak var nameTextField: UITextField!
     @IBOutlet private weak var emailTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
@@ -25,6 +25,33 @@ class CreateAccountViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setColorFontAndSizeOnLabelsAndButtons()
+        whenEnterIsTappedOnKeyboardMoveToNextTextField()
+    }
+    
+    func whenEnterIsTappedOnKeyboardMoveToNextTextField() {
+        nameTextField.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        confirmPasswordTextField.delegate = self
+        
+        nameTextField.tag = 0
+        emailTextField.tag = 1
+        passwordTextField.tag = 2
+        confirmPasswordTextField.tag = 3
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let nextTextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextTextField.becomeFirstResponder()
+        } else {
+            //textField.resignFirstResponder()
+            sendUserToStartView()
+        }
+        return false
     }
     
     @IBAction func continueButton(_ sender: UIButton) {
