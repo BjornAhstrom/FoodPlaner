@@ -150,7 +150,7 @@
                                 <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <connections>
-                                    <segue destination="PkO-kz-Vin" kind="embed" identifier="test" id="v6b-tv-FAV"/>
+                                    <segue destination="0jK-MP-9Gs" kind="embed" id="ue9-eb-aTk"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -167,18 +167,35 @@
                     <connections>
                         <outlet property="mainView" destination="Yro-kW-E8W" id="bWF-cx-bxV"/>
                         <segue destination="F36-FH-rTY" kind="show" identifier="addAndShowDishSegue" id="9gq-yW-DEe"/>
+                        <segue destination="EJn-uI-tt1" kind="show" identifier="showSelectedRandomDishesSegue" id="LEh-gf-Qu5"/>
+                        <segue destination="fTM-sB-izi" kind="show" identifier="weeklyMenuSegue" id="ltu-rI-ss4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wsL-Nc-JGg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3874" y="763"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="zWS-Pj-r5u">
+            <objects>
+                <viewController id="0jK-MP-9Gs" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ne4-XN-jgj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="wcz-QY-ESN"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FAL-1N-4ix" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4655" y="794"/>
+        </scene>
         <!--View Next To The Sid Menu View Controller-->
         <scene sceneID="cWi-C3-25O">
             <objects>
                 <viewController id="PkO-kz-Vin" customClass="ViewNextToTheSidMenuViewController" customModule="FoodPlanner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Z5c-Jr-dDU">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Meal of the day" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QY1-2H-w2c">
@@ -223,7 +240,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l04-AC-5GF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4656.8000000000002" y="794.33497536945811"/>
+            <point key="canvasLocation" x="5871" y="1031"/>
         </scene>
         <!--Select Random Dishes View Controller-->
         <scene sceneID="lyZ-6g-W2F">
@@ -245,6 +262,9 @@
                                 <rect key="frame" x="85" y="715" width="205" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Random dishes"/>
+                                <connections>
+                                    <segue destination="hPC-BK-ZrQ" kind="presentation" identifier="goToRandomWeeklyMenuSegue" id="Xwq-MD-JMr"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Choose number of dishes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qtd-UK-BUK">
                                 <rect key="frame" x="49" y="546" width="277" height="28"/>
@@ -272,14 +292,14 @@
                         <viewLayoutGuide key="safeArea" id="cbg-oU-Cpf"/>
                     </view>
                     <connections>
-                        <outlet property="chooseDaysPickerView" destination="yTh-i2-TG3" id="820-q2-fnV"/>
                         <outlet property="datePickerView" destination="kY0-AW-aLd" id="BT8-W4-dJn"/>
-                        <outlet property="shakePhoneImageView" destination="jzj-Im-B34" id="2Gd-HQ-yF2"/>
+                        <outlet property="phoneShakerImageView" destination="jzj-Im-B34" id="2Gd-HQ-yF2"/>
+                        <outlet property="selectDaysPickerView" destination="yTh-i2-TG3" id="820-q2-fnV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="doG-8x-b02" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3679.1999999999998" y="1458.6206896551726"/>
+            <point key="canvasLocation" x="3132" y="1504"/>
         </scene>
         <!--Random Weekly Menu View Controller-->
         <scene sceneID="m62-Xb-5QW">
@@ -293,8 +313,11 @@
                                 <rect key="frame" x="102" y="698" width="171" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Save the weekly menu"/>
+                                <connections>
+                                    <segue destination="fTM-sB-izi" kind="presentation" identifier="showWeeklyFoodMenuSegue" modalTransitionStyle="crossDissolve" id="2E6-15-5bM"/>
+                                </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Veckomatsedel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="blD-LG-4D3">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="blD-LG-4D3">
                                 <rect key="frame" x="16" y="44" width="343" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -347,7 +370,69 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaz-7h-b3g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4658" y="1459"/>
+            <point key="canvasLocation" x="3873" y="1504"/>
+        </scene>
+        <!--Weekly Food Menu View Controller-->
+        <scene sceneID="et9-Mm-EEa">
+            <objects>
+                <viewController id="fTM-sB-izi" customClass="WeeklyFoodMenuViewController" customModule="FoodPlanner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4Al-XK-w1t">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Weekly food menu" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8YE-dU-iAJ">
+                                <rect key="frame" x="16" y="44" width="343" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="59" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UYu-ka-ZV5">
+                                <rect key="frame" x="16" y="147" width="343" height="443"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="finishedWeeklyFoodMenyCell" rowHeight="59" id="vhG-kM-nDO" customClass="FinishedWeeklyMenuTableViewCell" customModule="FoodPlanner" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="343" height="59"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vhG-kM-nDO" id="Kb7-p3-QA0">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="58.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ia3-cH-B2w">
+                                                    <rect key="frame" x="15" y="4" width="313" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ldb-Jy-6uu">
+                                                    <rect key="frame" x="15" y="33" width="313" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dateLabel" destination="ia3-cH-B2w" id="ZNR-5Q-hqr"/>
+                                            <outlet property="foodNameLabel" destination="ldb-Jy-6uu" id="2yJ-Gv-XZb"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="PhR-dW-9Qf"/>
+                    </view>
+                    <connections>
+                        <outlet property="foodMenuTableView" destination="UYu-ka-ZV5" id="OLK-V2-L1O"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c1K-gN-i9o" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4654" y="1504"/>
         </scene>
         <!--Main Navigation Controller-->
         <scene sceneID="9cq-cB-iNx">
@@ -885,4 +970,7 @@
             <color red="0.94117647058823528" green="0.81176470588235294" blue="0.83529411764705885" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="2E6-15-5bM"/>
+    </inferredMetricsTieBreakers>
 </document>

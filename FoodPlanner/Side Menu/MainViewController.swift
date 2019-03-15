@@ -15,16 +15,24 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(showScreen), name: NSNotification.Name( "addAndShowDish"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showDishList), name: NSNotification.Name( "addAndShowDish"), object: nil)
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(showSideMenu), name: NSNotification.Name( "showSideMenu"), object: nil)
-//
-//        NotificationCenter.default.addObserver(self, selector: #selector(showSideMenu), name: NSNotification.Name( "showSideMenu"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(goToSelectRandomDishView), name: NSNotification.Name( "selectRandomDishMenu"), object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(goToWeeklyMenu), name: NSNotification.Name( "weeklyMenu"), object: nil)
         
     }
     
-    @objc func showScreen() {
+    @objc func showDishList() {
         performSegue(withIdentifier: "addAndShowDishSegue", sender: nil)
+    }
+    
+    @objc func goToSelectRandomDishView() {
+        performSegue(withIdentifier: "showSelectedRandomDishesSegue", sender: nil)
+    }
+    
+    @objc func goToWeeklyMenu() {
+        performSegue(withIdentifier: "weeklyMenuSegue", sender: nil)
     }
     
     @IBAction func moreTappedButton() {

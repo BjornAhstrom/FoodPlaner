@@ -68,11 +68,13 @@ class SideMenuViewController: UIViewController {
         let button2 = Button(buttonTitle: "Mina recept från bilder")
         let button3 = Button(buttonTitle: "Mina webb recept")
         let button4 = Button(buttonTitle: "Veckans meny")
+        let button5 = Button(buttonTitle: "Skapa en ny matsedel")
         
         tempButtons.append(button1)
         tempButtons.append(button2)
         tempButtons.append(button3)
         tempButtons.append(button4)
+        tempButtons.append(button5)
         
         return tempButtons
     }
@@ -108,7 +110,8 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
         case 0: NotificationCenter.default.post(name: NSNotification.Name("addAndShowDish"), object: nil)
         case 1: print("1")
         case 2: print("2")
-        case 3: print("3")
+        case 3: NotificationCenter.default.post(name: NSNotification.Name("weeklyMenu"), object: nil)
+        case 4: NotificationCenter.default.post(name: NSNotification.Name("selectRandomDishMenu"), object: nil)
         default: break
         }
         

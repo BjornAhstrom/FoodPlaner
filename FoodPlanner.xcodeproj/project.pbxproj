@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E041350223BC0A4007B3406 /* DishAndDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E04134F223BC0A4007B3406 /* DishAndDate.swift */; };
+		1E041353223BCE08007B3406 /* WeeklyFoodMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E041352223BCE08007B3406 /* WeeklyFoodMenuViewController.swift */; };
+		1E041355223BCEB0007B3406 /* FinishedWeeklyMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E041354223BCEB0007B3406 /* FinishedWeeklyMenuTableViewCell.swift */; };
 		1E044E8F2232978600889883 /* ShowDishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E044E8E2232978600889883 /* ShowDishViewController.swift */; };
 		1E044E912232AA3600889883 /* ShowDishTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E044E902232AA3600889883 /* ShowDishTableViewCell.swift */; };
 		1E04B7A62237D4C600CCB8A8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E04B7A52237D4C500CCB8A8 /* GoogleService-Info.plist */; };
@@ -29,8 +32,8 @@
 		1EC628E5222473B70049BCD6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EC628E3222473B70049BCD6 /* Main.storyboard */; };
 		1EC628E7222473B70049BCD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EC628E6222473B70049BCD6 /* Assets.xcassets */; };
 		1EC628EA222473B70049BCD6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EC628E8222473B70049BCD6 /* LaunchScreen.storyboard */; };
-		1EC628F5222473B80049BCD6 /* FoodPlanerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC628F4222473B80049BCD6 /* FoodPlanerTests.swift */; };
-		1EC62900222473B80049BCD6 /* FoodPlanerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC628FF222473B80049BCD6 /* FoodPlanerUITests.swift */; };
+		1EC628F5222473B80049BCD6 /* FoodPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC628F4222473B80049BCD6 /* FoodPlannerTests.swift */; };
+		1EC62900222473B80049BCD6 /* FoodPlannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC628FF222473B80049BCD6 /* FoodPlannerUITests.swift */; };
 		1EC62910222479D60049BCD6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC6290F222479D60049BCD6 /* LoginViewController.swift */; };
 		1EC6291322247DE00049BCD6 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EC6291222247DE00049BCD6 /* Color.xcassets */; };
 		1EC629152224FCD40049BCD6 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC629142224FCD40049BCD6 /* Theme.swift */; };
@@ -65,6 +68,9 @@
 /* Begin PBXFileReference section */
 		019C5D289DD59F2AE27831DD /* Pods_FoodPlannerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FoodPlannerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		026F5E48AAFD23C53AD510C1 /* Pods-FoodPlannerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodPlannerUITests.release.xcconfig"; path = "Target Support Files/Pods-FoodPlannerUITests/Pods-FoodPlannerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		1E04134F223BC0A4007B3406 /* DishAndDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishAndDate.swift; sourceTree = "<group>"; };
+		1E041352223BCE08007B3406 /* WeeklyFoodMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyFoodMenuViewController.swift; sourceTree = "<group>"; };
+		1E041354223BCEB0007B3406 /* FinishedWeeklyMenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedWeeklyMenuTableViewCell.swift; sourceTree = "<group>"; };
 		1E044E8E2232978600889883 /* ShowDishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDishViewController.swift; sourceTree = "<group>"; };
 		1E044E902232AA3600889883 /* ShowDishTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDishTableViewCell.swift; sourceTree = "<group>"; };
 		1E04B7A52237D4C500CCB8A8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -90,10 +96,10 @@
 		1EC628E9222473B70049BCD6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1EC628EB222473B70049BCD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1EC628F0222473B80049BCD6 /* FoodPlannerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FoodPlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1EC628F4222473B80049BCD6 /* FoodPlanerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPlanerTests.swift; sourceTree = "<group>"; };
+		1EC628F4222473B80049BCD6 /* FoodPlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPlannerTests.swift; sourceTree = "<group>"; };
 		1EC628F6222473B80049BCD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1EC628FB222473B80049BCD6 /* FoodPlannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FoodPlannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1EC628FF222473B80049BCD6 /* FoodPlanerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPlanerUITests.swift; sourceTree = "<group>"; };
+		1EC628FF222473B80049BCD6 /* FoodPlannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPlannerUITests.swift; sourceTree = "<group>"; };
 		1EC62901222473B80049BCD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1EC6290F222479D60049BCD6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1EC6291222247DE00049BCD6 /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
@@ -164,6 +170,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		1E041351223BCD83007B3406 /* Finished Weekly FoodMenu */ = {
+			isa = PBXGroup;
+			children = (
+				1E041352223BCE08007B3406 /* WeeklyFoodMenuViewController.swift */,
+				1E041354223BCEB0007B3406 /* FinishedWeeklyMenuTableViewCell.swift */,
+			);
+			path = "Finished Weekly FoodMenu";
+			sourceTree = "<group>";
+		};
 		1E044E952235142200889883 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,6 +216,7 @@
 		1E633C2A2236918A00C87D6D /* Get random weekly menu */ = {
 			isa = PBXGroup;
 			children = (
+				1E04B7B1223A8E1000CCB8A8 /* SelectRandomDishesViewController.swift */,
 				1E633C2B223691C200C87D6D /* RandomWeeklyMenuViewController.swift */,
 				1E633C2D2236920C00C87D6D /* RandomWeeklyManuTableViewCell.swift */,
 			);
@@ -215,7 +231,7 @@
 				1E7E339F222EE266000CAA9A /* Dishes.swift */,
 				1E7E337822295478000CAA9A /* CheckPassword.swift */,
 				1E04B7AF223A332E00CCB8A8 /* SavedWeeklyMenu.swift */,
-				1E04B7B1223A8E1000CCB8A8 /* SelectRandomDishesViewController.swift */,
+				1E04134F223BC0A4007B3406 /* DishAndDate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -233,8 +249,8 @@
 			isa = PBXGroup;
 			children = (
 				1EC628DE222473B70049BCD6 /* FoodPlanner */,
-				1EC628F3222473B80049BCD6 /* FoodPlanerTests */,
-				1EC628FE222473B80049BCD6 /* FoodPlanerUITests */,
+				1EC628F3222473B80049BCD6 /* FoodPlannerTests */,
+				1EC628FE222473B80049BCD6 /* FoodPlannerUITests */,
 				1EC628DD222473B70049BCD6 /* Products */,
 				0D5C420E64E34E2D4EE44472 /* Pods */,
 				0626589BC87C88ED4FFB3770 /* Frameworks */,
@@ -266,6 +282,7 @@
 				1E3C6B5D22358FA70085F92B /* Create a dish controller */,
 				1E3C6B5E22358FD10085F92B /* Show dish controller */,
 				1E633C2A2236918A00C87D6D /* Get random weekly menu */,
+				1E041351223BCD83007B3406 /* Finished Weekly FoodMenu */,
 				1EC628E6222473B70049BCD6 /* Assets.xcassets */,
 				1EC628E8222473B70049BCD6 /* LaunchScreen.storyboard */,
 				1E04B7A52237D4C500CCB8A8 /* GoogleService-Info.plist */,
@@ -274,22 +291,22 @@
 			path = FoodPlanner;
 			sourceTree = "<group>";
 		};
-		1EC628F3222473B80049BCD6 /* FoodPlanerTests */ = {
+		1EC628F3222473B80049BCD6 /* FoodPlannerTests */ = {
 			isa = PBXGroup;
 			children = (
-				1EC628F4222473B80049BCD6 /* FoodPlanerTests.swift */,
+				1EC628F4222473B80049BCD6 /* FoodPlannerTests.swift */,
 				1EC628F6222473B80049BCD6 /* Info.plist */,
 			);
-			path = FoodPlanerTests;
+			path = FoodPlannerTests;
 			sourceTree = "<group>";
 		};
-		1EC628FE222473B80049BCD6 /* FoodPlanerUITests */ = {
+		1EC628FE222473B80049BCD6 /* FoodPlannerUITests */ = {
 			isa = PBXGroup;
 			children = (
-				1EC628FF222473B80049BCD6 /* FoodPlanerUITests.swift */,
+				1EC628FF222473B80049BCD6 /* FoodPlannerUITests.swift */,
 				1EC62901222473B80049BCD6 /* Info.plist */,
 			);
-			path = FoodPlanerUITests;
+			path = FoodPlannerUITests;
 			sourceTree = "<group>";
 		};
 		1EC6290D222476790049BCD6 /* Onboarding View */ = {
@@ -585,16 +602,19 @@
 				1E7E337E2229A0DA000CAA9A /* ButtonCell.swift in Sources */,
 				1E633C2E2236920C00C87D6D /* RandomWeeklyManuTableViewCell.swift in Sources */,
 				1EC6291C22252C120049BCD6 /* CreateAccountViewController.swift in Sources */,
+				1E041355223BCEB0007B3406 /* FinishedWeeklyMenuTableViewCell.swift in Sources */,
 				1E7E339A222C4B70000CAA9A /* ViewNextToTheSidMenuViewController.swift in Sources */,
 				1EC629172224FCEE0049BCD6 /* ThemeProtocol.swift in Sources */,
 				1EC62910222479D60049BCD6 /* LoginViewController.swift in Sources */,
 				1E7E33B322300451000CAA9A /* DishesViewController.swift in Sources */,
+				1E041353223BCE08007B3406 /* WeeklyFoodMenuViewController.swift in Sources */,
 				1E04B7B0223A332E00CCB8A8 /* SavedWeeklyMenu.swift in Sources */,
 				1E7E33C022303CCE000CAA9A /* CreateADishViewController.swift in Sources */,
 				1E7E33802229A2D4000CAA9A /* Button.swift in Sources */,
 				1EC629152224FCD40049BCD6 /* Theme.swift in Sources */,
 				1EC628E2222473B70049BCD6 /* ExplanatoryViewController.swift in Sources */,
 				1E7E33A0222EE266000CAA9A /* Dishes.swift in Sources */,
+				1E041350223BC0A4007B3406 /* DishAndDate.swift in Sources */,
 				1EC628E0222473B70049BCD6 /* AppDelegate.swift in Sources */,
 				1E7E3382222C20F5000CAA9A /* Dish.swift in Sources */,
 				1E044E912232AA3600889883 /* ShowDishTableViewCell.swift in Sources */,
@@ -612,7 +632,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1EC628F5222473B80049BCD6 /* FoodPlanerTests.swift in Sources */,
+				1EC628F5222473B80049BCD6 /* FoodPlannerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,7 +640,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1EC62900222473B80049BCD6 /* FoodPlanerUITests.swift in Sources */,
+				1EC62900222473B80049BCD6 /* FoodPlannerUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,7 +810,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = se.Bjorn.Ahstrom.FoodPlanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -809,7 +829,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = se.Bjorn.Ahstrom.FoodPlanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

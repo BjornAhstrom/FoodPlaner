@@ -1,6 +1,6 @@
 //
-//  FoodPlanerUITests.swift
-//  FoodPlanerUITests
+//  FoodPlannerUITests.swift
+//  FoodPlannerUITests
 //
 //  Created by Björn Åhström on 2019-02-25.
 //  Copyright © 2019 Björn Åhström. All rights reserved.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class FoodPlanerUITests: XCTestCase {
+class FoodPlannerUITests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.

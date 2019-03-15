@@ -9,23 +9,35 @@
 import UIKit
 
 class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource, UIPickerViewDelegate {
-    @IBOutlet weak var shakePhoneImageView: UIImageView!
+    @IBOutlet weak var phoneShakerImageView: UIImageView!
     @IBOutlet weak var datePickerView: UIDatePicker!
-    @IBOutlet weak var chooseDaysPickerView: UIPickerView!
+    @IBOutlet weak var selectDaysPickerView: UIPickerView!
     
     private let userDefaultRowKey = "defaultPickerView"
+    private let goToRandomWeeklyMenuSegue = "goToRandomWeeklyMenuSegue"
     private var numberOfDishes = (1...7).map{$0}
+    
+    var selectedDate = Date()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        chooseDaysPickerView.delegate = self
-        chooseDaysPickerView.dataSource = self
+        selectDaysPickerView.delegate = self
+        selectDaysPickerView.dataSource = self
+        
+        datePickerView.minimumDate = Date()
+        datePickerView.addTarget(self, action: #selector(storeSelectedDate), for: UIControl.Event.valueChanged)
+        
+        phoneShakerImageView.image = UIImage(named: "Phone.png")
 
         let defaultPickerRow  =  initialPickerRow()
-        chooseDaysPickerView.selectRow(defaultPickerRow, inComponent: 0, animated: false)
-        pickerView(chooseDaysPickerView, didSelectRow: defaultPickerRow, inComponent: 0)
+        selectDaysPickerView.selectRow(defaultPickerRow, inComponent: 0, animated: false)
+        pickerView(selectDaysPickerView, didSelectRow: defaultPickerRow, inComponent: 0)
         
+    }
+    
+    @objc func storeSelectedDate() {
+        self.selectedDate = self.datePickerView.date
     }
     
     func initialPickerRow() -> Int{
@@ -34,7 +46,7 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
         if let row = savedRow {
             return row
         } else {
-            return chooseDaysPickerView.numberOfRows(inComponent: 0)
+            return selectDaysPickerView.numberOfRows(inComponent: 0)
         }
     }
     
@@ -53,13 +65,21 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        saveSelectedRow(row: row)
+        savedSelectedRow(row: row)
     }
     
-    func saveSelectedRow(row: Int) {
+    func savedSelectedRow(row: Int) {
         
         let defaults = UserDefaults.standard
         defaults.set(row, forKey: userDefaultRowKey)
         defaults.synchronize()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == goToRandomWeeklyMenuSegue {
+            let destination = segue.destination as? RandomWeeklyMenuViewController
+            destination?.selectedDateFromUser = selectedDate
+            
+        }
     }
 }
