@@ -10,17 +10,19 @@ import UIKit
 
 class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var weeklyMenuTableView: UITableView!
+    @IBOutlet weak var saveMenuButton: UIButton!
     
     private let randomMenuCell: String = "randomMenyCell"
     private let showWeeklyFoodMenuSegue = "showWeeklyFoodMenuSegue"
     
     let dishes = Dishes()
+    var test: Bool = false
     var foodMenu = [DishAndDate]()
     var selectedDateFromUser = Date()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setFontAndColorsOnButton()
         weeklyMenuTableView.dataSource = self
         weeklyMenuTableView.delegate = self
         
@@ -38,6 +40,14 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
             
             foodMenu.append(foodAndDates)
         }
+    }
+    
+    func setFontAndColorsOnButton() {
+        saveMenuButton.layer.borderColor = Theme.current.colorForBorder.cgColor
+        saveMenuButton.layer.borderWidth = 2
+        saveMenuButton.layer.cornerRadius = 15
+        saveMenuButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 20)
+        saveMenuButton.setTitleColor(Theme.current.textColor, for: .normal)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -77,6 +87,8 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         if segue.identifier == showWeeklyFoodMenuSegue {
             let destionation = segue.destination as? WeeklyFoodMenuViewController
             destionation?.foodMenu = foodMenu
+            destionation?.test = test
+            
         }
     }
 }

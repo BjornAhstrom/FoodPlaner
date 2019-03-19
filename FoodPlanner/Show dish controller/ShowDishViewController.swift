@@ -46,8 +46,8 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         if let ingredients = dish?.ingredientsAndAmount
         {
             let title = ingredients[indexPath.row].ingredientsTitle
-            let amountI = ingredients[indexPath.row].amountInt
-            let amountS = ingredients[indexPath.row].amountString
+            let amountI = ingredients[indexPath.row].amount
+            let amountS = ingredients[indexPath.row].unit
             
             cell?.ingredientsNameLabel.text = title
             cell?.ingredientsAmountLabel.text = "\(amountI) \(amountS)"

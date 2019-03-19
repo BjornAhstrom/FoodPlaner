@@ -11,14 +11,17 @@ import Firebase
 
 class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var foodMenuTableView: UITableView!
+    @IBOutlet weak var closeButton: UIButton!
     
     private let finishedWeeklyFoodMenyCell = "finishedWeeklyFoodMenyCell"
+    var test: Bool = true
     
     var foodMenu : [DishAndDate]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        closeButton.isHidden = test
         foodMenuTableView.delegate = self
         foodMenuTableView.dataSource = self
     }
@@ -43,5 +46,9 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
             cell?.setFoodnameOnLabel(foodName: foodAndDate.dish.dishName)
         }
         return cell!
+    }
+    
+    @IBAction func closeButton(_ sender: UIButton) {
+        
     }
 }

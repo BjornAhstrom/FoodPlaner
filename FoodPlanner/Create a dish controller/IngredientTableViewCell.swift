@@ -14,7 +14,7 @@ class IngredientTableViewCell: UITableViewCell {
     
     func setIngredientsTitle(title: Ingredient, amount: Ingredient, unit: Ingredient) {
         titleLabel.text = "\(title.ingredientsTitle)"
-        amountAndUnitLabel.text = "\(amount.amountInt) \(unit.amountString)"
+        amountAndUnitLabel.text = "\(amount.amount) \(unit.unit)"
     }
 
 }

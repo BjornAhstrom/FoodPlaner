@@ -11,14 +11,11 @@ import UIKit
 class ContainerViewController: UIViewController {
     @IBOutlet weak var sideMenuTrailingConstraint: NSLayoutConstraint!
     
-   
-    
     var sideMenuOpen: Bool = false
-  
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(showSideMenu), name: NSNotification.Name( "showSideMenu"), object: nil)
     }
     

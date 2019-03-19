@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewNextToTheSidMenuViewController: UIViewController {
+class MealOfDayViewController: UIViewController {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var fooodImageView: UIImageView!
     @IBOutlet weak var foodNameLabel: UILabel!

@@ -7,26 +7,29 @@
 //
 
 import UIKit
+import Firebase
 
 class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var showDishTableView: UITableView!
     
     private let segueId = "addDishSegue"
     private let showDishSegue = "showDishSegue"
     private var cellId: String = "dishesCellId"
     
-    let dishes = Dishes()
+    var db: Firestore!
+    var dishes = Dishes()
+    var dish = [Dish]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.tableFooterView = UIView(frame: .zero)
-        tableView.delegate = self
-        tableView.dataSource = self
+        showDishTableView.tableFooterView = UIView(frame: .zero)
+        showDishTableView.delegate = self
+        showDishTableView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
+        db = Firestore.firestore()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -36,7 +39,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
         
-        if let dish = dishes.disch(index: indexPath.row) {
+        if let dish = dishes.dish(index: indexPath.row) {
             cell.textLabel?.text = dish.dishName
         }
         
@@ -48,26 +51,26 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
-//            func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//                tableView.deselectRow(at: indexPath, animated: false)
-//
-//            }
-//
-//            func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//                return true
-//            }
-//
-//            func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//                if editingStyle == .delete {
-//
-//                   
-//
-//
-//                    tableView.beginUpdates()
-//                    tableView.deleteRows(at: [indexPath], with: .automatic)
-//                    tableView.endUpdates()
-//                }
-//            }
+    //            func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //                tableView.deselectRow(at: indexPath, animated: false)
+    //
+    //            }
+    //
+    //            func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    //                return true
+    //            }
+    //
+    //            func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    //                if editingStyle == .delete {
+    //
+    //
+    //
+    //
+    //                    tableView.beginUpdates()
+    //                    tableView.deleteRows(at: [indexPath], with: .automatic)
+    //                    tableView.endUpdates()
+    //                }
+    //            }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == segueId {
@@ -85,11 +88,11 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 print("cell")
                 return
             }
-            guard let indexPath = tableView.indexPath(for: cell) else {
+            guard let indexPath = showDishTableView.indexPath(for: cell) else {
                 print("indexPath")
                 return
             }
-            guard let dish = dishes.disch(index: indexPath.row) else {
+            guard let dish = dishes.dish(index: indexPath.row) else {
                 print("dish")
                 return
             }

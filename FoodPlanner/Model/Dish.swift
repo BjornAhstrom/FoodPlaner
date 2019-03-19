@@ -8,10 +8,11 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 class Dish {
     var dishName: String
-    var dishImage: UIImage
+    var dishImage: UIImage = UIImage(named: "Lasagne")!
     var ingredientsAndAmount: [Ingredient] = []
     var cooking: String
     
@@ -21,5 +22,16 @@ class Dish {
         self.dishImage = dishImage
         self.ingredientsAndAmount = ingredientsAndAmount
         self.cooking = cooking
+    }
+    
+    init(snapshot: QueryDocumentSnapshot) {
+        let snapshotValue = snapshot.data() as [String : Any]
+            dishName = snapshotValue["dishName"] as! String
+            cooking = snapshotValue["cooking"] as! String
+        //dishImage = snapshotValue["dishImage"] as! UIImage
+    }
+    
+    func toAny() -> [String : Any] {
+        return ["dishName" : dishName, "cooking" : cooking]
     }
 }

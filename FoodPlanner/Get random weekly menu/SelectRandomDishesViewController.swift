@@ -12,6 +12,9 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
     @IBOutlet weak var phoneShakerImageView: UIImageView!
     @IBOutlet weak var datePickerView: UIDatePicker!
     @IBOutlet weak var selectDaysPickerView: UIPickerView!
+    @IBOutlet weak var randomDishesButton: UIButton!
+    @IBOutlet weak var startDateLabel: UILabel!
+    @IBOutlet weak var choosNumberOfDishesLabel: UILabel!
     
     private let userDefaultRowKey = "defaultPickerView"
     private let goToRandomWeeklyMenuSegue = "goToRandomWeeklyMenuSegue"
@@ -21,19 +24,35 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setFontAndColorOnButtonsAndViews()
         selectDaysPickerView.delegate = self
         selectDaysPickerView.dataSource = self
         
         datePickerView.minimumDate = Date()
         datePickerView.addTarget(self, action: #selector(storeSelectedDate), for: UIControl.Event.valueChanged)
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "EEE dd/MM"
         
+       
         phoneShakerImageView.image = UIImage(named: "Phone.png")
-
+        
         let defaultPickerRow  =  initialPickerRow()
         selectDaysPickerView.selectRow(defaultPickerRow, inComponent: 0, animated: false)
         pickerView(selectDaysPickerView, didSelectRow: defaultPickerRow, inComponent: 0)
         
+    }
+    
+    func setFontAndColorOnButtonsAndViews() {
+        randomDishesButton.layer.borderColor = Theme.current.colorForBorder.cgColor
+        randomDishesButton.layer.borderWidth = 2
+        randomDishesButton.layer.cornerRadius = 15
+        randomDishesButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 20)
+        randomDishesButton.setTitleColor(Theme.current.textColor, for: .normal)
+        datePickerView.setValue(Theme.current.textColor, forKey: "textColor")
+        startDateLabel.textColor = Theme.current.textColor
+        startDateLabel.font = UIFont(name: Theme.current.fontForLabels, size: 24)
+        choosNumberOfDishesLabel.textColor = Theme.current.textColor
+        choosNumberOfDishesLabel.font = UIFont(name: Theme.current.fontForLabels, size: 20)
     }
     
     @objc func storeSelectedDate() {
@@ -68,6 +87,18 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
         savedSelectedRow(row: row)
     }
     
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var pickerLabel: UILabel? = (view as? UILabel)
+        if pickerLabel == nil {
+            pickerLabel = UILabel()
+            pickerLabel?.font = UIFont(name: Theme.current.fontForLabels, size: 24)
+            pickerLabel?.textAlignment = .center
+        }
+        pickerLabel?.text = "\(numberOfDishes[row])"
+        pickerLabel?.textColor = Theme.current.textColor
+        return pickerLabel!
+    }
+    
     func savedSelectedRow(row: Int) {
         
         let defaults = UserDefaults.standard
@@ -79,7 +110,6 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
         if segue.identifier == goToRandomWeeklyMenuSegue {
             let destination = segue.destination as? RandomWeeklyMenuViewController
             destination?.selectedDateFromUser = selectedDate
-            
         }
     }
 }

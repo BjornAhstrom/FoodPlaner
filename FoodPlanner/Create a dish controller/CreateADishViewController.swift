@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class CreateADishViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     @IBOutlet weak var nameOnDishTextField: UITextField!
@@ -21,15 +22,15 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     @IBOutlet weak var stepper: UIStepper!
     @IBOutlet weak var tapToAddAPictureLabel: UILabel!
     
+    var db: Firestore!
     var ingredientsAmount: Int = 0
     var labelIsHidden: Bool = true
-    
     var dishes : Dishes?
     var ingredients: [Ingredient] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        db = Firestore.firestore()
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -42,7 +43,6 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         dishImageView.isUserInteractionEnabled = true
         dishImageView.addGestureRecognizer(tapGestureRecognizer)
     }
-    
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer){
         openCameraOrPhotoLibrary()
@@ -81,12 +81,17 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         if ingredientTextField.text == "" || unitTextField.text == "" || stepperTextField.text == "" {
             alertMessage(titel: "You must fill in all fields")
         } else {
-            ingredients.append(Ingredient(ingredientsTitle: ingredientTextField.text!, amount: ingredientsAmount, unit: unitTextField.text!))
+            let saveIngredient = Ingredient(ingredientsTitle: ingredientTextField.text!, amount: ingredientsAmount, unit: unitTextField.text!)
+            ingredients.append(saveIngredient)
+            
+            //db.collection("dishes").document().collection("ingredients").addDocument(data: saveIngredient.toAny())
             
             let indexPath = IndexPath(row: ingredients.count-1, section: 0)
             tableView.beginUpdates()
             tableView.insertRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
+            
+            
             
             // When the user presses the Add button, then all fields will be restored.
             ingredientTextField.text! = ""
@@ -119,8 +124,16 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         if nameOnDishTextField.text == "" {
             alertMessage(titel: "Your dish must have a name!")
         } else {
+            
             let saveDish = Dish(dishTitle: nameOnDishTextField.text!, dishImage: dishPicture, ingredientsAndAmount: ingredients, cooking: cookingDescription.text)
+            
             dishes!.add(dish: saveDish)
+            
+            let docRef =  db.collection("dishes").addDocument(data: saveDish.toAny())
+            for ingredient in ingredients {
+                docRef.collection("ingredients").addDocument(data: ingredient.toAny())
+            }
+            
             dismiss(animated: true, completion: nil)
         }
     }

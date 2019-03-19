@@ -13,6 +13,8 @@ class RandomWeeklyManuTableViewCell: UITableViewCell {
     @IBOutlet weak var foodNameLabel: UILabel!
     
     func setDateOnLabel(date: Date) {
+        dateLabel.textColor = UIColor.gray
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEE dd/MM"
         
@@ -22,9 +24,14 @@ class RandomWeeklyManuTableViewCell: UITableViewCell {
     }
     
     func setFoodnameOnLabel(foodName: String) {
-        foodNameLabel.text! = foodName
+        foodNameLabel.textColor = Theme.current.textColor
+        foodNameLabel.font = UIFont(name: Theme.current.fontForLabels, size: 20)
         
-        // if foodNameLabel is empty set it to rester
+        // If foodNameLabel is empty set it to (rester)
+        if foodNameLabel.text == "" {
+            foodNameLabel.text! = "Rester"
+        } else {
+            foodNameLabel.text! = foodName
+        }
     }
-
 }

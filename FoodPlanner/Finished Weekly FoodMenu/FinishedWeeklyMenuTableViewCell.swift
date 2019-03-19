@@ -13,6 +13,8 @@ class FinishedWeeklyMenuTableViewCell: UITableViewCell {
     @IBOutlet weak var foodNameLabel: UILabel!
     
     func setDateOnLabel(date: Date) {
+        dateLabel.textColor = UIColor.gray
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEE dd/MM"
         
@@ -22,6 +24,8 @@ class FinishedWeeklyMenuTableViewCell: UITableViewCell {
     }
     
     func setFoodnameOnLabel(foodName: String) {
+        foodNameLabel.textColor = Theme.current.textColor
+        foodNameLabel.font = UIFont(name: Theme.current.fontForLabels, size: 20)
         foodNameLabel.text! = foodName
     }
 }

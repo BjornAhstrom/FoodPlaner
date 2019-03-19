@@ -14,6 +14,11 @@ class SideMenuViewController: UIViewController {
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var shoppingListButton: UIButton!
     
+    private let addAndShowDish = "addAndShowDish"
+    private let weeklyMenu = "weeklyMenu"
+    private let selectRandomDishMenu = "selectRandomDishMenu"
+    private let showSideMenu = "showSideMenu"
+    
     var buttons: [Button] = []
     
     override func viewDidLoad() {
@@ -107,15 +112,15 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
         navigationController?.pushViewController(destination!, animated: true)
         
         switch indexPath.row {
-        case 0: NotificationCenter.default.post(name: NSNotification.Name("addAndShowDish"), object: nil)
+        case 0: NotificationCenter.default.post(name: NSNotification.Name(addAndShowDish), object: nil)
         case 1: print("1")
         case 2: print("2")
-        case 3: NotificationCenter.default.post(name: NSNotification.Name("weeklyMenu"), object: nil)
-        case 4: NotificationCenter.default.post(name: NSNotification.Name("selectRandomDishMenu"), object: nil)
+        case 3: NotificationCenter.default.post(name: NSNotification.Name(weeklyMenu), object: nil)
+        case 4: NotificationCenter.default.post(name: NSNotification.Name(selectRandomDishMenu), object: nil)
         default: break
         }
         
-        NotificationCenter.default.post(name: NSNotification.Name("showSideMenu"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(showSideMenu), object: nil)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

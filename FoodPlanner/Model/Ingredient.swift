@@ -8,15 +8,28 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 class Ingredient {
-    var ingredientsTitle: String = ""
-    var amountInt: Int = 0
-    var amountString: String = ""
+    var ingredientsTitle: String
+    var amount: Int = 0
+    var unit: String
     
     init(ingredientsTitle: String, amount: Int, unit: String) {
         self.ingredientsTitle = ingredientsTitle
-        self.amountInt = amount
-        self.amountString = unit
+        self.amount = amount
+        self.unit = unit
     }
+    
+    init(snapshot: QueryDocumentSnapshot) {
+        let snapshotValue = snapshot.data() as [String : Any]
+        ingredientsTitle = snapshotValue["ingredientName"] as! String
+        amount = snapshotValue["amount"] as! Int
+        unit = snapshotValue["unit"] as! String
+    }
+    
+    func toAny() -> [String : Any] {
+        return ["ingredientName" : ingredientsTitle, "unit" : unit, "amount" : amount]
+    }
+    
 }

@@ -21,7 +21,7 @@
 		1E7E337E2229A0DA000CAA9A /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E337D2229A0DA000CAA9A /* ButtonCell.swift */; };
 		1E7E33802229A2D4000CAA9A /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E337F2229A2D4000CAA9A /* Button.swift */; };
 		1E7E3382222C20F5000CAA9A /* Dish.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E3381222C20F5000CAA9A /* Dish.swift */; };
-		1E7E339A222C4B70000CAA9A /* ViewNextToTheSidMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E3399222C4B70000CAA9A /* ViewNextToTheSidMenuViewController.swift */; };
+		1E7E339A222C4B70000CAA9A /* MealOfDayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E3399222C4B70000CAA9A /* MealOfDayViewController.swift */; };
 		1E7E33A0222EE266000CAA9A /* Dishes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E339F222EE266000CAA9A /* Dishes.swift */; };
 		1E7E33B322300451000CAA9A /* DishesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E33B222300451000CAA9A /* DishesViewController.swift */; };
 		1E7E33C022303CCE000CAA9A /* CreateADishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E33BF22303CCE000CAA9A /* CreateADishViewController.swift */; };
@@ -82,7 +82,7 @@
 		1E7E337D2229A0DA000CAA9A /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		1E7E337F2229A2D4000CAA9A /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		1E7E3381222C20F5000CAA9A /* Dish.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dish.swift; sourceTree = "<group>"; };
-		1E7E3399222C4B70000CAA9A /* ViewNextToTheSidMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewNextToTheSidMenuViewController.swift; sourceTree = "<group>"; };
+		1E7E3399222C4B70000CAA9A /* MealOfDayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealOfDayViewController.swift; sourceTree = "<group>"; };
 		1E7E339F222EE266000CAA9A /* Dishes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dishes.swift; sourceTree = "<group>"; };
 		1E7E33B222300451000CAA9A /* DishesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishesViewController.swift; sourceTree = "<group>"; };
 		1E7E33BF22303CCE000CAA9A /* CreateADishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateADishViewController.swift; sourceTree = "<group>"; };
@@ -351,7 +351,7 @@
 				1EF42E3C2226F62900CE28AD /* ContainerViewController.swift */,
 				1EF42E3D2226F62900CE28AD /* MainViewController.swift */,
 				1EF42E3B2226F62900CE28AD /* SideMenuViewController.swift */,
-				1E7E3399222C4B70000CAA9A /* ViewNextToTheSidMenuViewController.swift */,
+				1E7E3399222C4B70000CAA9A /* MealOfDayViewController.swift */,
 			);
 			path = "Side Menu";
 			sourceTree = "<group>";
@@ -603,7 +603,7 @@
 				1E633C2E2236920C00C87D6D /* RandomWeeklyManuTableViewCell.swift in Sources */,
 				1EC6291C22252C120049BCD6 /* CreateAccountViewController.swift in Sources */,
 				1E041355223BCEB0007B3406 /* FinishedWeeklyMenuTableViewCell.swift in Sources */,
-				1E7E339A222C4B70000CAA9A /* ViewNextToTheSidMenuViewController.swift in Sources */,
+				1E7E339A222C4B70000CAA9A /* MealOfDayViewController.swift in Sources */,
 				1EC629172224FCEE0049BCD6 /* ThemeProtocol.swift in Sources */,
 				1EC62910222479D60049BCD6 /* LoginViewController.swift in Sources */,
 				1E7E33B322300451000CAA9A /* DishesViewController.swift in Sources */,

@@ -21,5 +21,5 @@ class PinkTheme: ThemeProtocol {
     
     var textColorForButtons: UIColor = UIColor(named: "EggShellWhite")!
     
-    var textColor: UIColor = UIColor(named: "OldPink")!
+    var textColor: UIColor = UIColor(named: "OldRose")!
 }
