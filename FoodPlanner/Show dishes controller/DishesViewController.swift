@@ -1,5 +1,5 @@
 //
-//  TestViewController.swift
+//  DishesViewController.swift
 //  FoodPlanner
 //
 //  Created by Björn Åhström on 2019-03-06.
@@ -18,7 +18,6 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var db: Firestore!
     var dishes = Dishes()
-    var dish = [Dish]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,10 +25,40 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         showDishTableView.tableFooterView = UIView(frame: .zero)
         showDishTableView.delegate = self
         showDishTableView.dataSource = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
+        getDishesFromFirestore()
+    }
+    
+    func getDishesFromFirestore() {
+        db.collection("dishes").addSnapshotListener() {
+            (querySnapshot, error) in
+            
+            if let error = error {
+                print("Error getting document \(error)")
+            } else {
+                self.dishes.clear()
+                
+                for document in (querySnapshot?.documents)! {
+                    let dish = Dish(snapshot: document)
+                    
+                    self.db.collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
+                        (querySnapshot, error) in
+                        
+                        for document in (querySnapshot?.documents)!{
+                            let ing = Ingredient(snapshot: document)
+                            
+                            dish.add(ingredient: ing)
+                        }
+                    }
+                    self.dishes.add(dish: dish)
+                }
+                self.showDishTableView.reloadData()
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

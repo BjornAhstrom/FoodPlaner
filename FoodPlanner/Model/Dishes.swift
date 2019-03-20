@@ -15,6 +15,7 @@ class Dishes {
     
     init() {
         addMockDishes()
+       
     }
     
     var count: Int {
@@ -23,6 +24,10 @@ class Dishes {
     
     func add(dish: Dish) {
         dishes.append(dish)
+    }
+    
+    func clear() {
+        dishes = []
     }
     
     func dish(index: Int) -> Dish? {
@@ -47,15 +52,15 @@ class Dishes {
         
         let dish1 = Dish(dishTitle: "Pannkaka", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
         dishes.append(dish1)
-//        
-//        let dish2 = Dish(dishTitle: "Potatis och köttbullar", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish2)
-//
-//        let dish3 = Dish(dishTitle: "Lasagne", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish3)
-//
-//        let dish4 = Dish(dishTitle: "spaghetti carbonara", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish4)
+        
+        let dish2 = Dish(dishTitle: "Potatis och köttbullar", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
+        dishes.append(dish2)
+
+        let dish3 = Dish(dishTitle: "Lasagne", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
+        dishes.append(dish3)
+
+        let dish4 = Dish(dishTitle: "spaghetti carbonara", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
+        dishes.append(dish4)
 //
 //        let dish5 = Dish(dishTitle: "spaghetti med köttfärssås", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
 //        dishes.append(dish5)

@@ -31,6 +31,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
+        
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -84,14 +85,10 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             let saveIngredient = Ingredient(ingredientsTitle: ingredientTextField.text!, amount: ingredientsAmount, unit: unitTextField.text!)
             ingredients.append(saveIngredient)
             
-            //db.collection("dishes").document().collection("ingredients").addDocument(data: saveIngredient.toAny())
-            
             let indexPath = IndexPath(row: ingredients.count-1, section: 0)
             tableView.beginUpdates()
             tableView.insertRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
-            
-            
             
             // When the user presses the Add button, then all fields will be restored.
             ingredientTextField.text! = ""
@@ -129,7 +126,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             
             dishes!.add(dish: saveDish)
             
-            let docRef =  db.collection("dishes").addDocument(data: saveDish.toAny())
+            let docRef = db.collection("dishes").addDocument(data: saveDish.toAny())
             for ingredient in ingredients {
                 docRef.collection("ingredients").addDocument(data: ingredient.toAny())
             }

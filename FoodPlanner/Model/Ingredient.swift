@@ -14,11 +14,13 @@ class Ingredient {
     var ingredientsTitle: String
     var amount: Int = 0
     var unit: String
+    var ingredientID: String
     
     init(ingredientsTitle: String, amount: Int, unit: String) {
         self.ingredientsTitle = ingredientsTitle
         self.amount = amount
         self.unit = unit
+        ingredientID = ""
     }
     
     init(snapshot: QueryDocumentSnapshot) {
@@ -26,6 +28,7 @@ class Ingredient {
         ingredientsTitle = snapshotValue["ingredientName"] as! String
         amount = snapshotValue["amount"] as! Int
         unit = snapshotValue["unit"] as! String
+        ingredientID = snapshot.documentID
     }
     
     func toAny() -> [String : Any] {

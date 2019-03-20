@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ShowDishViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet private weak var dishName: UILabel!
@@ -15,7 +16,9 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet private weak var cookingDescriptionTextView: UITextView!
     
     private var savedDishCell: String = "savedDishCell"
+    private var DishesViewController: String = "DishesViewController"
     
+    let db = Firestore.firestore()
     var dish: Dish?
     
     override func viewDidLoad() {
@@ -54,4 +57,24 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         }
         return cell!
     }
+    
+    @IBAction func doneItemButton(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func deleteRecipeItemButton(_ sender: UIBarButtonItem) {
+        deleteRecipe()
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func deleteRecipe() {
+        db.collection("dishes").document((dish?.dishID)!).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
 }
+

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var weeklyMenuTableView: UITableView!
@@ -15,18 +16,21 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     private let randomMenuCell: String = "randomMenyCell"
     private let showWeeklyFoodMenuSegue = "showWeeklyFoodMenuSegue"
     
+    var db: Firestore!
     let dishes = Dishes()
-    var test: Bool = false
     var foodMenu = [DishAndDate]()
     var selectedDateFromUser = Date()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        db = Firestore.firestore()
+        
         setFontAndColorsOnButton()
         weeklyMenuTableView.dataSource = self
         weeklyMenuTableView.delegate = self
         
         getNextSevenDays()
+        self.weeklyMenuTableView.reloadData()
     }
     
     func getNextSevenDays() {
@@ -36,9 +40,9 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         for i in 0...6 {
             let newDate = calendar.date(byAdding: .day, value: i, to: date)!
             let dish = dishes.randomDish()
-            let foodAndDates = DishAndDate(dish: dish, date: newDate)
-            
+            let foodAndDates = DishAndDate(dish: dish, date: newDate, idFromDish: dish.dishID)
             foodMenu.append(foodAndDates)
+            db.collection("weeklyMenu").addDocument(data: foodAndDates.toAny())
         }
     }
     
@@ -80,15 +84,6 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showWeeklyFoodMenuSegue {
-            let destionation = segue.destination as? WeeklyFoodMenuViewController
-            destionation?.foodMenu = foodMenu
-            destionation?.test = test
-            
         }
     }
 }

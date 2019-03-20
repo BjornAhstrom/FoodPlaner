@@ -15,6 +15,7 @@ class Dish {
     var dishImage: UIImage = UIImage(named: "Lasagne")!
     var ingredientsAndAmount: [Ingredient] = []
     var cooking: String
+    var dishID: String
     
     
     init(dishTitle: String, dishImage: UIImage, ingredientsAndAmount: [Ingredient], cooking: String) {
@@ -22,13 +23,18 @@ class Dish {
         self.dishImage = dishImage
         self.ingredientsAndAmount = ingredientsAndAmount
         self.cooking = cooking
+        dishID = ""
     }
     
     init(snapshot: QueryDocumentSnapshot) {
         let snapshotValue = snapshot.data() as [String : Any]
             dishName = snapshotValue["dishName"] as! String
             cooking = snapshotValue["cooking"] as! String
-        //dishImage = snapshotValue["dishImage"] as! UIImage
+            dishID = snapshot.documentID
+    }
+    
+    func add(ingredient: Ingredient) {
+        ingredientsAndAmount.append(ingredient)
     }
     
     func toAny() -> [String : Any] {
