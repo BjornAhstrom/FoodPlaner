@@ -40,6 +40,9 @@
 		1EC629172224FCEE0049BCD6 /* ThemeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC629162224FCEE0049BCD6 /* ThemeProtocol.swift */; };
 		1EC629192224FD2D0049BCD6 /* PinkTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC629182224FD2D0049BCD6 /* PinkTheme.swift */; };
 		1EC6291C22252C120049BCD6 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC6291B22252C120049BCD6 /* CreateAccountViewController.swift */; };
+		1EDD24312242769D00A5C3D3 /* CompareDayWithWeeklyMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDD24302242769D00A5C3D3 /* CompareDayWithWeeklyMenuViewController.swift */; };
+		1EDD24342243A86E00A5C3D3 /* ShoppingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDD24332243A86E00A5C3D3 /* ShoppingListViewController.swift */; };
+		1EDD24362243A9C600A5C3D3 /* ShoppingListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDD24352243A9C600A5C3D3 /* ShoppingListTableViewCell.swift */; };
 		1EF42E3E2226F62900CE28AD /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF42E3B2226F62900CE28AD /* SideMenuViewController.swift */; };
 		1EF42E3F2226F62900CE28AD /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF42E3C2226F62900CE28AD /* ContainerViewController.swift */; };
 		1EF42E402226F62900CE28AD /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF42E3D2226F62900CE28AD /* MainViewController.swift */; };
@@ -107,6 +110,9 @@
 		1EC629162224FCEE0049BCD6 /* ThemeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeProtocol.swift; sourceTree = "<group>"; };
 		1EC629182224FD2D0049BCD6 /* PinkTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinkTheme.swift; sourceTree = "<group>"; };
 		1EC6291B22252C120049BCD6 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		1EDD24302242769D00A5C3D3 /* CompareDayWithWeeklyMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompareDayWithWeeklyMenuViewController.swift; sourceTree = "<group>"; };
+		1EDD24332243A86E00A5C3D3 /* ShoppingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListViewController.swift; sourceTree = "<group>"; };
+		1EDD24352243A9C600A5C3D3 /* ShoppingListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListTableViewCell.swift; sourceTree = "<group>"; };
 		1EF42E3B2226F62900CE28AD /* SideMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		1EF42E3C2226F62900CE28AD /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		1EF42E3D2226F62900CE28AD /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -232,6 +238,7 @@
 				1E7E337822295478000CAA9A /* CheckPassword.swift */,
 				1E04B7AF223A332E00CCB8A8 /* SavedWeeklyMenu.swift */,
 				1E04134F223BC0A4007B3406 /* DishAndDate.swift */,
+				1EDD24302242769D00A5C3D3 /* CompareDayWithWeeklyMenuViewController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -270,6 +277,7 @@
 		1EC628DE222473B70049BCD6 /* FoodPlanner */ = {
 			isa = PBXGroup;
 			children = (
+				1EDD24322243A84800A5C3D3 /* Shopping List */,
 				1EC628DF222473B70049BCD6 /* AppDelegate.swift */,
 				1E044E952235142200889883 /* Storyboard */,
 				1E7E33772229544C000CAA9A /* Model */,
@@ -342,6 +350,15 @@
 				1EC6291B22252C120049BCD6 /* CreateAccountViewController.swift */,
 			);
 			path = "Create Account";
+			sourceTree = "<group>";
+		};
+		1EDD24322243A84800A5C3D3 /* Shopping List */ = {
+			isa = PBXGroup;
+			children = (
+				1EDD24332243A86E00A5C3D3 /* ShoppingListViewController.swift */,
+				1EDD24352243A9C600A5C3D3 /* ShoppingListTableViewCell.swift */,
+			);
+			path = "Shopping List";
 			sourceTree = "<group>";
 		};
 		1EF42E3A2226F60700CE28AD /* Side Menu */ = {
@@ -597,9 +614,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E7E33C22230E46E000CAA9A /* IngredientTableViewCell.swift in Sources */,
+				1EDD24362243A9C600A5C3D3 /* ShoppingListTableViewCell.swift in Sources */,
 				1E044E8F2232978600889883 /* ShowDishViewController.swift in Sources */,
 				1EF42E3E2226F62900CE28AD /* SideMenuViewController.swift in Sources */,
 				1E7E337E2229A0DA000CAA9A /* ButtonCell.swift in Sources */,
+				1EDD24312242769D00A5C3D3 /* CompareDayWithWeeklyMenuViewController.swift in Sources */,
+				1EDD24342243A86E00A5C3D3 /* ShoppingListViewController.swift in Sources */,
 				1E633C2E2236920C00C87D6D /* RandomWeeklyManuTableViewCell.swift in Sources */,
 				1EC6291C22252C120049BCD6 /* CreateAccountViewController.swift in Sources */,
 				1E041355223BCEB0007B3406 /* FinishedWeeklyMenuTableViewCell.swift in Sources */,

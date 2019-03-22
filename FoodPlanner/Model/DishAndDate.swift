@@ -10,13 +10,13 @@ import Foundation
 import Firebase
 
 class DishAndDate {
-    var dish: Dish
+    var dishName: String
     var date: Date
     var idFromDish: String
     var weeklyMenuID: String
     
-    init(dish: Dish, date: Date, idFromDish: String) {
-        self.dish = dish
+    init(dishName: String, date: Date, idFromDish: String) {
+        self.dishName = dishName
         self.date = date
         self.idFromDish = idFromDish
         weeklyMenuID = ""
@@ -24,13 +24,13 @@ class DishAndDate {
     
     init(snapshot: QueryDocumentSnapshot ) {
         let snapshotValue = snapshot.data() as [String : Any]
-        dish = snapshotValue["dishName"] as! Dish
-        date = snapshotValue["date"] as! Date
-        idFromDish = snapshotValue["id"] as! String
+        dishName = snapshotValue["dishName"] as! String
+        date = (snapshotValue["date"] as! Timestamp).dateValue()
+        idFromDish = snapshotValue["idFromDish"] as! String
         weeklyMenuID = snapshot.documentID
     }
     
     func toAny() -> [String : Any] {
-        return ["dishName": dish.dishName, "date": date, "idFromDish": idFromDish]
+        return ["dishName": dishName, "date": date, "idFromDish": idFromDish]
     }
 }

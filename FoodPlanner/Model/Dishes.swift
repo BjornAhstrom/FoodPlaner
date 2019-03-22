@@ -12,18 +12,23 @@ import Firebase
 
 class Dishes {
     private var dishes = [Dish]()
+    var db: Firestore!
     
     init() {
-        addMockDishes()
-       
+       // addMockDishes()
     }
     
     var count: Int {
         return dishes.count
     }
     
-    func add(dish: Dish) {
+    func add(dish: Dish) -> Bool{
+        if dishes.contains(dish) {
+            return false
+        }
+        
         dishes.append(dish)
+        return true
     }
     
     func clear() {
@@ -40,7 +45,7 @@ class Dishes {
     func randomDish() -> Dish {
         for _ in 0...6 {
             let randomIndex = Int(arc4random_uniform(UInt32(dishes.count)))
-        return dishes[randomIndex]
+            return dishes[randomIndex]
         }
         return dishes[0]
     }

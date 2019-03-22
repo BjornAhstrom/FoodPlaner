@@ -18,6 +18,7 @@ class SideMenuViewController: UIViewController {
     private let weeklyMenu = "weeklyMenu"
     private let selectRandomDishMenu = "selectRandomDishMenu"
     private let showSideMenu = "showSideMenu"
+    private let shoppingList = "shoppingList"
     
     var buttons: [Button] = []
     
@@ -83,6 +84,12 @@ class SideMenuViewController: UIViewController {
         
         return tempButtons
     }
+    
+    @IBAction func shoppingListButton(_ sender: UIButton) {
+        NotificationCenter.default.post(name: NSNotification.Name(shoppingList), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(showSideMenu), object: nil)
+    }
+    
 }
 
 extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {

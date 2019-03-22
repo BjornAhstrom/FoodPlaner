@@ -1,5 +1,5 @@
 //
-//  savedDishTableViewCell.swift
+//  ShowDishTableViewCell.swift
 //  FoodPlanner
 //
 //  Created by Björn Åhström on 2019-03-08.

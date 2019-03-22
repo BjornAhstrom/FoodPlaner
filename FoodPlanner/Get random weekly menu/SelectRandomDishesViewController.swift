@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource, UIPickerViewDelegate {
     @IBOutlet weak var phoneShakerImageView: UIImageView!
@@ -20,27 +21,28 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
     private let goToRandomWeeklyMenuSegue = "goToRandomWeeklyMenuSegue"
     private var numberOfDishes = (1...7).map{$0}
     
+    var db: Firestore!
     var selectedDate = Date()
+    var foodMenu: DishAndDate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        db = Firestore.firestore()
+        //deleteWeeklyMenu()
         setFontAndColorOnButtonsAndViews()
         selectDaysPickerView.delegate = self
         selectDaysPickerView.dataSource = self
         
         datePickerView.minimumDate = Date()
         datePickerView.addTarget(self, action: #selector(storeSelectedDate), for: UIControl.Event.valueChanged)
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "EEE dd/MM"
         
-       
         phoneShakerImageView.image = UIImage(named: "Phone.png")
         
         let defaultPickerRow  =  initialPickerRow()
         selectDaysPickerView.selectRow(defaultPickerRow, inComponent: 0, animated: false)
         pickerView(selectDaysPickerView, didSelectRow: defaultPickerRow, inComponent: 0)
-        
     }
+    
     
     func setFontAndColorOnButtonsAndViews() {
         randomDishesButton.layer.borderColor = Theme.current.colorForBorder.cgColor
@@ -53,6 +55,16 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
         startDateLabel.font = UIFont(name: Theme.current.fontForLabels, size: 24)
         choosNumberOfDishesLabel.textColor = Theme.current.textColor
         choosNumberOfDishesLabel.font = UIFont(name: Theme.current.fontForLabels, size: 20)
+    }
+    
+    func deleteWeeklyMenu() {
+        db.collection("dishes").document(((foodMenu?.weeklyMenuID)!)).delete() { error in
+            if let error = error {
+                print("Error removing document: \(error)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
     }
     
     @objc func storeSelectedDate() {

@@ -10,12 +10,19 @@ import Foundation
 import UIKit
 import Firebase
 
-class Dish {
+class Dish: Equatable {
+    
+    
     var dishName: String
     var dishImage: UIImage = UIImage(named: "Lasagne")!
     var ingredientsAndAmount: [Ingredient] = []
     var cooking: String
     var dishID: String
+    
+    
+    static func == (lhs: Dish, rhs: Dish) -> Bool {
+        return lhs.dishID == rhs.dishID
+    }
     
     
     init(dishTitle: String, dishImage: UIImage, ingredientsAndAmount: [Ingredient], cooking: String) {

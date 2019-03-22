@@ -11,24 +11,48 @@ import Firebase
 
 class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var foodMenuTableView: UITableView!
-    @IBOutlet weak var closeButton: UIButton!
     
     private let finishedWeeklyFoodMenyCell = "finishedWeeklyFoodMenyCell"
-    var test: Bool = true
     
     var foodMenu : [DishAndDate]?
+    var db: Firestore!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        db = Firestore.firestore()
         
-        closeButton.isHidden = test
+        getWeeklyMenuFromFireStore()
+        
         foodMenuTableView.delegate = self
         foodMenuTableView.dataSource = self
     }
     
+    
+    func getWeeklyMenuFromFireStore() {
+        db.collection("weeklyMenu").getDocuments() {
+            (querySnapshot, error) in
+            
+            if let error = error {
+                print("Error getting document \(error)")
+            } else {
+                guard let snapshot = querySnapshot else {
+                    return
+                }
+                for document in snapshot.documents {
+                    let weekMenu = DishAndDate(snapshot: document)
+                    
+                    self.foodMenu?.append(weekMenu)
+                }
+                self.foodMenuTableView.reloadData()
+            }
+        }
+    }
+        
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+        
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let menu = foodMenu {
@@ -36,6 +60,7 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
         }
         return 0
     }
+        
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: finishedWeeklyFoodMenyCell, for: indexPath) as? FinishedWeeklyMenuTableViewCell
@@ -43,12 +68,8 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
         if let menu = foodMenu {
             let foodAndDate = menu[indexPath.row]
             cell?.setDateOnLabel(date: foodAndDate.date)
-            cell?.setFoodnameOnLabel(foodName: foodAndDate.dish.dishName)
+            cell?.setFoodnameOnLabel(foodName: foodAndDate.dishName)
         }
         return cell!
-    }
-    
-    @IBAction func closeButton(_ sender: UIButton) {
-        
     }
 }

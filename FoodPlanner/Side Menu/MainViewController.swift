@@ -14,9 +14,11 @@ class MainViewController: UIViewController {
     private let addAndShowDish = "addAndShowDish"
     private let selectRandomDishMenu = "selectRandomDishMenu"
     private let weeklyMenu = "weeklyMenu"
+    private let shoppingList = "shoppingList"
     private let addAndShowDishSegue = "addAndShowDishSegue"
     private let showSelectedRandomDishesSegue = "showSelectedRandomDishesSegue"
     private let weeklyMenuSegue = "weeklyMenuSegue"
+    private let shoppingListSegue = "shoppingListSegue"
     private let showSideMenu = "showSideMenu"
         
     override func viewDidLoad() {
@@ -26,6 +28,8 @@ class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(goToSelectRandomDishView), name: NSNotification.Name( selectRandomDishMenu), object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(goToWeeklyMenu), name: NSNotification.Name( weeklyMenu), object: nil)
+        
+         NotificationCenter.default.addObserver(self, selector: #selector(goToShoppingList), name: NSNotification.Name(shoppingList), object: nil)
         
     }
     
@@ -41,8 +45,11 @@ class MainViewController: UIViewController {
         performSegue(withIdentifier: weeklyMenuSegue, sender: nil)
     }
     
+    @objc func goToShoppingList() {
+        performSegue(withIdentifier: shoppingListSegue, sender: nil)
+    }
+    
     @IBAction func moreTappedButton() {
         NotificationCenter.default.post(name: NSNotification.Name(showSideMenu), object: nil)
     }
-    
 }
