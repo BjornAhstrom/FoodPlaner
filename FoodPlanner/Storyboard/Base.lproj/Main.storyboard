@@ -166,13 +166,18 @@
                                 <action selector="moreTappedButton" destination="3ak-ll-FtG" id="JnN-Vh-rCn"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Shopping list" id="XOc-cS-0Vj">
+                            <connections>
+                                <segue destination="TWs-11-eXz" kind="show" id="gmm-vc-jZc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="mainView" destination="Yro-kW-E8W" id="bWF-cx-bxV"/>
                         <segue destination="F36-FH-rTY" kind="show" identifier="addAndShowDishSegue" id="9gq-yW-DEe"/>
                         <segue destination="fTM-sB-izi" kind="show" identifier="weeklyMenuSegue" id="ltu-rI-ss4"/>
                         <segue destination="TWs-11-eXz" kind="show" identifier="shoppingListSegue" id="CIx-cv-D9C"/>
-                        <segue destination="EJn-uI-tt1" kind="show" identifier="selectRandomDishMenu" id="LeU-ef-n5w"/>
+                        <segue destination="EJn-uI-tt1" kind="show" identifier="showSelectedRandomDishesSegue" id="LeU-ef-n5w"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wsL-Nc-JGg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -232,8 +237,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Recipe"/>
                                 <connections>
-                                    <action selector="recipeButton:" destination="PkO-kz-Vin" eventType="touchUpInside" id="1bq-MO-dea"/>
-                                    <segue destination="Ywb-fi-2ds" kind="show" id="kMZ-Nz-yCl"/>
+                                    <segue destination="Ywb-fi-2ds" kind="show" identifier="goToDish" id="kMZ-Nz-yCl"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -329,6 +333,7 @@
                                 <state key="normal" title="Save the weekly menu"/>
                                 <connections>
                                     <action selector="saveWeeklyMenu:" destination="hPC-BK-ZrQ" eventType="touchUpInside" id="9CW-W4-QJu"/>
+                                    <segue destination="rfT-wf-P2W" kind="presentation" modalTransitionStyle="crossDissolve" id="HEf-bb-DII"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="59" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3qZ-wh-R5k">
@@ -957,7 +962,7 @@
             <objects>
                 <viewController id="Ywb-fi-2ds" customClass="ShowDishViewController" customModule="FoodPlanner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qyk-Bz-uue">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MOZ-6n-Msp">
@@ -1070,6 +1075,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Cqj-nd-FV5"/>
+        <segue reference="kMZ-Nz-yCl"/>
+        <segue reference="CIx-cv-D9C"/>
     </inferredMetricsTieBreakers>
 </document>

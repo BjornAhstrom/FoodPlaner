@@ -28,7 +28,7 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
-        //deleteWeeklyMenu()
+        deleteWeeklyMenu()
         setFontAndColorOnButtonsAndViews()
         selectDaysPickerView.delegate = self
         selectDaysPickerView.dataSource = self
@@ -42,7 +42,6 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
         selectDaysPickerView.selectRow(defaultPickerRow, inComponent: 0, animated: false)
         pickerView(selectDaysPickerView, didSelectRow: defaultPickerRow, inComponent: 0)
     }
-    
     
     func setFontAndColorOnButtonsAndViews() {
         randomDishesButton.layer.borderColor = Theme.current.colorForBorder.cgColor
@@ -58,7 +57,8 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
     }
     
     func deleteWeeklyMenu() {
-        db.collection("dishes").document(((foodMenu?.weeklyMenuID)!)).delete() { error in
+       
+        db.collection("weeklyMenu").document().delete() { error in
             if let error = error {
                 print("Error removing document: \(error)")
             } else {

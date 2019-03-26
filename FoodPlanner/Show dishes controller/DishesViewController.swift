@@ -44,8 +44,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 for document in (querySnapshot?.documents)! {
                     let dish = Dish(snapshot: document)
-                    
-                    self.db.collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
+                     self.db.collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
                         (querySnapshot, error) in
                         
                         for document in (querySnapshot?.documents)!{

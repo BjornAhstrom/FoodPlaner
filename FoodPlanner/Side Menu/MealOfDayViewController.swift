@@ -20,29 +20,24 @@ class MealOfDayViewController: UIViewController {
     var dateOfTheDay: String = ""
     
     var dishesID: [String] = []
+    var currentDishID: String = ""
     
     var db: Firestore!
-    //var dishes = Dishes()
+    var dishes = Dishes()
     //var foodMenu = [DishAndDate]()
     
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
         getWeeklyMenuFromFireStore()
+        getDishesIdFromFirestore()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    @IBAction func recipeButton(_ sender: UIButton) {
-        for dishID in dishesID {
-            if dishID == mealOfTheDayID {
-                db.collection("dishes").document(mealOfTheDayID)
-            }
-        }
-    }
-    
-    func getDishesFromFirestore() {
+    // Hämtar maträtter och sparar deras id i en array (dishesID).
+    func getDishesIdFromFirestore() {
         db.collection("dishes").getDocuments() {
             (querySnapshot, error) in
             
@@ -52,17 +47,27 @@ class MealOfDayViewController: UIViewController {
                 guard let snapshot = querySnapshot else {
                     return
                 }
-                for doucument in snapshot.documents {
-                    let dish = Dish(snapshot: doucument)
+                for document in snapshot.documents {
+                    let dish = Dish(snapshot: document)
                     self.dishesID.append(dish.dishID)
-//                    if self.dishes.add(dish: dish) == true {
-//                        print("Saved")
-//                    }
+                     self.db.collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
+                        (querySnapshot, error) in
+                        
+                        for document in (querySnapshot?.documents)!{
+                            let ing = Ingredient(snapshot: document)
+                            
+                            dish.add(ingredient: ing)
+                        }
+                    }
+                    if self.dishes.add(dish: dish) == true {
+                    }
                 }
             }
         }
     }
     
+    // Hämtar data från veckomenyn för att sedan jämföra dagens datum med datum i veckomenyn och visa rätt maträtt,
+    // om menyn inte har en maträtt då ska selectRandomDishController visas
     func getWeeklyMenuFromFireStore() {
         db.collection("weeklyMenu").getDocuments() {
             (querySnapshot, error) in
@@ -125,11 +130,27 @@ class MealOfDayViewController: UIViewController {
     
     func goToSelectRandomDish() {
         if let selectRandomDish = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier:     "SelectRandomWeekId") as? SelectRandomDishesViewController {
-
+            
             let modalStyle: UIModalTransitionStyle = UIModalTransitionStyle.crossDissolve
             selectRandomDish.modalTransitionStyle = modalStyle
             self.present(selectRandomDish, animated: true, completion: nil)
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToDish" {
+            let destVC = segue.destination as? ShowDishViewController
+            
+            for i in 0...5 {
+                let dish = dishes.dish(index: i)
+                
+                if mealOfTheDayID == dish?.dishID {
+                    destVC!.dish = dish
+                    print("Success")
+                } else {
+                    print("Error getting dish recipe")
+                }
+            }
+        }
+    }
 }

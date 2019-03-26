@@ -50,22 +50,22 @@ class Dishes {
         return dishes[0]
     }
     
-    func addMockDishes() {
-        let ingredients: [Ingredient] = [Ingredient(ingredientsTitle: "Tomat", amount: 2, unit: "ST")]
-        let imageName = "Lasagne"
-        let image = UIImage(named: imageName)
-        
-        let dish1 = Dish(dishTitle: "Pannkaka", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-        dishes.append(dish1)
-        
-        let dish2 = Dish(dishTitle: "Potatis och köttbullar", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-        dishes.append(dish2)
-
-        let dish3 = Dish(dishTitle: "Lasagne", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-        dishes.append(dish3)
-
-        let dish4 = Dish(dishTitle: "spaghetti carbonara", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-        dishes.append(dish4)
+//    func addMockDishes() {
+//        let ingredients: [Ingredient] = [Ingredient(ingredientsTitle: "Tomat", amount: 2, unit: "ST")]
+//        let imageName = "Lasagne"
+//        let image = UIImage(named: imageName)
+//
+//        let dish1 = Dish(dishTitle: "Pannkaka", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
+//        dishes.append(dish1)
+//
+//        let dish2 = Dish(dishTitle: "Potatis och köttbullar", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
+//        dishes.append(dish2)
+//
+//        let dish3 = Dish(dishTitle: "Lasagne", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
+//        dishes.append(dish3)
+//
+//        let dish4 = Dish(dishTitle: "spaghetti carbonara", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
+//        dishes.append(dish4)
 //
 //        let dish5 = Dish(dishTitle: "spaghetti med köttfärssås", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
 //        dishes.append(dish5)
@@ -98,5 +98,5 @@ class Dishes {
 //        dishes.append(dish14)
         
 //        let sortedDishes = dishes.sorted {$0.dishName < $1.dishName}
-    }
+//  }
 }
