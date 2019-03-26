@@ -14,17 +14,20 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
     
     private let finishedWeeklyFoodMenyCell = "finishedWeeklyFoodMenyCell"
     
-    var foodMenu : [DishAndDate]?
+    var foodMenu = [DishAndDate]()
+    var dishes = Dishes()
     var db: Firestore!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
         
-        getWeeklyMenuFromFireStore()
-        
         foodMenuTableView.delegate = self
         foodMenuTableView.dataSource = self
+        
+        getWeeklyMenuFromFireStore()
+        print("MatRätter   \(foodMenu.count)")
+        
     }
     
     
@@ -39,37 +42,34 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
                     return
                 }
                 for document in snapshot.documents {
-                    let weekMenu = DishAndDate(snapshot: document)
+                    let weeklyMenu = DishAndDate(snapshot: document)
                     
-                    self.foodMenu?.append(weekMenu)
+                    self.foodMenu.append(weeklyMenu)
                 }
                 self.foodMenuTableView.reloadData()
             }
         }
     }
-        
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-        
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let menu = foodMenu {
-            return menu.count
-        }
-        return 0
+        return foodMenu.count
     }
-        
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: finishedWeeklyFoodMenyCell, for: indexPath) as? FinishedWeeklyMenuTableViewCell
         
-        if let menu = foodMenu {
-            let foodAndDate = menu[indexPath.row]
-            cell?.setDateOnLabel(date: foodAndDate.date)
-            cell?.setFoodnameOnLabel(foodName: foodAndDate.dishName)
-        }
+        let dish = foodMenu[indexPath.row]
+        
+        cell?.setDateOnLabel(date: dish.date)
+        cell?.setFoodnameOnLabel(foodName: dish.dishName)
+        
         return cell!
     }
 }

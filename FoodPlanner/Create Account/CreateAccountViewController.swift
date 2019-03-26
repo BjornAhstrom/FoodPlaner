@@ -18,7 +18,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet private weak var continueButton: UIButton!
     
     private var passwordMatch: Bool = false
-    
+    var test: String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
     }

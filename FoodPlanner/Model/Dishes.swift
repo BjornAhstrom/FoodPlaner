@@ -11,7 +11,7 @@ import UIKit
 import Firebase
 
 class Dishes {
-    private var dishes = [Dish]()
+    var dishes = [Dish]()
     var db: Firestore!
     
     init() {

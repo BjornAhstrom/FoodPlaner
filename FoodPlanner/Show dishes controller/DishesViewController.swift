@@ -54,7 +54,9 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             dish.add(ingredient: ing)
                         }
                     }
-                    self.dishes.add(dish: dish)
+                    if self.dishes.add(dish: dish) == true {
+                        
+                    }
                 }
                 self.showDishTableView.reloadData()
             }

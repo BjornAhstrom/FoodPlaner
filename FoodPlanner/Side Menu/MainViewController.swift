@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
     private let weeklyMenuSegue = "weeklyMenuSegue"
     private let shoppingListSegue = "shoppingListSegue"
     private let showSideMenu = "showSideMenu"
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(showDishList), name: NSNotification.Name( addAndShowDish), object: nil)
@@ -52,4 +52,5 @@ class MainViewController: UIViewController {
     @IBAction func moreTappedButton() {
         NotificationCenter.default.post(name: NSNotification.Name(showSideMenu), object: nil)
     }
+    
 }

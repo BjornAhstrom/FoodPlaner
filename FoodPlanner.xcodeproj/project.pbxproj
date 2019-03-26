@@ -238,7 +238,6 @@
 				1E7E337822295478000CAA9A /* CheckPassword.swift */,
 				1E04B7AF223A332E00CCB8A8 /* SavedWeeklyMenu.swift */,
 				1E04134F223BC0A4007B3406 /* DishAndDate.swift */,
-				1EDD24302242769D00A5C3D3 /* CompareDayWithWeeklyMenuViewController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -368,6 +367,7 @@
 				1EF42E3C2226F62900CE28AD /* ContainerViewController.swift */,
 				1EF42E3D2226F62900CE28AD /* MainViewController.swift */,
 				1EF42E3B2226F62900CE28AD /* SideMenuViewController.swift */,
+				1EDD24302242769D00A5C3D3 /* CompareDayWithWeeklyMenuViewController.swift */,
 				1E7E3399222C4B70000CAA9A /* MealOfDayViewController.swift */,
 			);
 			path = "Side Menu";

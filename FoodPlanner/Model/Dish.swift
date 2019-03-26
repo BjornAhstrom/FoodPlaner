@@ -16,7 +16,7 @@ class Dish: Equatable {
     var dishName: String
     var dishImage: UIImage = UIImage(named: "Lasagne")!
     var ingredientsAndAmount: [Ingredient] = []
-    var cooking: String
+    var cooking: String?
     var dishID: String
     
     
@@ -36,7 +36,7 @@ class Dish: Equatable {
     init(snapshot: QueryDocumentSnapshot) {
         let snapshotValue = snapshot.data() as [String : Any]
             dishName = snapshotValue["dishName"] as! String
-            cooking = snapshotValue["cooking"] as! String
+        cooking = snapshotValue["cooking"] as? String
             dishID = snapshot.documentID
     }
     
@@ -45,6 +45,6 @@ class Dish: Equatable {
     }
     
     func toAny() -> [String : Any] {
-        return ["dishName" : dishName, "cooking" : cooking]
+        return ["dishName" : dishName, "cooking" : cooking!]
     }
 }
