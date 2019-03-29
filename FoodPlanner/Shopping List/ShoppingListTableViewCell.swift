@@ -10,12 +10,18 @@ import UIKit
 
 class ShoppingListTableViewCell: UITableViewCell {
     @IBOutlet weak var ingredientsLabel: UILabel!
+    @IBOutlet weak var amountAndUnitLabel: UILabel!
+    @IBOutlet var labels: [UILabel]!
     @IBOutlet weak var checkBoxButton: UIButton!
     
-    func setIngredientsNameOnLabel(ingredientsName: String) {
-        ingredientsLabel.text = "\(ingredientsName)"
-        ingredientsLabel.font = UIFont(name: Theme.current.fontForLabels, size: 17)
-        ingredientsLabel.textColor = Theme.current.textColorForLabels
+    func setIngredients(name: String, amount: Int, unit : String) {
+        ingredientsLabel.text = "\(name)"
+        amountAndUnitLabel.text = "\(amount) \(unit)"
+        
+        for label in labels {
+            label.font = UIFont(name: Theme.current.fontForLabels, size: 17)
+            label.textColor = Theme.current.textColorForLabels
+        }
     }
     
     func checkBox() {

@@ -20,17 +20,49 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     
     let db = Firestore.firestore()
     var dish: Dish?
+    var dishId: String?
+    
+    var imageReference: StorageReference {
+        return Storage.storage().reference().child("dishImages")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         
+        
         dishName.text = dish?.dishName
-        imageView.image = dish?.dishImage
+        //imageView.image = dish?.dishImage
         
         cookingDescriptionTextView.text = dish?.cooking
+        
+        downloadImageFromStorage()
     }
+    
+    func downloadImageFromStorage() {
+        let downloadImageRef = imageReference.child(dishId ?? "No dishId")
+        
+        print("downloadImageRef.name: \(downloadImageRef.name), dishId: \(dishId!)")
+        if downloadImageRef.name == dishId {
+            let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
+                if let error = error {
+                    print("!!!!!! Error downloading")
+                } else {
+                    if let data = data {
+                        let image = UIImage(data: data)
+                        self.imageView.image = image
+                    }
+                    print(error ?? "No error")
+                }
+            }
+            //            downloadTask.observe(.progress) { (snapshot) in
+            //                //print(snapshot.progress ?? "No more progress")
+            //            }
+            //            downloadTask.resume()
+        }
+    }
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -49,11 +81,11 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         if let ingredients = dish?.ingredientsAndAmount
         {
             let title = ingredients[indexPath.row].ingredientsTitle
-            let amountI = ingredients[indexPath.row].amount
-            let amountS = ingredients[indexPath.row].unit
+            let amount = ingredients[indexPath.row].amount
+            let unit = ingredients[indexPath.row].unit
             
             cell?.ingredientsNameLabel.text = title
-            cell?.ingredientsAmountLabel.text = "\(amountI) \(amountS)"
+            cell?.ingredientsAmountLabel.text = "\(amount) \(unit)"
         }
         return cell!
     }
@@ -70,9 +102,9 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     func deleteRecipe() {
         db.collection("dishes").document((dish?.dishID)!).delete() { err in
             if let err = err {
-                print("Error removing document: \(err)")
+                print("Error deleting document: \(err)")
             } else {
-                print("Document successfully removed!")
+                print("Document successfully deleted!")
             }
         }
     }

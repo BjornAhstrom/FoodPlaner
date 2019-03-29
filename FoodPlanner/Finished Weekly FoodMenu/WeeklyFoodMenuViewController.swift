@@ -25,9 +25,7 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
         foodMenuTableView.delegate = self
         foodMenuTableView.dataSource = self
         
-        getWeeklyMenuFromFireStore()
-        print("MatRätter   \(foodMenu.count)")
-        
+        getWeeklyMenuFromFireStore()        
     }
     
     
@@ -64,7 +62,7 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: finishedWeeklyFoodMenyCell, for: indexPath) as? FinishedWeeklyMenuTableViewCell
-        
+        self.foodMenu = self.foodMenu.sorted(by: {$1.date.compare($0.date) == .orderedDescending})
         let dish = foodMenu[indexPath.row]
         
         cell?.setDateOnLabel(date: dish.date)

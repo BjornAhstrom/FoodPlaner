@@ -127,6 +127,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 return
             }
             destVC.dish = dish
+            destVC.dishId = dish.dishID
         }
     }
 }

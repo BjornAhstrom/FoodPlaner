@@ -24,11 +24,16 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
     var db: Firestore!
     var selectedDate = Date()
     var foodMenu: DishAndDate?
+    var getNumberOfDishesFromUser = Int()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //deleteWeeklyMenu()    // Fungerar inte
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
-        deleteWeeklyMenu()
+        
         setFontAndColorOnButtonsAndViews()
         selectDaysPickerView.delegate = self
         selectDaysPickerView.dataSource = self
@@ -57,12 +62,15 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
     }
     
     func deleteWeeklyMenu() {
-       
-        db.collection("weeklyMenu").document().delete() { error in
-            if let error = error {
-                print("Error removing document: \(error)")
-            } else {
-                print("Document successfully removed!")
+        if let menuId = foodMenu?.weeklyMenuID {
+            while menuId.count >= 0 {
+                db.collection("weeklyMenu").document(menuId).delete() { error in
+                    if let error = error {
+                        print("Error removing document: \(error)")
+                    } else {
+                        print("Document successfully removed!")
+                    }
+                }
             }
         }
     }
@@ -97,6 +105,7 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         savedSelectedRow(row: row)
+        getNumberOfDishesFromUser = (row + 1)
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
@@ -122,6 +131,7 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
         if segue.identifier == goToRandomWeeklyMenuSegue {
             let destination = segue.destination as? RandomWeeklyMenuViewController
             destination?.selectedDateFromUser = selectedDate
+            destination?.getNumberOfDishesFromUser = getNumberOfDishesFromUser
         }
     }
 }

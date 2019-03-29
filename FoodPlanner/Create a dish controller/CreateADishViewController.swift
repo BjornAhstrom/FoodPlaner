@@ -23,15 +23,23 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     @IBOutlet weak var tapToAddAPictureLabel: UILabel!
     
     var db: Firestore!
+    
+    var imageReference: StorageReference {
+        return Storage.storage().reference().child("dishImages")
+    }
+    let imagePickerController: UIImagePickerController = UIImagePickerController()
+    
     var ingredientsAmount: Int = 0
     var labelIsHidden: Bool = true
     var dishes : Dishes?
     var ingredients: [Ingredient] = []
+    var dishImageId: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
         
+        imagePickerController.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -122,17 +130,43 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             alertMessage(titel: "Your dish must have a name!")
         } else {
             
-            let saveDish = Dish(dishTitle: nameOnDishTextField.text!, dishImage: dishPicture, ingredientsAndAmount: ingredients, cooking: cookingDescription.text)
+            let saveDish = Dish(dishTitle: nameOnDishTextField.text!, dishImageId: dishPicture, ingredientsAndAmount: ingredients, cooking: cookingDescription.text)
             
-            dishes!.add(dish: saveDish)
+            if dishes!.add(dish: saveDish) == true {
+                print("Saved")
+            } else {
+                print("Error getting saved")
+            }
             
             let docRef = db.collection("dishes").addDocument(data: saveDish.toAny())
+            dishImageId = docRef.documentID
+            
             for ingredient in ingredients {
                 docRef.collection("ingredients").addDocument(data: ingredient.toAny())
             }
+            upploadImageToStorage()
             
             dismiss(animated: true, completion: nil)
         }
+    }
+    
+    func upploadImageToStorage() {
+        guard let image = dishImageView.image else { return }
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
+        
+        let uploadImageRef = imageReference.child(dishImageId)
+        
+        let uploadTask = uploadImageRef.putData(imageData, metadata: nil) { (metadata, error) in
+            print("Upload task finished")
+            print(metadata ?? "No metadat")
+            print(error ?? "No error")
+        }
+        
+        uploadTask.observe(.progress) { (snapshot) in
+            print(snapshot.progress ?? "No more progress")
+        }
+        
+        uploadTask.resume()
     }
     
     @IBAction func cancelButton(_ sender: UIBarButtonItem) {
@@ -141,23 +175,20 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     
     // Get a picture from the user's photo album or open the camera.
     func openCameraOrPhotoLibrary() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        
         let actionSheet = UIAlertController(title: "Photo source", message: "Choose a source", preferredStyle: .actionSheet)
         
         actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action:UIAlertAction) in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                imagePickerController.sourceType = .camera
-                self.present(imagePickerController, animated: true, completion: nil)
+                self.imagePickerController.sourceType = .camera
+                self.present(self.imagePickerController, animated: true, completion: nil)
             } else {
                 self.alertMessage(titel: "Your device have no camera")
                 print("Camera not available")
             }
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (action:UIAlertAction) in imagePickerController.sourceType = .photoLibrary
-            self.present(imagePickerController, animated: true, completion: nil)
+        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (action:UIAlertAction) in self.imagePickerController.sourceType = .photoLibrary
+            self.present(self.imagePickerController, animated: true, completion: nil)
         }))
         
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -168,6 +199,9 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
         dishImageView.image = image
+            
+            
+            
         } else {
             print("Error")
         }
@@ -183,6 +217,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         self.present(alert, animated: true, completion:  nil)
     }
+
 }
 
 extension CreateADishViewController: UITableViewDelegate, UITableViewDataSource {

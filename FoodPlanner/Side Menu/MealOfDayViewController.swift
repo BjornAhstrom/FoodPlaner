@@ -15,16 +15,16 @@ class MealOfDayViewController: UIViewController {
     @IBOutlet weak var foodNameLabel: UILabel!
     @IBOutlet weak var recipeButton: UIButton!
     
+    private let goToDish = "goToDish"
+    
     var mealOfTheDayName: String = ""
     var mealOfTheDayID: String = ""
     var dateOfTheDay: String = ""
     
     var dishesID: [String] = []
-    var currentDishID: String = ""
     
     var db: Firestore!
     var dishes = Dishes()
-    //var foodMenu = [DishAndDate]()
     
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
@@ -50,7 +50,7 @@ class MealOfDayViewController: UIViewController {
                 for document in snapshot.documents {
                     let dish = Dish(snapshot: document)
                     self.dishesID.append(dish.dishID)
-                     self.db.collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
+                    self.db.collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
                         (querySnapshot, error) in
                         
                         for document in (querySnapshot?.documents)!{
@@ -81,7 +81,6 @@ class MealOfDayViewController: UIViewController {
                 
                 for document in snapshot.documents {
                     let weeklyMenu = DishAndDate(snapshot: document)
-                    //self.foodMenu.append(weeklyMenu)
                     
                     print("Datum från veckomenyn \(weeklyMenu.date), Dagens datum \(Date())")
                     
@@ -123,7 +122,7 @@ class MealOfDayViewController: UIViewController {
             if self.mealOfTheDayName == "" {
                 self.goToSelectRandomDish()
             } else {
-                print("Error")
+                print("We have a dish")
             }
         }
     }
@@ -138,19 +137,28 @@ class MealOfDayViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToDish" {
+        if segue.identifier == goToDish {
             let destVC = segue.destination as? ShowDishViewController
             
-            for i in 0...5 {
-                let dish = dishes.dish(index: i)
-                
-                if mealOfTheDayID == dish?.dishID {
+            for dish in dishes.dishes  { // Funkar inte
+                //let dish = dishes.dish(index: i)
+                if mealOfTheDayID == dish.dishID {
+                    
                     destVC!.dish = dish
+                    
+                    destVC!.dishId = dish.dishID
+                    
                     print("Success")
                 } else {
-                    print("Error getting dish recipe")
+                    //alertMessage(titel: "No dish recipe")
                 }
             }
         }
+    }
+    
+    func alertMessage(titel: String) {
+        let alert = UIAlertController(title: titel, message: "Pleace try again", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true, completion:  nil)
     }
 }
