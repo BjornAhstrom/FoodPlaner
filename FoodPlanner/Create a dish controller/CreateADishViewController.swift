@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class CreateADishViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class CreateADishViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextViewDelegate, UITextFieldDelegate {
     @IBOutlet weak var nameOnDishTextField: UITextField!
     @IBOutlet weak var dishImageView: UIImageView!
     @IBOutlet weak var nameOnIngredientsLAbel: UITableView!
@@ -21,6 +21,8 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     @IBOutlet weak var unitTextField: UITextField!
     @IBOutlet weak var stepper: UIStepper!
     @IBOutlet weak var tapToAddAPictureLabel: UILabel!
+    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var stepsLabel: UILabel!
     
     var db: Firestore!
     
@@ -40,11 +42,102 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         db = Firestore.firestore()
         
         imagePickerController.delegate = self
+        ingredientTextField.delegate = self
+        stepperTextField.delegate = self
+        unitTextField.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
+        cookingDescriptionTextView.delegate = self
+        cookingDescriptionTextView.layer.zPosition = 1
         
         setFontColorRadiusOnTexFieldLabelAndView()
         tapOnTapHereLabelToAddAPicture()
+        hideKeyboard()
+        showAndHideKeyboardWithNotifications()
+        
+    }
+    
+    func showAndHideKeyboardWithNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidBeginEditing(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(textViewDidBeginEditing(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidBeginEditing(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(textViewDidBeginEditing(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == ingredientTextField || textField == stepperTextField || textField == unitTextField {
+            UITextView.animate(withDuration: 0.2, animations: { self.ingredientTextField.frame.origin.y = 320 })
+            UITextView.animate(withDuration: 0.2, animations: { self.stepperTextField.frame.origin.y = 320 })
+            UITextView.animate(withDuration: 0.2, animations: { self.unitTextField.frame.origin.y = 320 })
+            UITableView.animate(withDuration: 0.2, animations: { self.tableView.frame.origin.y = 390 })
+            UIStepper.animate(withDuration: 0.2, animations: { self.stepper.frame.origin.y = 320})
+            UIButton.animate(withDuration: 0.2, animations: { self.addButton.frame.origin.y = 353})
+            UIView.animate(withDuration: 0.7, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: { self.stepsLabel.alpha = 0.0 }, completion: nil)
+        }
+    }
+    
+    @objc func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == ingredientTextField || textField == stepperTextField || textField == unitTextField {
+            UITextView.animate(withDuration: 0.2, animations: { self.ingredientTextField.frame.origin.y = 375 })
+            UITextView.animate(withDuration: 0.2, animations: { self.stepperTextField.frame.origin.y = 375 })
+            UITextView.animate(withDuration: 0.2, animations: { self.unitTextField.frame.origin.y = 375 })
+            UITableView.animate(withDuration: 0.2, animations: { self.tableView.frame.origin.y = 450 })
+            UIStepper.animate(withDuration: 0.2, animations: { self.stepper.frame.origin.y = 375})
+            UIButton.animate(withDuration: 0.2, animations: { self.addButton.frame.origin.y = 413})
+            UIView.animate(withDuration: 0.7, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: { self.stepsLabel.alpha = 1.0 }, completion: nil)
+        }
+    }
+    
+    @objc func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView == cookingDescriptionTextView {
+            UITextView.animate(withDuration: 0.2, animations: { self.cookingDescriptionTextView.frame.origin.y = 320 })
+            hideLabelsAndButtons()
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView == cookingDescriptionTextView {
+            UITextView.animate(withDuration: 0.2, animations: { self.cookingDescriptionTextView.frame.origin.y = 620 })
+            showLabelsAndButtons()
+        }
+    }
+    
+    @objc func keyboardWillShow() {
+    }
+    
+    @objc func keyboardWillHide() {
+    }
+    
+    func hideLabelsAndButtons() {
+        ingredientsTableView.isHidden = true
+        stepperTextField.isHidden = true
+        ingredientTextField.isHidden = true
+        stepper.isHidden = true
+        unitTextField.isHidden = true
+        addButton.isHidden = true
+        stepsLabel.isHidden = true
+    }
+    
+    func showLabelsAndButtons() {
+        ingredientsTableView.isHidden = false
+        stepperTextField.isHidden = false
+        ingredientTextField.isHidden = false
+        stepper.isHidden = false
+        unitTextField.isHidden = false
+        addButton.isHidden = false
+        stepsLabel.isHidden = false
+    }
+    
+    func hideKeyboard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     func tapOnTapHereLabelToAddAPicture() {
@@ -75,6 +168,11 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         dishImageView.layer.borderColor = Theme.current.colorForBorder.cgColor
         dishImageView.layer.cornerRadius = 10
         stepper.layer.borderColor = Theme.current.colorForBorder.cgColor
+        addButton.layer.borderColor = Theme.current.colorForBorder.cgColor
+        addButton.layer.cornerRadius = 15
+        addButton.layer.borderWidth = 2
+        addButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 18)
+        addButton.setTitleColor(Theme.current.colorForBorder, for: .normal)
     }
     
     @IBAction func addIngredientsButton(_ sender: UIButton) {
@@ -111,7 +209,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     }
     
     @IBAction func saveDishItemButton(_ sender: UIBarButtonItem) {
-       saveDish()
+        saveDish()
     }
     
     func saveDish() {
@@ -133,7 +231,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             let saveDish = Dish(dishTitle: nameOnDishTextField.text!, dishImageId: dishPicture, ingredientsAndAmount: ingredients, cooking: cookingDescription.text)
             
             if dishes!.add(dish: saveDish) == true {
-                print("Saved")
+                
             } else {
                 print("Error getting saved")
             }
@@ -198,7 +296,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-        dishImageView.image = image
+            dishImageView.image = image
             
             
             
@@ -217,7 +315,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         self.present(alert, animated: true, completion:  nil)
     }
-
+    
 }
 
 extension CreateADishViewController: UITableViewDelegate, UITableViewDataSource {

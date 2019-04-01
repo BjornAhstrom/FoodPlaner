@@ -25,15 +25,28 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
     var selectedDate = Date()
     var foodMenu: DishAndDate?
     var getNumberOfDishesFromUser = Int()
+    var weeklyMenuId: [String] = []
     
     override func viewWillAppear(_ animated: Bool) {
-        //deleteWeeklyMenu()    // Fungerar inte
+        db.collection("weeklyMenu").getDocuments() {
+            (snapshot, error) in
+            
+            if let error = error {
+                print("Error getting document \(error)")
+            }else {
+                for document in snapshot!.documents {
+                    let dishId = DishAndDate(snapshot: document)
+                    
+                    self.weeklyMenuId.append(dishId.weeklyMenuID)
+                }
+            }
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
-        
+       
         setFontAndColorOnButtonsAndViews()
         selectDaysPickerView.delegate = self
         selectDaysPickerView.dataSource = self
@@ -61,15 +74,20 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
         choosNumberOfDishesLabel.font = UIFont(name: Theme.current.fontForLabels, size: 20)
     }
     
+    @IBAction func randomDishesButton(_ sender: UIButton) {
+            deleteWeeklyMenu()
+    }
+    
     func deleteWeeklyMenu() {
-        if let menuId = foodMenu?.weeklyMenuID {
-            while menuId.count >= 0 {
-                db.collection("weeklyMenu").document(menuId).delete() { error in
-                    if let error = error {
-                        print("Error removing document: \(error)")
-                    } else {
-                        print("Document successfully removed!")
-                    }
+        print("Button is pressed")
+        
+        for id in weeklyMenuId {
+            
+            db.collection("weeklyMenu").document(id).delete() { error in
+                if let error = error {
+                    print("Error removing document: \(error)")
+                } else {
+                    print("Document successfully removed!")
                 }
             }
         }

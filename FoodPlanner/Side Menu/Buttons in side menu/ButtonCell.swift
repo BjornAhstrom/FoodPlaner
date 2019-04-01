@@ -13,10 +13,10 @@ class ButtonCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     
     func setButtonTile(title: Button) {
+        titleLabel.layer.masksToBounds = true
         titleLabel.text = title.buttonTitle
         titleLabel.textColor = Theme.current.textColorForButtons
-        titleLabel.layer.cornerRadius = 15
-       //titleLabel.layer.backgroundColor = Theme.current.colorForButtons.cgColor
+        titleLabel.layer.cornerRadius = 20
         titleLabel.backgroundColor = Theme.current.colorForButtons
     }
 }

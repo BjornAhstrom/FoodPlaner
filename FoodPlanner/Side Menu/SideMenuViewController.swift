@@ -89,7 +89,6 @@ class SideMenuViewController: UIViewController {
         NotificationCenter.default.post(name: NSNotification.Name(shoppingList), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name(showSideMenu), object: nil)
     }
-    
 }
 
 extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {

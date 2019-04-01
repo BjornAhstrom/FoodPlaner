@@ -14,6 +14,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var cookingDescriptionTextView: UITextView!
+    @IBOutlet private var labels: [UILabel]!
     
     private var savedDishCell: String = "savedDishCell"
     private var DishesViewController: String = "DishesViewController"
@@ -21,6 +22,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     let db = Firestore.firestore()
     var dish: Dish?
     var dishId: String?
+    var ingredientsId: [String] = []
     
     var imageReference: StorageReference {
         return Storage.storage().reference().child("dishImages")
@@ -30,24 +32,67 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
-        
+        setRadiusBorderColorAndFontOnLabelsViewsAndButtons()
         dishName.text = dish?.dishName
-        //imageView.image = dish?.dishImage
         
         cookingDescriptionTextView.text = dish?.cooking
         
         downloadImageFromStorage()
+        
+        db.collection("dishes").document(dishId!).collection("ingredients").getDocuments() {
+            (snapshot, error) in
+            if let error = error {
+                print("Error getting document \(error)")
+            } else {
+                for ingId in snapshot!.documents {
+                    let ingredientID = Ingredient(snapshot: ingId)
+                    self.ingredientsId.append(ingredientID.ingredientID)
+                }
+            }
+        }
+    }
+    
+    func setRadiusBorderColorAndFontOnLabelsViewsAndButtons() {
+        for label in labels {
+            label.textColor = Theme.current.textColor
+            label.font = UIFont(name: Theme.current.fontForLabels, size: 22)
+        }
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 10
+        imageView.layer.borderColor = Theme.current.colorForBorder.cgColor
+        imageView.layer.borderWidth = 2
+        cookingDescriptionTextView.layer.masksToBounds = true
+        cookingDescriptionTextView.layer.borderColor = Theme.current.colorForBorder.cgColor
+        cookingDescriptionTextView.layer.borderWidth = 2
+        cookingDescriptionTextView.layer.cornerRadius = 12
+        cookingDescriptionTextView.textColor = Theme.current.textColorForLabels
+        cookingDescriptionTextView.font = UIFont(name: Theme.current.fontForLabels, size: 18)
+    }
+    
+    @IBAction func doneItemButton(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func deleteRecipeItemButton(_ sender: UIBarButtonItem) {
+        deleteRecipe()
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func deleteRecipe() {
+        for id in ingredientsId { db.collection("dishes").document(dishId!).collection("ingredients").document(id).delete()
+            print("!!!!!!! \(id)")
+        }
+        
+        db.collection("dishes").document(dishId!).delete()
     }
     
     func downloadImageFromStorage() {
         let downloadImageRef = imageReference.child(dishId ?? "No dishId")
         
-        print("downloadImageRef.name: \(downloadImageRef.name), dishId: \(dishId!)")
         if downloadImageRef.name == dishId {
             let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
                 if let error = error {
-                    print("!!!!!! Error downloading")
+                    print("Error downloading \(error)")
                 } else {
                     if let data = data {
                         let image = UIImage(data: data)
@@ -56,13 +101,12 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
                     print(error ?? "No error")
                 }
             }
-            //            downloadTask.observe(.progress) { (snapshot) in
-            //                //print(snapshot.progress ?? "No more progress")
-            //            }
+            downloadTask.observe(.progress) { (snapshot) in
+                //print(snapshot.progress ?? "No more progress")
+            }
             //            downloadTask.resume()
         }
     }
-    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -87,26 +131,8 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
             cell?.ingredientsNameLabel.text = title
             cell?.ingredientsAmountLabel.text = "\(amount) \(unit)"
         }
+        
         return cell!
-    }
-    
-    @IBAction func doneItemButton(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func deleteRecipeItemButton(_ sender: UIBarButtonItem) {
-        deleteRecipe()
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func deleteRecipe() {
-        db.collection("dishes").document((dish?.dishID)!).delete() { err in
-            if let err = err {
-                print("Error deleting document: \(err)")
-            } else {
-                print("Document successfully deleted!")
-            }
-        }
     }
 }
 

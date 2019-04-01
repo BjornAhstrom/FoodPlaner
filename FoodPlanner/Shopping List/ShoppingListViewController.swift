@@ -24,7 +24,7 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
         db = Firestore.firestore()
         setColorOnButtonsAndLabels()
         
-        getDishesFromFirestore()
+        getWeeklyMenuFromFireStore()
         
         shoppingListTableView.delegate = self
         shoppingListTableView.dataSource = self
@@ -36,10 +36,7 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let dishes = dishes {
-            return dishes.count
-        }
-        return 0
+        return ingredients.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -49,14 +46,10 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "shoppingListCell", for: indexPath) as! ShoppingListTableViewCell
         
-        let dish = dishes!.dish(index: indexPath.row)
+        let ingredient = ingredients[indexPath.row]
         
-        if let ingredient = dish?.ingredientsAndAmount {
-            let name = ingredient[indexPath.row].ingredientsTitle
-            let amount = ingredient[indexPath.row].amount
-            let unit = ingredient[indexPath.row].unit
-            cell.setIngredients(name: name, amount: amount, unit: unit)
-        }
+        cell.setIngredients(name: ingredient.ingredientsTitle, amount: ingredient.amount, unit: ingredient.unit)
+        cell.checkBox()
         
         return cell
     }
@@ -65,30 +58,20 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
         dismiss(animated: true, completion: nil)
     }
     
-    func getDishesFromFirestore() {
-        db.collection("dishes").addSnapshotListener() {
-            (querySnapshot, error) in
+    func getIngredientsFromFirestore() {
+        
+        for id in weeklyMenuDishesID {
             
-            if let error = error {
-                print("Error getting document \(error)")
-            } else {
-                //self.dishes.clear()
-                
-                for document in (querySnapshot?.documents)! {
-                    let dish = Dish(snapshot: document)
-                    self.db.collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
-                        (querySnapshot, error) in
-                        
-                        for document in (querySnapshot?.documents)!{
-                            let ing = Ingredient(snapshot: document)
-                            
-                            dish.add(ingredient: ing)
-                        }
-                    }
-                    if self.dishes!.add(dish: dish) == true {
-                        print("Saved")
+            db.collection("dishes").document(id).collection("ingredients").getDocuments() {
+               (snapshot, error) in
+                for document in snapshot!.documents {
+                    let ingredient = Ingredient(snapshot: document)
+                    
+                    if let index = self.ingredients.firstIndex(of: ingredient) {
+                       self.ingredients[index].amount += ingredient.amount
+                        //self.ingredients[index].unit = ingredient.unit
                     } else {
-                        print("Not saved")
+                        self.ingredients.append(ingredient)
                     }
                 }
                 self.shoppingListTableView.reloadData()
@@ -99,7 +82,6 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     func getWeeklyMenuFromFireStore() {
         db.collection("weeklyMenu").getDocuments() {
             (querySnapshot, error) in
-            
             if let error = error {
                 print("Error getting document \(error)")
             } else {
@@ -109,9 +91,9 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
                 
                 for document in snapshot.documents {
                     let weeklyMenu = DishAndDate(snapshot: document)
-                    
                    self.weeklyMenuDishesID.append(weeklyMenu.idFromDish)
                 }
+                self.getIngredientsFromFirestore()
             }
         }
     }

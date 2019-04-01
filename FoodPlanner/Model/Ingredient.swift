@@ -10,11 +10,16 @@ import Foundation
 import UIKit
 import Firebase
 
-class Ingredient {
+class Ingredient : Equatable {
     var ingredientsTitle: String
     var amount: Int = 0
     var unit: String
     var ingredientID: String
+    
+    static func == (lhs: Ingredient, rhs: Ingredient) -> Bool {
+        return lhs.ingredientsTitle == rhs.ingredientsTitle
+        
+    }
     
     init(ingredientsTitle: String, amount: Int, unit: String) {
         self.ingredientsTitle = ingredientsTitle
