@@ -46,7 +46,7 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
-       
+        
         setFontAndColorOnButtonsAndViews()
         selectDaysPickerView.delegate = self
         selectDaysPickerView.dataSource = self
@@ -75,7 +75,7 @@ class SelectRandomDishesViewController: UIViewController,UIPickerViewDataSource,
     }
     
     @IBAction func randomDishesButton(_ sender: UIButton) {
-            deleteWeeklyMenu()
+        deleteWeeklyMenu()
     }
     
     func deleteWeeklyMenu() {

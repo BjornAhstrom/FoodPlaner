@@ -74,16 +74,26 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func deleteRecipeItemButton(_ sender: UIBarButtonItem) {
-        deleteRecipe()
+        deleteRecipeAndDishImage()
         dismiss(animated: true, completion: nil)
     }
     
-    func deleteRecipe() {
+    func deleteRecipeAndDishImage() {
+        // Deleting ingredients
         for id in ingredientsId { db.collection("dishes").document(dishId!).collection("ingredients").document(id).delete()
-            print("!!!!!!! \(id)")
         }
         
+        // Deleting dish
         db.collection("dishes").document(dishId!).delete()
+        
+        // Deleting image
+        imageReference.child(dishId ?? "No dishId").delete { (error) in
+            if let error = error {
+                print("Error deleting image \(error)")
+            } else {
+                print("File deleted successfully")
+            }
+        }
     }
     
     func downloadImageFromStorage() {
@@ -104,7 +114,6 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
             downloadTask.observe(.progress) { (snapshot) in
                 //print(snapshot.progress ?? "No more progress")
             }
-            //            downloadTask.resume()
         }
     }
     
@@ -131,7 +140,6 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
             cell?.ingredientsNameLabel.text = title
             cell?.ingredientsAmountLabel.text = "\(amount) \(unit)"
         }
-        
         return cell!
     }
 }

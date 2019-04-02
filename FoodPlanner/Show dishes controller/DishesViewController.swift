@@ -81,27 +81,6 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
-    //            func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //                tableView.deselectRow(at: indexPath, animated: false)
-    //
-    //            }
-    //
-    //            func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    //                return true
-    //            }
-    //
-    //            func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    //                if editingStyle == .delete {
-    //
-    //
-    //
-    //
-    //                    tableView.beginUpdates()
-    //                    tableView.deleteRows(at: [indexPath], with: .automatic)
-    //                    tableView.endUpdates()
-    //                }
-    //            }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == segueId {
             if let destVC = segue.destination as? CreateADishViewController {

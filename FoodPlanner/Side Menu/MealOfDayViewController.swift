@@ -154,7 +154,7 @@ class MealOfDayViewController: UIViewController {
             
             let date1 = Date()
             let dateFormatter1 = DateFormatter()
-            dateFormatter1.locale = NSLocale(localeIdentifier: "sv_SE") as Locale
+            dateFormatter1.locale = NSLocale(localeIdentifier: "en_US") as Locale //"sv_SE"
             dateFormatter1.dateFormat = "EEEE dd/MM"
             let outputDate = dateFormatter1.string(from: date1)
             

@@ -250,7 +250,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     
     func upploadImageToStorage() {
         guard let image = dishImageView.image else { return }
-        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
+        guard let imageData = image.jpegData(compressionQuality: 0.3) else { return }
         
         let uploadImageRef = imageReference.child(dishImageId)
         

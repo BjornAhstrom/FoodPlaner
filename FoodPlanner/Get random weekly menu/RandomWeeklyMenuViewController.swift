@@ -63,13 +63,12 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
                         let foodAndDate = DishAndDate(dishName: randomDish.dishName, date: newDate, idFromDish: randomDish.dishID)
                         self.foodMenu.append(foodAndDate)
                         self.foodMenu = self.foodMenu.sorted(by: {$1.date.compare($0.date) == .orderedDescending})
-                        print(randomDish.dishName)
                         index += 1
                         self.db.collection("weeklyMenu").addDocument(data: foodAndDate.toAny())
                     }
-                   
+                    
                 }
-               self.weeklyMenuTableView.reloadData()
+                self.weeklyMenuTableView.reloadData()
             }
         }
     }
