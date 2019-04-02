@@ -54,6 +54,20 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
         return cell
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            ingredients.remove(at: indexPath.row)
+            
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.endUpdates()
+        }
+    }
+    
     @IBAction func doneItemButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }

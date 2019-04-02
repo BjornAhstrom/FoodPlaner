@@ -15,6 +15,7 @@ class Ingredient : Equatable {
     var amount: Int = 0
     var unit: String
     var ingredientID: String
+    //Bool
     
     static func == (lhs: Ingredient, rhs: Ingredient) -> Bool {
         return lhs.ingredientsTitle == rhs.ingredientsTitle

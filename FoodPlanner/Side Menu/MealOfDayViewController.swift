@@ -22,6 +22,8 @@ class MealOfDayViewController: UIViewController {
         return Storage.storage().reference().child("dishImages")
     }
     
+   // var toDaysDateToString: String = ""
+   // var dateFromWeeklyMenuDishToString: String = ""
     var mealOfTheDayName: String = ""
     var mealOfTheDayID: String = ""
     var dateOfTheDay: String = ""
@@ -37,6 +39,7 @@ class MealOfDayViewController: UIViewController {
         getWeeklyMenuFromFireStore()
         getDishesIdFromFirestore()
         setRadiusBorderColorAndFontOnLabelsViewsAndButtons()
+        
         
         // Om det inte finns några maträtter att hämta från databasaen, gå direkt till DishesViewController så att användaren kan börja lägga till maträtter.
         if dishesID == [""] {
@@ -61,7 +64,6 @@ class MealOfDayViewController: UIViewController {
         recipeButton.layer.borderColor = Theme.current.colorForBorder.cgColor
         recipeButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 17)
         recipeButton.setTitleColor(Theme.current.colorForBorder, for: .normal)
-        
     }
     
     func downloadImageFromStorage() {
@@ -79,10 +81,9 @@ class MealOfDayViewController: UIViewController {
                     print(error ?? "No error")
                 }
             }
-                        downloadTask.observe(.progress) { (snapshot) in
-                            //print(snapshot.progress ?? "No more progress")
-                        }
-            //            downloadTask.resume()
+            downloadTask.observe(.progress) { (snapshot) in
+                //print(snapshot.progress ?? "No more progress")
+            }
         }
     }
     
@@ -119,52 +120,54 @@ class MealOfDayViewController: UIViewController {
     // Hämtar data från veckomenyn för att sedan jämföra dagens datum med datum i veckomenyn och visa rätt maträtt,
     // om menyn inte har en maträtt då ska selectRandomDishController visas
     func getWeeklyMenuFromFireStore() {
-        db.collection("weeklyMenu").getDocuments() {
+        db.collection("weeklyMenu").order(by: "date", descending: false).getDocuments() {
             (querySnapshot, error) in
             
             if let error = error {
                 print("Error getting document \(error)")
             } else {
                 guard let snapshot = querySnapshot else {
+                    
+                    self.goToSelectRandomDish()
                     return
                 }
+                let todayDate = Date()
+                
+                var mealOfToday : DishAndDate?
+                var outputDate: String = ""
                 
                 for document in snapshot.documents {
                     let weeklyMenu = DishAndDate(snapshot: document)
-                    
-                    let date = Date()
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateStyle = .long
-                    let dateToString = dateFormatter.string(from: date)
-                    
+
                     let dateFromDish = weeklyMenu.date
-                    let dateFormatterDish = DateFormatter()
-                    dateFormatterDish.dateStyle = .long
-                    let dateFromDishToString = dateFormatterDish.string(from: dateFromDish)
                     
-                    if dateToString == dateFromDishToString {
-                        self.mealOfTheDayName = (weeklyMenu.dishName)
-                        self.mealOfTheDayID = (weeklyMenu.idFromDish)
-                        self.dishId = weeklyMenu.idFromDish
-                        self.downloadImageFromStorage()
+                    let date = dateFromDish
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.locale = NSLocale(localeIdentifier: "en_US") as Locale //"sv_SE"
+                    dateFormatter.dateFormat = "EEEE dd/MM"
+                    outputDate = dateFormatter.string(from: date)
+                    
+                    let order = Calendar.current.compare(todayDate, to: dateFromDish, toGranularity: .day)
+                    
+                    if order == .orderedSame {
+                        mealOfToday = weeklyMenu
+                        self.dateLabel.text = outputDate
+                        break
+                    }
+                    if order == .orderedAscending {
+                        print("\(todayDate) < \(dateFromDish) ")
+                        mealOfToday = weeklyMenu
+                        self.dateLabel.text = "Start date: \(outputDate)"
+                        break
                     }
                 }
+                self.mealOfTheDayName = mealOfToday!.dishName
+                self.mealOfTheDayID = mealOfToday!.idFromDish
+                self.dishId = mealOfToday!.idFromDish
+                
+                self.downloadImageFromStorage()
             }
             self.foodNameLabel.text = self.mealOfTheDayName
-            
-            let date1 = Date()
-            let dateFormatter1 = DateFormatter()
-            dateFormatter1.locale = NSLocale(localeIdentifier: "en_US") as Locale //"sv_SE"
-            dateFormatter1.dateFormat = "EEEE dd/MM"
-            let outputDate = dateFormatter1.string(from: date1)
-            
-            self.dateOfTheDay = outputDate
-            
-            self.dateLabel.text = self.dateOfTheDay
-            
-            if self.mealOfTheDayName == "" {
-                self.goToSelectRandomDish()
-            }
         }
     }
     
