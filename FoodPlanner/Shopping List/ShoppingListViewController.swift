@@ -20,48 +20,32 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
+        
         getShoppingItemsFromFirestore()
+        
+        print("!!!!!!!!!!!!!!\(shoppingItems.count)")
         
         setColorOnButtonsAndLabels()
         
         shoppingListTableView.delegate = self
         shoppingListTableView.dataSource = self
-        
-        shoppingListTableView.reloadData()
-        
-        
     }
     
     func getShoppingItemsFromFirestore() {
         db.collection("shoppingItems").addSnapshotListener() {
-                (snapshot, error) in
+            (snapshot, error) in
             
+            self.shoppingItems = []
             if let error = error {
                 print("Error getting document \(error)")
             } else {
-                for document in snapshot!.documents {  //////
+                for document in snapshot!.documents {
                     let item = ShoppingItem(snapshot: document)
-                    
-                    self.db.collection("shoppingItems").document(item.itemId!).collection("ingredient").getDocuments() {  ///////
-                        (snapshot, error) in
-                        
-                        if let error = error {
-                            print("Error getting document \(error)")
-                        } else if let snapshot = snapshot {
-                            
-                            for document in snapshot.documents {
-                                let ing = Ingredient(snapshot: document)
-                                //let item = ShoppingItem(snapshot: document)
-                                let ingredient = Ingredient(ingredientsTitle: ing.ingredientsTitle, amount: ing.amount, unit: ing.unit)
-                                self.ingredients.append(ingredient)
-                                print(ingredient.ingredientsTitle)
-                            }
-                            print("\(self.ingredients.count) !!!!!!!!")
-                        }
-                    }  ////////
-                    
-                }  //////
+                    self.shoppingItems.append(item)
+                    print(item.ingredient.ingredientsTitle)
+                }
             }
+            self.shoppingListTableView.reloadData()
         }
     }
     
@@ -70,7 +54,7 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10//ingredients.count
+        return shoppingItems.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -80,28 +64,44 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "shoppingListCell", for: indexPath) as! ShoppingListTableViewCell
         
-        //let ingredient = ingredients[indexPath.row]
+        let item = shoppingItems[indexPath.row]
         
-        //cell.setIngredients(name: ingredient.ingredientsTitle, amount: ingredient.amount, unit: ingredient.unit)
-        cell.setIngredients(name: "Tomat", amount: 3, unit: "St")
+        cell.setIngredients(name: item.ingredient.ingredientsTitle, amount: item.ingredient.amount, unit: item.ingredient.unit)
+        
+        cell.setCheckBox(item.checkBox)
+        
         cell.checkBox()
         
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//        return true
-//    }
-//
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            ingredients.remove(at: indexPath.row)
-//
-//            tableView.beginUpdates()
-//            tableView.deleteRows(at: [indexPath], with: .automatic)
-//            tableView.endUpdates()
-//        }
-//    }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            shoppingItems.remove(at: indexPath.row)
+            
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.endUpdates()
+        }
+    }
+    
+   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+   
+    
+        let item = shoppingItems[indexPath.row]
+        
+        item.checkBox = !item.checkBox
+        if let id = item.itemId {
+            db.collection("shoppingItems").document(id).setData(item.toAny())
+        }
+    }
+    
+
+    
     
     @IBAction func doneItemButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)

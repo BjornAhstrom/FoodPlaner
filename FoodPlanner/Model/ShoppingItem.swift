@@ -10,25 +10,26 @@ import UIKit
 import Firebase
 
 class ShoppingItem {
-    //var ingredient: Ingredient
+    var ingredient: Ingredient
     var checkBox: Bool = false
     var itemId: String?
     
-    init(checkBox: Bool) {  //ingredient: Ingredient, 
-        //self.ingredient = ingredient
+    init(ingredient: Ingredient,checkBox: Bool) {  //
+        self.ingredient = ingredient
         self.checkBox = checkBox
         itemId = ""
     }
     
     init(snapshot: QueryDocumentSnapshot) {
         let snapshotValue = snapshot.data() as [String : Any]
-        //ingredient = Ingredient(ingredientsTitle: "", amount: 1, unit: "")
+        
+        ingredient = Ingredient(dictinary: snapshotValue["ingredient"] as! [String : Any])
         checkBox = snapshotValue["checkBox"] as! Bool
         itemId = snapshot.documentID
     }
     
     func toAny() -> [String : Any] {
-        return ["checkBox" : checkBox] // "ingredient" : ingredient.toAny(),
+        return ["ingredient" : ingredient.toAny(), "checkBox" : checkBox] //
     }
     
 }

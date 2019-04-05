@@ -24,12 +24,16 @@ class ShoppingListTableViewCell: UITableViewCell {
         }
     }
     
+    func setCheckBox(_ value: Bool) {
+        checkBoxButton.isSelected = value
+    }
+    
     func checkBox() {
         checkBoxButton.layer.borderColor = Theme.current.colorForBorder.cgColor
         checkBoxButton.layer.borderWidth = 2
     }
     @IBAction func checkBoxButton(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
+      //  sender.isSelected = !sender.isSelected
     }
     
 }

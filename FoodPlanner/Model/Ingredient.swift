@@ -28,13 +28,20 @@ class Ingredient : Equatable {
         ingredientID = ""
     }
     
-    init(snapshot: QueryDocumentSnapshot) {
+    convenience init(snapshot: QueryDocumentSnapshot) {
         let snapshotValue = snapshot.data() as [String : Any]
-        ingredientsTitle = snapshotValue["ingredientName"] as! String
-        amount = snapshotValue["amount"] as! Int
-        unit = snapshotValue["unit"] as! String
+        self.init(dictinary: snapshotValue)
         ingredientID = snapshot.documentID
+
     }
+    
+    init(dictinary: [String: Any]) {
+        ingredientsTitle = dictinary["ingredientName"] as! String
+        amount = dictinary["amount"] as! Int
+        unit = dictinary["unit"] as! String
+        ingredientID = ""
+    }
+    
     
     func toAny() -> [String : Any] {
         return ["ingredientName" : ingredientsTitle, "unit" : unit, "amount" : amount]

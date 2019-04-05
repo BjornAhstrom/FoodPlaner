@@ -21,8 +21,8 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     var foodMenu = [DishAndDate]()
     var ingredients: [Ingredient] = []
     var shoppingItems: [ShoppingItem] = []
-    var selectedDateFromUser = Date()
-    var getNumberOfDishesFromUser = Int()
+    var selectedDateFromUser: Date!
+    var getNumberOfDishesFromUser: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +34,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         
         self.weeklyMenuTableView.reloadData()
         
-        getRandomDishesFromFirestore(count: 3)
+        getRandomDishesFromFirestore(count: getNumberOfDishesFromUser)
     }
 
     
@@ -52,8 +52,10 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
                     return
                 }
                 
+                
+                let delta = Int(round( 7.0 / Double(count)))
                 var index = 0
-                while self.dishes.count <= count {
+                while self.dishes.count < count {
                     let randomIndex = Int.random(in: 0..<snapshot.documents.count)
                     let randomDishSnapshot = snapshot.documents[randomIndex]
                     
@@ -69,7 +71,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
                         
                         self.foodMenu = self.foodMenu.sorted(by: {$0.date.compare($1.date) == .orderedAscending}) // Ändra tillbaka till Descending och $1.date.compare($0.date) om det inte funkar
                         
-                        index += 1
+                        index += delta
                         self.db.collection("weeklyMenu").addDocument(data: foodAndDate.toAny())
                         
                         self.db.collection("dishes").document(randomDish.dishID).collection("ingredients").getDocuments() {
@@ -84,10 +86,10 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
                                 for document in snapshot.documents {
                                     let ing = Ingredient(snapshot: document)
                                     
-                                    let items = ShoppingItem(checkBox: false) // ingredient: ing,
+                                    let items = ShoppingItem(ingredient: ing, checkBox: false) // 
                                     self.shoppingItems.append(items)
                                     
-                                    self.db.collection("shoppingItems").addDocument(data: items.toAny()).collection("ingredient").addDocument(data: ing.toAny())
+                                    self.db.collection("shoppingItems").addDocument(data: items.toAny())//.collection("ingredient").addDocument(data: ing.toAny())
                                 }
                             }
                         }
