@@ -14,7 +14,7 @@
 		1E044E912232AA3600889883 /* ShowDishTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E044E902232AA3600889883 /* ShowDishTableViewCell.swift */; };
 		1E04B7A62237D4C600CCB8A8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E04B7A52237D4C500CCB8A8 /* GoogleService-Info.plist */; };
 		1E04B7B2223A8E1000CCB8A8 /* SelectRandomDishesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E04B7B1223A8E1000CCB8A8 /* SelectRandomDishesViewController.swift */; };
-		1E0851F8225386CE0030DB81 /* ShoppingItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0851F7225386CE0030DB81 /* ShoppingItemsViewController.swift */; };
+		1E0851F8225386CE0030DB81 /* ShoppingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0851F7225386CE0030DB81 /* ShoppingItem.swift */; };
 		1E633C2C223691C200C87D6D /* RandomWeeklyMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E633C2B223691C200C87D6D /* RandomWeeklyMenuViewController.swift */; };
 		1E633C2E2236920C00C87D6D /* RandomWeeklyManuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E633C2D2236920C00C87D6D /* RandomWeeklyManuTableViewCell.swift */; };
 		1E7E337922295478000CAA9A /* CheckPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E337822295478000CAA9A /* CheckPassword.swift */; };
@@ -78,7 +78,7 @@
 		1E044E902232AA3600889883 /* ShowDishTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDishTableViewCell.swift; sourceTree = "<group>"; };
 		1E04B7A52237D4C500CCB8A8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1E04B7B1223A8E1000CCB8A8 /* SelectRandomDishesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRandomDishesViewController.swift; sourceTree = "<group>"; };
-		1E0851F7225386CE0030DB81 /* ShoppingItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItemsViewController.swift; sourceTree = "<group>"; };
+		1E0851F7225386CE0030DB81 /* ShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItem.swift; sourceTree = "<group>"; };
 		1E633C2B223691C200C87D6D /* RandomWeeklyMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomWeeklyMenuViewController.swift; sourceTree = "<group>"; };
 		1E633C2D2236920C00C87D6D /* RandomWeeklyManuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomWeeklyManuTableViewCell.swift; sourceTree = "<group>"; };
 		1E7E337822295478000CAA9A /* CheckPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPassword.swift; sourceTree = "<group>"; };
@@ -237,7 +237,7 @@
 				1E7E339F222EE266000CAA9A /* Dishes.swift */,
 				1E7E337822295478000CAA9A /* CheckPassword.swift */,
 				1E04134F223BC0A4007B3406 /* DishAndDate.swift */,
-				1E0851F7225386CE0030DB81 /* ShoppingItemsViewController.swift */,
+				1E0851F7225386CE0030DB81 /* ShoppingItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -630,7 +630,7 @@
 				1EC62910222479D60049BCD6 /* LoginViewController.swift in Sources */,
 				1E7E33B322300451000CAA9A /* DishesViewController.swift in Sources */,
 				1E041353223BCE08007B3406 /* WeeklyFoodMenuViewController.swift in Sources */,
-				1E0851F8225386CE0030DB81 /* ShoppingItemsViewController.swift in Sources */,
+				1E0851F8225386CE0030DB81 /* ShoppingItem.swift in Sources */,
 				1E7E33C022303CCE000CAA9A /* CreateADishViewController.swift in Sources */,
 				1E7E33802229A2D4000CAA9A /* Button.swift in Sources */,
 				1EC629152224FCD40049BCD6 /* Theme.swift in Sources */,

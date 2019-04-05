@@ -52,7 +52,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         
         setFontColorRadiusOnTexFieldLabelAndView()
         tapOnTapHereLabelToAddAPicture()
-        hideKeyboard()
+        self.hideKeyboard()
         showAndHideKeyboardWithNotifications()
         
     }
@@ -131,14 +131,14 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         stepsLabel.isHidden = false
     }
     
-    func hideKeyboard() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
+//    func hideKeyboard() {
+//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+//        view.addGestureRecognizer(tap)
+//    }
+//
+//    @objc func dismissKeyboard() {
+//        view.endEditing(true)
+//    }
     
     func tapOnTapHereLabelToAddAPicture() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
@@ -173,6 +173,11 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         addButton.layer.borderWidth = 2
         addButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 18)
         addButton.setTitleColor(Theme.current.colorForBorder, for: .normal)
+        
+        navigationController?.navigationBar.barTintColor = Theme.current.backgroundColorInDishesView
+        navigationController?.navigationBar.tintColor = Theme.current.navigationbarTextColor
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.navigationbarTextColor]
     }
     
     @IBAction func addIngredientsButton(_ sender: UIButton) {

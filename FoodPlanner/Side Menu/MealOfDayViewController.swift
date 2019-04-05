@@ -52,18 +52,28 @@ class MealOfDayViewController: UIViewController {
     }
     
     func setRadiusBorderColorAndFontOnLabelsViewsAndButtons() {
-        mealOfTheDayLabel.textColor = Theme.current.textColorForLabels
-        dateLabel.textColor = Theme.current.textColorForLabels
-        foodNameLabel.textColor = Theme.current.textColorForLabels
+        mealOfTheDayLabel.textColor = Theme.current.mealOfTheDayLabelTextColor
+        mealOfTheDayLabel.font = Theme.current.mealOfTheDayLabelFont
+        dateLabel.textColor = Theme.current.dateLabelTextColor
+        dateLabel.font = Theme.current.dateLabelFont
+        foodNameLabel.textColor = Theme.current.foodNameLabelTextColor
+        foodNameLabel.font = Theme.current.foodNameLabelFont
         fooodImageView.layer.masksToBounds = true
         fooodImageView.layer.cornerRadius = 12
         fooodImageView.layer.borderWidth = 2
         fooodImageView.layer.borderColor = Theme.current.colorForBorder.cgColor
         recipeButton.layer.cornerRadius = 15
-        recipeButton.layer.borderWidth = 2
-        recipeButton.layer.borderColor = Theme.current.colorForBorder.cgColor
-        recipeButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 17)
-        recipeButton.setTitleColor(Theme.current.colorForBorder, for: .normal)
+        recipeButton.layer.borderWidth = 1
+        recipeButton.layer.borderColor = Theme.current.recipeButtonBorderColor.cgColor
+        recipeButton.titleLabel?.font = Theme.current.recipeButtonFont
+        recipeButton.setTitleColor(Theme.current.recipeButtonTextColor, for: .normal)
+        recipeButton.backgroundColor = Theme.current.recipeButtonBackgroundColor
+        view.backgroundColor = Theme.current.backgroundColorMealOfTheDay
+        
+        navigationController?.navigationBar.barTintColor = Theme.current.backgroundColorInDishesView
+        navigationController?.navigationBar.tintColor = Theme.current.navigationbarTextColor
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.navigationbarTextColor]
     }
     
     func downloadImageFromStorage() {
@@ -127,6 +137,7 @@ class MealOfDayViewController: UIViewController {
                 print("Error getting document \(error)")
             } else {
                 guard let snapshot = querySnapshot else {
+                    
                     
                     self.goToSelectRandomDish()
                     return

@@ -19,6 +19,8 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     var db: Firestore!
     let dishes = Dishes()
     var foodMenu = [DishAndDate]()
+    var ingredients: [Ingredient] = []
+    var shoppingItems: [ShoppingItem] = []
     var selectedDateFromUser = Date()
     var getNumberOfDishesFromUser = Int()
     
@@ -34,6 +36,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         
         getRandomDishesFromFirestore(count: 3)
     }
+
     
     func getRandomDishesFromFirestore(count: Int) {
         let calendar = Calendar.current
@@ -49,7 +52,6 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
                     return
                 }
                 
-                print(self.dishes.count)
                 var index = 0
                 while self.dishes.count <= count {
                     let randomIndex = Int.random(in: 0..<snapshot.documents.count)
@@ -60,21 +62,45 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
                     if self.dishes.add(dish: randomDish) {
                         
                         let newDate = calendar.date(byAdding: .day, value: index, to: date)!
+                        
                         let foodAndDate = DishAndDate(dishName: randomDish.dishName, date: newDate, idFromDish: randomDish.dishID)
+                        
                         self.foodMenu.append(foodAndDate)
-                        self.foodMenu = self.foodMenu.sorted(by: {$1.date.compare($0.date) == .orderedDescending})
+                        
+                        self.foodMenu = self.foodMenu.sorted(by: {$0.date.compare($1.date) == .orderedAscending}) // Ändra tillbaka till Descending och $1.date.compare($0.date) om det inte funkar
+                        
                         index += 1
                         self.db.collection("weeklyMenu").addDocument(data: foodAndDate.toAny())
+                        
+                        self.db.collection("dishes").document(randomDish.dishID).collection("ingredients").getDocuments() {
+                            (querySnapshot, error) in
+                            
+                            if let error = error {
+                                print("Error getting document \(error)")
+                            } else {
+                                guard let snapshot = querySnapshot else {
+                                    return
+                                }
+                                for document in snapshot.documents {
+                                    let ing = Ingredient(snapshot: document)
+                                    
+                                    let items = ShoppingItem(checkBox: false) // ingredient: ing,
+                                    self.shoppingItems.append(items)
+                                    
+                                    self.db.collection("shoppingItems").addDocument(data: items.toAny()).collection("ingredient").addDocument(data: ing.toAny())
+                                }
+                            }
+                        }
+                        
                     }
-                    
                 }
                 self.weeklyMenuTableView.reloadData()
             }
         }
     }
     
+    
     @IBAction func saveWeeklyMenu(_ sender: UIButton) {
-        
     }
     
     func setFontAndColorsOnButton() {
@@ -83,6 +109,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         saveMenuButton.layer.cornerRadius = 15
         saveMenuButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 20)
         saveMenuButton.setTitleColor(Theme.current.textColor, for: .normal)
+        view.backgroundColor = Theme.current.backgroundColorRandomWeeklyMenuController
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

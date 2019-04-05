@@ -9,7 +9,11 @@
 import UIKit
 import Firebase
 
-class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate {
+    func updateSearchResults(for searchController: UISearchController) {
+        self.showDishTableView.reloadData()
+    }
+    
     @IBOutlet weak var showDishTableView: UITableView!
     
     private let segueId = "addDishSegue"
@@ -21,20 +25,58 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setColorFontOnTextAndBackgroundColor()
+        searchBarSetup()
         showDishTableView.tableFooterView = UIView(frame: .zero)
         showDishTableView.delegate = self
         showDishTableView.dataSource = self
-        
+        self.showDishTableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
         getDishesFromFirestore()
+        self.showDishTableView.reloadData()
+    }
+    
+    func setColorFontOnTextAndBackgroundColor() {
+        showDishTableView.backgroundColor = Theme.current.backgroundColorInDishesView
+        view.backgroundColor = Theme.current.backgroundColorInDishesView
+    }
+    
+    func searchBarSetup() {
+        // Skapar sökbaren, sätter bredden till skärmbredden och en höjd på 70
+        
+        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: (UIScreen.main.bounds.width), height: 70))
+        searchBar.barTintColor = Theme.current.colorForBorder
+        let inputText = searchBar.value(forKey: "searchField") as? UITextField
+        inputText?.font = UIFont(name: Theme.current.fontForLabels, size: 17)
+        inputText?.textColor = Theme.current.textColorForLabels
+        searchBar.showsScopeBar = true
+        searchBar.delegate = self
+        
+        
+        self.showDishTableView.tableHeaderView = searchBar
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            getDishesFromFirestore()
+            dishes = Dishes()
+        } else {
+            filterSearcTableView(inputText: searchText)
+        }
+    }
+    func filterSearcTableView(inputText: String) {
+        dishes.dishes = dishes.dishes.filter({ (dish) -> Bool in
+            return dish.dishName.lowercased().contains(inputText.lowercased())
+        })
+        self.showDishTableView.reloadData()
+        
     }
     
     func getDishesFromFirestore() {
-        db.collection("dishes").addSnapshotListener() {
+        db.collection("dishes").order(by: "dishName", descending: false).addSnapshotListener() {
             (querySnapshot, error) in
             
             if let error = error {
@@ -44,7 +86,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 for document in (querySnapshot?.documents)! {
                     let dish = Dish(snapshot: document)
-                     self.db.collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
+                    self.db.collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
                         (querySnapshot, error) in
                         
                         for document in (querySnapshot?.documents)!{
@@ -62,6 +104,10 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dishes.count
     }
@@ -71,13 +117,16 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if let dish = dishes.dish(index: indexPath.row) {
             cell.textLabel?.text = dish.dishName
+            
+            let backgroundView = UIView()
+            
+            cell.textLabel?.textColor = Theme.current.textColorInTableViewInDishesView
+            cell.textLabel?.font = Theme.current.textFontInTableViewInDishesView
+            cell.backgroundColor = Theme.current.backgroundColorInDishesView
+            cell.textLabel?.textAlignment = .center
+            backgroundView.backgroundColor = UIColor.white
+            cell.selectedBackgroundView = backgroundView
         }
-        
-        let backgroundView = UIView()
-        
-        backgroundView.backgroundColor = UIColor.white
-        cell.selectedBackgroundView = backgroundView
-        
         return cell
     }
     

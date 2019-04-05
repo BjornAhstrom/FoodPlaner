@@ -21,6 +21,7 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
+        setColorAndFontonBackgroundAndText()
         
         foodMenuTableView.delegate = self
         foodMenuTableView.dataSource = self
@@ -28,6 +29,9 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
         getWeeklyMenuFromFireStore()        
     }
     
+    func setColorAndFontonBackgroundAndText() {
+        view.backgroundColor = Theme.current.backgrondColorFinishedWeeklyMenuController
+    }
     
     func getWeeklyMenuFromFireStore() {
         db.collection("weeklyMenu").getDocuments() {

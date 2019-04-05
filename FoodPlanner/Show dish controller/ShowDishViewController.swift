@@ -15,6 +15,9 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var cookingDescriptionTextView: UITextView!
     @IBOutlet private var labels: [UILabel]!
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet var itemButtons: [UIBarButtonItem]!
+    
     
     private var savedDishCell: String = "savedDishCell"
     private var DishesViewController: String = "DishesViewController"
@@ -38,7 +41,10 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         cookingDescriptionTextView.text = dish?.cooking
         
         downloadImageFromStorage()
-        
+        getDishIdFromFirestore()
+    }
+    
+    func getDishIdFromFirestore() {
         db.collection("dishes").document(dishId!).collection("ingredients").getDocuments() {
             (snapshot, error) in
             if let error = error {
@@ -54,19 +60,35 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     
     func setRadiusBorderColorAndFontOnLabelsViewsAndButtons() {
         for label in labels {
-            label.textColor = Theme.current.textColor
-            label.font = UIFont(name: Theme.current.fontForLabels, size: 22)
+            label.textColor = Theme.current.labelTextColorInShowDishController
+            label.font = Theme.current.labelFontInShowDishController
         }
+        
+        dishName.font = Theme.current.dishNameLabelFontInShowDishController
+        dishName.textColor = Theme.current.labelTextColorInShowDishController
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 10
         imageView.layer.borderColor = Theme.current.colorForBorder.cgColor
         imageView.layer.borderWidth = 2
         cookingDescriptionTextView.layer.masksToBounds = true
-        cookingDescriptionTextView.layer.borderColor = Theme.current.colorForBorder.cgColor
-        cookingDescriptionTextView.layer.borderWidth = 2
+        cookingDescriptionTextView.layer.borderColor = Theme.current.borderColorInTableViewAndTextViewInShowDishController.cgColor
+        cookingDescriptionTextView.layer.borderWidth = 1
         cookingDescriptionTextView.layer.cornerRadius = 12
-        cookingDescriptionTextView.textColor = Theme.current.textColorForLabels
-        cookingDescriptionTextView.font = UIFont(name: Theme.current.fontForLabels, size: 18)
+        cookingDescriptionTextView.font = Theme.current.textFontInTextViewInShowDishController
+        cookingDescriptionTextView.textColor = Theme.current.textColorInTableViewAndTextViewInShowDishController
+        cookingDescriptionTextView.backgroundColor = Theme.current.backgroundColorInTableViewAndTextViewInShowDishController
+        tableView.backgroundColor = Theme.current.backgroundColorInTableViewAndTextViewInShowDishController
+        tableView.layer.masksToBounds = true
+        tableView.layer.borderColor = Theme.current.borderColorInTableViewAndTextViewInShowDishController.cgColor
+        tableView.layer.borderWidth = 1
+        tableView.layer.cornerRadius = 12
+        
+        navigationBar.barTintColor = Theme.current.backgroundColorShowDishController
+        view.backgroundColor = Theme.current.backgroundColorShowDishController
+        
+        for itemBtn in itemButtons {
+            itemBtn.tintColor = Theme.current.navigationbarTextColor
+        }
     }
     
     @IBAction func doneItemButton(_ sender: UIBarButtonItem) {
@@ -137,8 +159,13 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
             let amount = ingredients[indexPath.row].amount
             let unit = ingredients[indexPath.row].unit
             
+            cell?.backgroundColor = Theme.current.backgroundColorInTableViewAndTextViewInShowDishController
+            cell?.ingredientsNameLabel.font = Theme.current.textFontInTableViewInShowDishController
+            cell?.ingredientsNameLabel.textColor = Theme.current.textColorInTableViewAndTextViewInShowDishController
             cell?.ingredientsNameLabel.text = title
             cell?.ingredientsAmountLabel.text = "\(amount) \(unit)"
+            cell?.ingredientsAmountLabel.font = Theme.current.textFontInTableViewInShowDishController
+            cell?.ingredientsAmountLabel.textColor = Theme.current.textColorInTableViewAndTextViewInShowDishController
         }
         return cell!
     }

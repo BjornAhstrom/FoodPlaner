@@ -10,9 +10,11 @@ import UIKit
 
 class SideMenuViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var addButtonTextField: UITextField!
+    @IBOutlet weak var addCategoriesTextField: UITextField!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var shoppingListButton: UIButton!
+    @IBOutlet var sidebarButtons: [UIButton]!
+    @IBOutlet weak var settingsButton: UIButton!
     
     private let addAndShowDish = "addAndShowDish"
     private let weeklyMenu = "weeklyMenu"
@@ -32,49 +34,59 @@ class SideMenuViewController: UIViewController {
     }
     
     func setColorFontAndSizeOnButtonsAndLebels() {
-        addButton.layer.cornerRadius = 10
-        addButton.layer.backgroundColor = Theme.current.colorForButtons.cgColor
-        addButton.setTitleColor(Theme.current.textColorForButtons, for: .normal)
-        addButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 17)
+        for btn in sidebarButtons {
+            btn.layer.cornerRadius = 20
+            btn.layer.borderColor = Theme.current.sideBarButtonBorderColor.cgColor
+            btn.layer.borderWidth = 1
+            btn.backgroundColor = Theme.current.colorForButtons
+            btn.setTitleColor(Theme.current.sideBarButtonTextColor, for: .normal)
+            btn.titleLabel?.font = Theme.current.sideBarButtonFont
+        }
         
-        shoppingListButton.layer.cornerRadius = 20
-        shoppingListButton.layer.backgroundColor = Theme.current.colorForButtons.cgColor
-        shoppingListButton.setTitleColor(Theme.current.textColorForButtons, for: .normal)
-        shoppingListButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 20)
         view.layer.borderColor = UIColor.lightGray.cgColor
         view.layer.borderWidth = 2
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 4
+        view.layer.backgroundColor = Theme.current.backgroundColorSideMenu.cgColor
+        tableView.backgroundColor = Theme.current.backgroundColorSideMenu
+        
+        addCategoriesTextField.layer.masksToBounds = true
+        addCategoriesTextField.layer.cornerRadius = 12
+        addCategoriesTextField.layer.borderWidth = 1
+        addCategoriesTextField.layer.borderColor = Theme.current.sideBarButtonBorderColor.cgColor
+        
+        settingsButton.setTitleColor(Theme.current.sideBarButtonTextColor, for: .normal)
     }
     
     @IBAction func addANewButton(_ sender: UIButton) {
         addANewButtonAndSetLabelText()
+        view.endEditing(true)
     }
     
     func addANewButtonAndSetLabelText() {
-        if addButtonTextField.text! == "" {
+        if addCategoriesTextField.text! == "" {
             alertMessage(titel: "Your button most have a name")
         } else {
-            buttons.append(Button(buttonTitle: addButtonTextField.text!))
+            buttons.append(Button(buttonTitle: addCategoriesTextField.text!))
             
             let indexPath = IndexPath(row: buttons.count-1, section: 0)
             tableView.beginUpdates()
             tableView.insertRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
             
-            addButtonTextField.text! = ""
-            view.endEditing(true)  // Dismiss the keyboard
+            addCategoriesTextField.text! = ""
+            //self.hideKeyboard()
         }
     }
     
     func createFourPredefinedButtons() -> [Button] {
         var tempButtons: [Button] = []
         
-        let button1 = Button(buttonTitle: "Mina recept")
-        let button2 = Button(buttonTitle: "Mina recept från bilder")
-        let button3 = Button(buttonTitle: "Mina webb recept")
-        let button4 = Button(buttonTitle: "Veckans meny")
-        let button5 = Button(buttonTitle: "Skapa en ny matsedel")
+        let button1 = Button(buttonTitle: "My recipes")
+        let button2 = Button(buttonTitle: "My recipes from pictures")
+        let button3 = Button(buttonTitle: "My webrecipes")
+        let button4 = Button(buttonTitle: "Weekly menu")
+        let button5 = Button(buttonTitle: "Create new food menu")
         
         tempButtons.append(button1)
         tempButtons.append(button2)
@@ -108,7 +120,7 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.white
         cell.selectedBackgroundView = backgroundView
-        
+        cell.backgroundColor = Theme.current.backgroundColorSideMenu
         return cell
     }
     
