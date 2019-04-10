@@ -21,6 +21,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private var cellId: String = "dishesCellId"
     
     var db: Firestore!
+    var auth: Auth!
     var dishes = Dishes()
     
     override func viewDidLoad() {
@@ -35,6 +36,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
+        auth = Auth.auth()
         getDishesFromFirestore()
         self.showDishTableView.reloadData()
     }
@@ -46,7 +48,6 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func searchBarSetup() {
         // Skapar sökbaren, sätter bredden till skärmbredden och en höjd på 70
-        
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: (UIScreen.main.bounds.width), height: 70))
         searchBar.barTintColor = Theme.current.colorForBorder
         let inputText = searchBar.value(forKey: "searchField") as? UITextField
@@ -76,7 +77,10 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getDishesFromFirestore() {
-        db.collection("dishes").order(by: "dishName", descending: false).addSnapshotListener() {
+        let uid = auth.currentUser
+        guard let userId = uid?.uid else { return }
+        
+        db.collection("users").document(userId).collection("dishes").order(by: "dishName", descending: false).addSnapshotListener() {
             (querySnapshot, error) in
             
             if let error = error {
@@ -86,7 +90,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 for document in (querySnapshot?.documents)! {
                     let dish = Dish(snapshot: document)
-                    self.db.collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
+                    self.db.collection("users").document(userId).collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
                         (querySnapshot, error) in
                         
                         for document in (querySnapshot?.documents)!{

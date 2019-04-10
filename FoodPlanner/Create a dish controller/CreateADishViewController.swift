@@ -25,6 +25,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     @IBOutlet weak var stepsLabel: UILabel!
     
     var db: Firestore!
+    var auth: Auth!
     
     var imageReference: StorageReference {
         return Storage.storage().reference().child("dishImages")
@@ -40,6 +41,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
+        auth = Auth.auth()
         
         imagePickerController.delegate = self
         ingredientTextField.delegate = self
@@ -103,12 +105,6 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             UITextView.animate(withDuration: 0.2, animations: { self.cookingDescriptionTextView.frame.origin.y = 620 })
             showLabelsAndButtons()
         }
-    }
-    
-    @objc func keyboardWillShow() {
-    }
-    
-    @objc func keyboardWillHide() {
     }
     
     func hideLabelsAndButtons() {
@@ -218,6 +214,9 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     }
     
     func saveDish() {
+        let uid = auth.currentUser
+        guard let userId = uid?.uid else { return }
+        
         var dishPicture = UIImage()
         var cookingDescription = UITextView()
         
@@ -241,7 +240,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
                 print("Error getting saved")
             }
             
-            let docRef = db.collection("dishes").addDocument(data: saveDish.toAny())
+            let docRef = db.collection("users").document(userId).collection("dishes").addDocument(data: saveDish.toAny())
             dishImageId = docRef.documentID
             
             for ingredient in ingredients {
@@ -313,12 +312,6 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
-    }
-    
-    func alertMessage(titel: String) {
-        let alert = UIAlertController(title: titel, message: "Pleace try again", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        self.present(alert, animated: true, completion:  nil)
     }
     
 }

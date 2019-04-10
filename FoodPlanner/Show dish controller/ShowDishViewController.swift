@@ -23,6 +23,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     private var DishesViewController: String = "DishesViewController"
     
     let db = Firestore.firestore()
+    var auth: Auth!
     var dish: Dish?
     var dishId: String?
     var ingredientsId: [String] = []
@@ -33,6 +34,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        auth = Auth.auth()
         tableView.delegate = self
         tableView.dataSource = self
         setRadiusBorderColorAndFontOnLabelsViewsAndButtons()
@@ -42,20 +44,6 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         
         downloadImageFromStorage()
         getDishIdFromFirestore()
-    }
-    
-    func getDishIdFromFirestore() {
-        db.collection("dishes").document(dishId!).collection("ingredients").getDocuments() {
-            (snapshot, error) in
-            if let error = error {
-                print("Error getting document \(error)")
-            } else {
-                for ingId in snapshot!.documents {
-                    let ingredientID = Ingredient(snapshot: ingId)
-                    self.ingredientsId.append(ingredientID.ingredientID)
-                }
-            }
-        }
     }
     
     func setRadiusBorderColorAndFontOnLabelsViewsAndButtons() {
@@ -100,20 +88,19 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         dismiss(animated: true, completion: nil)
     }
     
-    func deleteRecipeAndDishImage() {
-        // Deleting ingredients
-        for id in ingredientsId { db.collection("dishes").document(dishId!).collection("ingredients").document(id).delete()
-        }
+    func getDishIdFromFirestore() {
+        let uid = auth.currentUser
+        guard let userId = uid?.uid else { return }
         
-        // Deleting dish
-        db.collection("dishes").document(dishId!).delete()
-        
-        // Deleting image
-        imageReference.child(dishId ?? "No dishId").delete { (error) in
+        db.collection("users").document(userId).collection("dishes").document(dishId!).collection("ingredients").getDocuments() {
+            (snapshot, error) in
             if let error = error {
-                print("Error deleting image \(error)")
+                print("Error getting document \(error)")
             } else {
-                print("File deleted successfully")
+                for ingId in snapshot!.documents {
+                    let ingredientID = Ingredient(snapshot: ingId)
+                    self.ingredientsId.append(ingredientID.ingredientID)
+                }
             }
         }
     }
@@ -135,6 +122,27 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
             }
             downloadTask.observe(.progress) { (snapshot) in
                 //print(snapshot.progress ?? "No more progress")
+            }
+        }
+    }
+    
+    func deleteRecipeAndDishImage() {
+        let uid = auth.currentUser
+        guard let userId = uid?.uid else { return }
+        
+        // Deleting ingredients
+        for id in ingredientsId { db.collection("users").document(userId).collection("dishes").document(dishId!).collection("ingredients").document(id).delete()
+        }
+        
+        // Deleting dish
+        db.collection("users").document(userId).collection("dishes").document(dishId!).delete()
+        
+        // Deleting image
+        imageReference.child(dishId ?? "No dishId").delete { (error) in
+            if let error = error {
+                print("Error deleting image \(error)")
+            } else {
+                print("File deleted successfully")
             }
         }
     }

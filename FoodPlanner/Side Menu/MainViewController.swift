@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class MainViewController: UIViewController {
     @IBOutlet weak var mainView: UIView!
@@ -20,6 +21,8 @@ class MainViewController: UIViewController {
     private let weeklyMenuSegue = "weeklyMenuSegue"
     private let shoppingListSegue = "shoppingListSegue"
     private let showSideMenu = "showSideMenu"
+    private var settingsSegueId = "settingsSegue"
+    private var goToSettingsId = "settingsController"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +33,8 @@ class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(goToWeeklyMenu), name: NSNotification.Name( weeklyMenu), object: nil)
         
          NotificationCenter.default.addObserver(self, selector: #selector(goToShoppingList), name: NSNotification.Name(shoppingList), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(goToSettings), name: NSNotification.Name(goToSettingsId), object: nil)
         
     }
     
@@ -47,6 +52,10 @@ class MainViewController: UIViewController {
     
     @objc func goToShoppingList() {
         performSegue(withIdentifier: shoppingListSegue, sender: nil)
+    }
+    
+    @objc func goToSettings() {
+        performSegue(withIdentifier: settingsSegueId, sender: nil)
     }
     
     @IBAction func moreTappedButton() {

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 
 class ContainerViewController: UIViewController {
     @IBOutlet weak var sideMenuTrailingConstraint: NSLayoutConstraint!
@@ -33,5 +32,13 @@ class ContainerViewController: UIViewController {
     
     func animations() {
         UIView.animate(withDuration: 0.5, delay: 0.1, options: .curveEaseInOut, animations: {self.view.layoutIfNeeded()})
+    }
+}
+
+extension UIViewController {
+    func alertMessage(titel: String) {
+        let alert = UIAlertController(title: titel, message: "Pleace try again", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true, completion:  nil)
     }
 }

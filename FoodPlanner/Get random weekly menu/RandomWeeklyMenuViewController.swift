@@ -17,6 +17,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     private let showWeeklyFoodMenuSegue = "showWeeklyFoodMenuSegue"
     
     var db: Firestore!
+    var auth: Auth!
     let dishes = Dishes()
     var foodMenu = [DishAndDate]()
     var ingredients: [Ingredient] = []
@@ -27,6 +28,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
+        auth = Auth.auth()
         
         setFontAndColorsOnButton()
         weeklyMenuTableView.dataSource = self
@@ -39,10 +41,13 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
 
     
     func getRandomDishesFromFirestore(count: Int) {
+        let uid = auth.currentUser
+        guard let userId = uid?.uid else { return }
+        
         let calendar = Calendar.current
         let date = calendar.startOfDay(for: selectedDateFromUser)
         
-        db.collection("dishes").getDocuments() {
+        db.collection("users").document(userId).collection("dishes").getDocuments() {
             (querySnapshot, error) in
             
             if let error = error {
@@ -72,9 +77,9 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
                         self.foodMenu = self.foodMenu.sorted(by: {$0.date.compare($1.date) == .orderedAscending}) // Ändra tillbaka till Descending och $1.date.compare($0.date) om det inte funkar
                         
                         index += delta
-                        self.db.collection("weeklyMenu").addDocument(data: foodAndDate.toAny())
+                        self.db.collection("users").document(userId).collection("weeklyMenu").addDocument(data: foodAndDate.toAny())
                         
-                        self.db.collection("dishes").document(randomDish.dishID).collection("ingredients").getDocuments() {
+                        self.db.collection("users").document(userId).collection("dishes").document(randomDish.dishID).collection("ingredients").getDocuments() {
                             (querySnapshot, error) in
                             
                             if let error = error {
@@ -89,7 +94,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
                                     let items = ShoppingItem(ingredient: ing, checkBox: false) // 
                                     self.shoppingItems.append(items)
                                     
-                                    self.db.collection("shoppingItems").addDocument(data: items.toAny())//.collection("ingredient").addDocument(data: ing.toAny())
+                                    self.db.collection("users").document(userId).collection("shoppingItems").addDocument(data: items.toAny())
                                 }
                             }
                         }

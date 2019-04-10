@@ -14,35 +14,36 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var doneItemButton: UIBarButtonItem!
     
     var db: Firestore!
+    var auth: Auth!
     var shoppingItems: [ShoppingItem] = []
-    var ingredients = [Ingredient]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
+        auth = Auth.auth()
+        setColorOnButtonsAndLabels()
         
         getShoppingItemsFromFirestore()
-        
-        print("!!!!!!!!!!!!!!\(shoppingItems.count)")
-        
-        setColorOnButtonsAndLabels()
         
         shoppingListTableView.delegate = self
         shoppingListTableView.dataSource = self
     }
     
     func getShoppingItemsFromFirestore() {
-        db.collection("shoppingItems").addSnapshotListener() {
+        let uid = auth.currentUser
+        guard let userId = uid?.uid else { return }
+        
+        db.collection("users").document(userId).collection("shoppingItems").addSnapshotListener() {
             (snapshot, error) in
             
             self.shoppingItems = []
             if let error = error {
+                self.alertMessage(titel: "Couldn't find any shopping items")
                 print("Error getting document \(error)")
             } else {
                 for document in snapshot!.documents {
                     let item = ShoppingItem(snapshot: document)
                     self.shoppingItems.append(item)
-                    print(item.ingredient.ingredientsTitle)
                 }
             }
             self.shoppingListTableView.reloadData()
@@ -67,9 +68,7 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
         let item = shoppingItems[indexPath.row]
         
         cell.setIngredients(name: item.ingredient.ingredientsTitle, amount: item.ingredient.amount, unit: item.ingredient.unit)
-        
         cell.setCheckBox(item.checkBox)
-        
         cell.checkBox()
         
         return cell
@@ -80,8 +79,16 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let uid = auth.currentUser
+        guard let userId = uid?.uid else { return }
+        
         if editingStyle == .delete {
+            let itemId = shoppingItems[indexPath.row]
             shoppingItems.remove(at: indexPath.row)
+            
+            if let id = itemId.itemId {
+                db.collection("users").document(userId).collection("shoppingItems").document(id).delete()
+            }
             
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -89,21 +96,21 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-   
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let uid = auth.currentUser
+        guard let userId = uid?.uid else { return }
+        
         let item = shoppingItems[indexPath.row]
         
         item.checkBox = !item.checkBox
         if let id = item.itemId {
-            db.collection("shoppingItems").document(id).setData(item.toAny())
+            db.collection("users").document(userId).collection("shoppingItems").document(id).setData(item.toAny())
         }
     }
-    
-
-    
     
     @IBAction func doneItemButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
+    
+    
 }

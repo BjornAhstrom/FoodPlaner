@@ -24,18 +24,20 @@ class MealOfDayViewController: UIViewController {
     
    // var toDaysDateToString: String = ""
    // var dateFromWeeklyMenuDishToString: String = ""
-    var mealOfTheDayName: String = ""
-    var mealOfTheDayID: String = ""
-    var dateOfTheDay: String = ""
+    var mealOfTheDayName: String?
+    var mealOfTheDayID: String?
+    var dateOfTheDay: String?
     
     var dishesID: [String] = []
     
     var db: Firestore!
+    var auth: Auth!
     var dishes = Dishes()
     var dishId: String?
     
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
+        auth = Auth.auth()
         getWeeklyMenuFromFireStore()
         getDishesIdFromFirestore()
         setRadiusBorderColorAndFontOnLabelsViewsAndButtons()
@@ -83,6 +85,7 @@ class MealOfDayViewController: UIViewController {
             let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
                 if let error = error {
                     print("Error downloading \(error)")
+        
                 } else {
                     if let data = data {
                         let image = UIImage(data: data)
@@ -99,7 +102,10 @@ class MealOfDayViewController: UIViewController {
     
     // Hämtar maträtter och sparar deras id i en array (dishesID).
     func getDishesIdFromFirestore() {
-        db.collection("dishes").getDocuments() {
+        let uid = auth.currentUser
+        guard let userId = uid?.uid else { return }
+        
+        db.collection("users").document(userId).collection("dishes").getDocuments() {
             (querySnapshot, error) in
             
             if let error = error {
@@ -111,7 +117,7 @@ class MealOfDayViewController: UIViewController {
                 for document in snapshot.documents {
                     let dish = Dish(snapshot: document)
                     self.dishesID.append(dish.dishID)
-                    self.db.collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
+                    self.db.collection("users").document(userId).collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
                         (querySnapshot, error) in
                         
                         for document in (querySnapshot?.documents)!{
@@ -130,7 +136,10 @@ class MealOfDayViewController: UIViewController {
     // Hämtar data från veckomenyn för att sedan jämföra dagens datum med datum i veckomenyn och visa rätt maträtt,
     // om menyn inte har en maträtt då ska selectRandomDishController visas
     func getWeeklyMenuFromFireStore() {
-        db.collection("weeklyMenu").order(by: "date", descending: false).getDocuments() {
+        let uid = auth.currentUser
+        guard let userId = uid?.uid else { return }
+        
+        db.collection("users").document(userId).collection("weeklyMenu").order(by: "date", descending: false).getDocuments() {
             (querySnapshot, error) in
             
             if let error = error {
@@ -172,9 +181,9 @@ class MealOfDayViewController: UIViewController {
                         break
                     }
                 }
-                self.mealOfTheDayName = mealOfToday!.dishName
-                self.mealOfTheDayID = mealOfToday!.idFromDish
-                self.dishId = mealOfToday!.idFromDish
+                self.mealOfTheDayName = mealOfToday?.dishName ?? "No meal"
+                self.mealOfTheDayID = mealOfToday?.idFromDish ?? ""
+                self.dishId = mealOfToday?.idFromDish ?? ""
                 
                 self.downloadImageFromStorage()
             }
@@ -213,11 +222,5 @@ class MealOfDayViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    func alertMessage(titel: String) {
-        let alert = UIAlertController(title: titel, message: "Pleace try again", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        self.present(alert, animated: true, completion:  nil)
     }
 }

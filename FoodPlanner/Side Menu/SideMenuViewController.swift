@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import Firebase
 
 class SideMenuViewController: UIViewController {
+    @IBOutlet weak var accountNameLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addCategoriesTextField: UITextField!
     @IBOutlet weak var addButton: UIButton!
@@ -21,11 +23,38 @@ class SideMenuViewController: UIViewController {
     private let selectRandomDishMenu = "selectRandomDishMenu"
     private let showSideMenu = "showSideMenu"
     private let shoppingList = "shoppingList"
+    private var goToSettingsId = "settingsController"
     
+    var db: Firestore!
+    var auth: Auth!
     var buttons: [Button] = []
+    var users: [User] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        db = Firestore.firestore()
+        auth = Auth.auth()
+        
+        guard let userId = auth.currentUser?.uid else { return }
+        
+        db.collection("users").getDocuments() {
+            (snapshot, error) in
+            
+            if let error = error {
+                print("Error getting document \(error)")
+            } else {
+                for document in snapshot!.documents {
+                    let name = User(snapshot: document)
+                    self.users.append(name)
+                }
+            }
+            for name in self.users {
+                if name.userId == userId {
+                    self.accountNameLabel.text = name.name
+                }
+            }
+        }
+        
         setColorFontAndSizeOnButtonsAndLebels()
         buttons = createFourPredefinedButtons()
         tableView.tableFooterView = UIView(frame: .zero)
@@ -63,9 +92,15 @@ class SideMenuViewController: UIViewController {
         view.endEditing(true)
     }
     
+    @IBAction func settingsButton(_ sender: UIButton) {
+        NotificationCenter.default.post(name: NSNotification.Name(goToSettingsId), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(showSideMenu), object: nil)
+    }
+    
+    
     func addANewButtonAndSetLabelText() {
         if addCategoriesTextField.text! == "" {
-            alertMessage(titel: "Your button most have a name")
+            self.alertMessage(titel: "Your button most have a name")
         } else {
             buttons.append(Button(buttonTitle: addCategoriesTextField.text!))
             
@@ -153,11 +188,5 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.deleteRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
         }
-    }
-    
-    func alertMessage(titel: String) {
-        let alert = UIAlertController(title: titel, message: "Pleace try again", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        self.present(alert, animated: true, completion:  nil)
     }
 }

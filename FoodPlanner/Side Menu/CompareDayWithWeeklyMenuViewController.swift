@@ -27,7 +27,7 @@ class CompareDayWithWeeklyMenuViewController: UIViewController {
     }
     
     func getWeeklyMenuFromFireStore() {
-        db.collection("weeklyMenu").getDocuments() {
+        db.collection("users").document().collection("weeklyMenu").getDocuments() {
             (querySnapshot, error) in
             
             if let error = error {

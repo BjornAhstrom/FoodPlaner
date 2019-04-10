@@ -17,10 +17,12 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
     var foodMenu = [DishAndDate]()
     var dishes = Dishes()
     var db: Firestore!
+    var auth: Auth!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
+        auth = Auth.auth()
         setColorAndFontonBackgroundAndText()
         
         foodMenuTableView.delegate = self
@@ -34,7 +36,10 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func getWeeklyMenuFromFireStore() {
-        db.collection("weeklyMenu").getDocuments() {
+        let uid = auth.currentUser
+        guard let userId = uid?.uid else { return }
+        
+        db.collection("users").document(userId).collection("weeklyMenu").getDocuments() {
             (querySnapshot, error) in
             
             if let error = error {

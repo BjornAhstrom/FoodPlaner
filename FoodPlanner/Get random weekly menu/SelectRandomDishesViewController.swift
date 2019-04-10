@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 import Firebase
 
 class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
@@ -22,6 +23,7 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
     private var numberOfDishes = (1...7).map{$0}
     
     var db: Firestore!
+    var auth: Auth!
     var selectedDate = Date()
     var foodMenu: DishAndDate?
     var getNumberOfDishesFromUser = Int()
@@ -29,12 +31,13 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
     var shoppingItemsId: [String] = []
     
     override func viewWillAppear(_ animated: Bool) {
-       getWeeklyMenuAndShoppingItemsFromFirestore()
+        getWeeklyMenuAndShoppingItemsFromFirestore()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
+        auth = Auth.auth()
         
         setFontAndColorOnButtonsAndViews()
         selectDaysPickerView.delegate = self
@@ -49,6 +52,18 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
         selectDaysPickerView.selectRow(defaultPickerRow, inComponent: 0, animated: false)
         pickerView(selectDaysPickerView, didSelectRow: defaultPickerRow, inComponent: 0)
     }
+    
+    //    override func becomeFirstResponder() -> Bool {
+    //         print("!!!!!!!!!becomeFirstResponder")
+    //        return true
+    //    }
+    //
+    //    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+    //        print("!!!!!!!!!")
+    //        if (motion == .motionShake) {
+    //            print("!!!!!!!Shake")
+    //        }
+    //    }
     
     func setFontAndColorOnButtonsAndViews() {
         randomDishesButton.layer.borderColor = Theme.current.colorForBorder.cgColor
@@ -69,7 +84,10 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
     }
     
     func getWeeklyMenuAndShoppingItemsFromFirestore() {
-        db.collection("weeklyMenu").getDocuments() {
+        let uid = auth.currentUser
+        guard let userId = uid?.uid else { return }
+        
+        db.collection("users").document(userId).collection("weeklyMenu").getDocuments() {
             (snapshot, error) in
             
             if let error = error {
@@ -83,7 +101,7 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
             }
         }
         
-        db.collection("shoppingItems").getDocuments() {
+        db.collection("users").document(userId).collection("shoppingItems").getDocuments() {
             (snapshot, error) in
             
             if let error = error {
@@ -99,22 +117,21 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
     }
     
     func deleteWeeklyMenu() {
+        let uid = auth.currentUser
+        guard let userId = uid?.uid else { return }
+        
         for id in weeklyMenuId {
             
-            db.collection("weeklyMenu").document(id).delete() { error in
+            db.collection("users").document(userId).collection("weeklyMenu").document(id).delete() { error in
                 if let error = error {
                     print("Error removing document: \(error)")
-                } else {
-                    print("Document successfully removed!")
                 }
             }
         }
         for itemId in shoppingItemsId {
-            db.collection("shoppingItems").document(itemId).delete() { error in
+            db.collection("users").document(userId).collection("shoppingItems").document(itemId).delete() { error in
                 if let error = error {
                     print("Error removing document: \(error)")
-                } else {
-                    print("Document successfully removed!")
                 }
             }
         }
@@ -177,15 +194,6 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
             let destination = segue.destination as? RandomWeeklyMenuViewController
             destination?.selectedDateFromUser = selectedDate
             destination?.getNumberOfDishesFromUser = getNumberOfDishesFromUser
-        }
-    }
-    
-    func goToRandomWeeklyMenu() {
-        if let randomWeeklyMenuController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "randomWeeklyMenu") as? RandomWeeklyMenuViewController {
-            
-            let modalStyle: UIModalTransitionStyle = UIModalTransitionStyle.crossDissolve
-            randomWeeklyMenuController.modalTransitionStyle = modalStyle
-            self.present(randomWeeklyMenuController, animated: true, completion: nil)
         }
     }
 }

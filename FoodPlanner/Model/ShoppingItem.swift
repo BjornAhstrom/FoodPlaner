@@ -29,7 +29,7 @@ class ShoppingItem {
     }
     
     func toAny() -> [String : Any] {
-        return ["ingredient" : ingredient.toAny(), "checkBox" : checkBox] //
+        return ["ingredient" : ingredient.toAny(), "checkBox" : checkBox]
     }
     
 }
