@@ -64,6 +64,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnM-2a-if2">
+                                <rect key="frame" x="80" y="117" width="214" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ebR-fc-AoQ">
                                 <rect key="frame" x="115" y="396" width="137" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -86,26 +93,44 @@
                                     <action selector="switchButton:" destination="ecd-Q0-peb" eventType="valueChanged" id="vMp-z6-dE1"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnM-2a-if2">
-                                <rect key="frame" x="80" y="117" width="214" height="34"/>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wie-W1-IJh">
+                                <rect key="frame" x="55" y="501" width="252" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LFe-Du-5gB">
+                                <rect key="frame" x="115" y="539" width="137" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Send invite"/>
+                                <connections>
+                                    <action selector="sendInviteButton:" destination="ecd-Q0-peb" eventType="touchUpInside" id="xjC-9s-wOU"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Account name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JSj-rY-9wu">
+                                <rect key="frame" x="55" y="463" width="252" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="sKU-eP-Cyw"/>
                     </view>
                     <connections>
+                        <outlet property="accountNameTextField" destination="JSj-rY-9wu" id="5Ev-wq-fQ1"/>
                         <outlet property="changeColorThemeLabel" destination="ecm-Co-TiJ" id="XoF-6v-wNc"/>
+                        <outlet property="inviteEmailTextField" destination="wie-W1-IJh" id="yxD-YA-ZCL"/>
+                        <outlet property="sendInviteButton" destination="LFe-Du-5gB" id="s0b-fw-e9X"/>
                         <outlet property="settingLabel" destination="gnM-2a-if2" id="yrA-IT-tPP"/>
                         <outlet property="signOutButton" destination="ebR-fc-AoQ" id="smh-uT-XHo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dFi-2o-7bN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1954" y="1453"/>
+            <point key="canvasLocation" x="1962" y="1474"/>
         </scene>
         <!--Side Menu View Controller-->
         <scene sceneID="iJv-Xl-ytz">
@@ -115,6 +140,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="270" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Add new catergories" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FCc-9H-uVS">
+                                <rect key="frame" x="22" y="133" width="143" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aov-Ca-3tH">
                                 <rect key="frame" x="16" y="671" width="238" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -166,21 +198,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Add new catergories" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FCc-9H-uVS">
-                                <rect key="frame" x="16" y="133" width="154" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a4f-3m-A2c">
-                                <rect key="frame" x="190" y="133" width="64" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Add"/>
-                                <connections>
-                                    <action selector="addANewButton:" destination="m3x-gF-bJD" eventType="touchUpInside" id="gWf-Nv-sMr"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Account name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23x-Mm-FZW">
                                 <rect key="frame" x="16" y="67" width="238" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -188,6 +205,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a4f-3m-A2c">
+                                <rect key="frame" x="183" y="133" width="64" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Add"/>
+                                <connections>
+                                    <action selector="addANewButton:" destination="m3x-gF-bJD" eventType="touchUpInside" id="gWf-Nv-sMr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="wi5-ZG-E1s"/>
@@ -267,10 +292,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hfQ-dc-N7O">
-                                <rect key="frame" x="47" y="222" width="280" height="280"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Food name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qpq-BR-0kp">
                                 <rect key="frame" x="16" y="180" width="343" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -293,6 +314,10 @@
                                     <segue destination="Ywb-fi-2ds" kind="show" identifier="goToDish" id="kMZ-Nz-yCl"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Lasagne" translatesAutoresizingMaskIntoConstraints="NO" id="hfQ-dc-N7O">
+                                <rect key="frame" x="51" y="248" width="272" height="230"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="koZ-dW-q97"/>
@@ -683,7 +708,7 @@
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="1000" translatesAutoresizingMaskIntoConstraints="NO" id="g2N-LE-cPe">
                                 <rect key="frame" x="190" y="375" width="94" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" name="OldPink"/>
+                                <color key="tintColor" name="OldRose"/>
                                 <connections>
                                     <action selector="stepper:" destination="6wP-mp-1ny" eventType="valueChanged" id="iRv-Qn-VJV"/>
                                 </connections>
@@ -800,6 +825,7 @@
                         <outlet property="ingredientsTableView" destination="PLq-Ye-y9A" id="BPm-6q-HLI"/>
                         <outlet property="nameOnDishTextField" destination="qqk-5B-Kkb" id="5pU-kl-Gbj"/>
                         <outlet property="nameOnIngredientsLAbel" destination="PLq-Ye-y9A" id="Wy4-hz-bVk"/>
+                        <outlet property="navigationBar" destination="ovc-iS-REz" id="rBp-1h-zIW"/>
                         <outlet property="stepper" destination="g2N-LE-cPe" id="NPQ-Xa-Vwg"/>
                         <outlet property="stepperTextField" destination="0hF-ud-nwr" id="as4-ni-FoY"/>
                         <outlet property="stepsLabel" destination="P1F-Sz-5R6" id="wt4-UL-b2r"/>
@@ -818,7 +844,7 @@
             <objects>
                 <viewController id="Ywb-fi-2ds" customClass="ShowDishViewController" customModule="FoodPlanner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qyk-Bz-uue">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MOZ-6n-Msp">
@@ -1013,7 +1039,7 @@
             </objects>
             <point key="canvasLocation" x="-150" y="24"/>
         </scene>
-        <!--Create Account View Controller-->
+        <!--Title-->
         <scene sceneID="1sH-2a-IXc">
             <objects>
                 <viewController storyboardIdentifier="createAccountId" id="s9D-77-cS8" customClass="CreateAccountViewController" customModule="FoodPlanner" customModuleProvider="target" sceneMemberID="viewController">
@@ -1021,66 +1047,73 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q5Q-Fh-0my">
-                                <rect key="frame" x="40" y="616" width="295" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Continue"/>
-                                <connections>
-                                    <action selector="continueButton:" destination="s9D-77-cS8" eventType="touchUpInside" id="n01-EB-o0F"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Create an Account" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nIa-EC-IcU">
-                                <rect key="frame" x="16" y="101" width="343" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Email" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="aRf-gO-uHs">
-                                <rect key="frame" x="48" y="317" width="279" height="48"/>
+                                <rect key="frame" x="48" y="265" width="279" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="email"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="G3e-4C-vlz">
-                                <rect key="frame" x="48" y="381" width="279" height="48"/>
+                                <rect key="frame" x="48" y="329" width="279" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="new-password"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="NTG-Qj-Tnv">
-                                <rect key="frame" x="48" y="445" width="279" height="48"/>
+                                <rect key="frame" x="48" y="393" width="279" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="By creating an account you agre to our Terms of Service an Privacy Policy" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6aA-5O-YIk">
-                                <rect key="frame" x="79" y="518" width="216" height="41"/>
+                                <rect key="frame" x="79" y="466" width="216" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Full name" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="8HO-4F-0Ge">
-                                <rect key="frame" x="48" y="253" width="279" height="48"/>
+                                <rect key="frame" x="48" y="201" width="279" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" textContentType="name"/>
                             </textField>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="azw-bv-7Ou">
+                                <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Create An Account" id="o88-ss-XjI">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="e9Q-3c-yP1">
+                                            <connections>
+                                                <segue destination="mM9-Zx-ROm" kind="presentation" modalTransitionStyle="crossDissolve" id="3uG-vj-OKI"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q5Q-Fh-0my">
+                                <rect key="frame" x="40" y="602" width="295" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Continue"/>
+                                <connections>
+                                    <action selector="continueButton:" destination="s9D-77-cS8" eventType="touchUpInside" id="n01-EB-o0F"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Uf3-Jt-pDq"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="3Mh-Ch-MUA"/>
                     <connections>
                         <outlet property="confirmPasswordTextField" destination="NTG-Qj-Tnv" id="vHk-mo-RMu"/>
                         <outlet property="continueButton" destination="q5Q-Fh-0my" id="Qjg-rB-PEO"/>
-                        <outlet property="createAccountLabel" destination="nIa-EC-IcU" id="2Jb-KZ-JbX"/>
                         <outlet property="emailTextField" destination="aRf-gO-uHs" id="gIx-Mt-7Yg"/>
                         <outlet property="nameTextField" destination="8HO-4F-0Ge" id="wZP-YH-uwa"/>
+                        <outlet property="navigationBar" destination="azw-bv-7Ou" id="SwN-5G-lhC"/>
                         <outlet property="passwordTextField" destination="G3e-4C-vlz" id="WGQ-QI-xsi"/>
                         <outlet property="termsLabel" destination="6aA-5O-YIk" id="ii2-f9-zXO"/>
                     </connections>
@@ -1091,13 +1124,14 @@
         </scene>
     </scenes>
     <resources>
-        <namedColor name="OldPink">
-            <color red="0.94117647058823528" green="0.81176470588235294" blue="0.83529411764705885" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <image name="Lasagne" width="640" height="417"/>
+        <namedColor name="OldRose">
+            <color red="0.75294117647058822" green="0.50196078431372548" blue="0.50588235294117645" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Ilz-Ok-01U"/>
-        <segue reference="Cqj-nd-FV5"/>
+        <segue reference="kMZ-Nz-yCl"/>
         <segue reference="CIx-cv-D9C"/>
     </inferredMetricsTieBreakers>
 </document>

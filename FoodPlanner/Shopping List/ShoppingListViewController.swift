@@ -38,7 +38,7 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
             
             self.shoppingItems = []
             if let error = error {
-                self.alertMessage(titel: "Couldn't find any shopping items")
+                self.alertMessage(titel: "Error", message: error.localizedDescription)
                 print("Error getting document \(error)")
             } else {
                 for document in snapshot!.documents {

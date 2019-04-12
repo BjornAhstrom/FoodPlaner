@@ -18,12 +18,6 @@ class MealOfDayViewController: UIViewController {
     
     private let goToDish = "goToDish"
     
-    var imageReference: StorageReference {
-        return Storage.storage().reference().child("dishImages")
-    }
-    
-   // var toDaysDateToString: String = ""
-   // var dateFromWeeklyMenuDishToString: String = ""
     var mealOfTheDayName: String?
     var mealOfTheDayID: String?
     var dateOfTheDay: String?
@@ -34,6 +28,11 @@ class MealOfDayViewController: UIViewController {
     var auth: Auth!
     var dishes = Dishes()
     var dishId: String?
+    var userID: String = ""
+    
+    var imageReference: StorageReference {
+        return Storage.storage().reference().child("usersImages").child(userID)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
@@ -78,38 +77,17 @@ class MealOfDayViewController: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.navigationbarTextColor]
     }
     
-    func downloadImageFromStorage() {
-        let downloadImageRef = imageReference.child(dishId ?? "No dishId")
-        
-        if downloadImageRef.name == dishId {
-            let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
-                if let error = error {
-                    print("Error downloading \(error)")
-        
-                } else {
-                    if let data = data {
-                        let image = UIImage(data: data)
-                        self.fooodImageView.image = image
-                    }
-                    print(error ?? "No error")
-                }
-            }
-            downloadTask.observe(.progress) { (snapshot) in
-                //print(snapshot.progress ?? "No more progress")
-            }
-        }
-    }
-    
     // Hämtar maträtter och sparar deras id i en array (dishesID).
     func getDishesIdFromFirestore() {
         let uid = auth.currentUser
         guard let userId = uid?.uid else { return }
+        userID = userId
         
         db.collection("users").document(userId).collection("dishes").getDocuments() {
             (querySnapshot, error) in
             
             if let error = error {
-                print("Error getting document \(error)")
+                self.alertMessage(titel: "Error", message: error.localizedDescription)
             } else {
                 guard let snapshot = querySnapshot else {
                     return
@@ -138,6 +116,7 @@ class MealOfDayViewController: UIViewController {
     func getWeeklyMenuFromFireStore() {
         let uid = auth.currentUser
         guard let userId = uid?.uid else { return }
+        userID = userId
         
         db.collection("users").document(userId).collection("weeklyMenu").order(by: "date", descending: false).getDocuments() {
             (querySnapshot, error) in
@@ -188,6 +167,28 @@ class MealOfDayViewController: UIViewController {
                 self.downloadImageFromStorage()
             }
             self.foodNameLabel.text = self.mealOfTheDayName
+        }
+    }
+    
+    func downloadImageFromStorage() {
+        let downloadImageRef = imageReference.child(dishId ?? "No dishId")
+        print("!!!!!!!!\(dishId ?? "")")
+        if downloadImageRef.name == dishId {
+            let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
+                if let error = error {
+                    //self.alertMessage(titel: "Error", message: error.localizedDescription)
+                    print("Error getting image \(error)")
+                } else {
+                    if let data = data {
+                        let image = UIImage(data: data)
+                        self.fooodImageView.image = image
+                    }
+                    print(error ?? "No error")
+                }
+            }
+            downloadTask.observe(.progress) { (snapshot) in
+                //print(snapshot.progress ?? "No more progress")
+            }
         }
     }
     

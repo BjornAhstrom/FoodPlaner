@@ -35,26 +35,6 @@ class SideMenuViewController: UIViewController {
         db = Firestore.firestore()
         auth = Auth.auth()
         
-        guard let userId = auth.currentUser?.uid else { return }
-        
-        db.collection("users").getDocuments() {
-            (snapshot, error) in
-            
-            if let error = error {
-                print("Error getting document \(error)")
-            } else {
-                for document in snapshot!.documents {
-                    let name = User(snapshot: document)
-                    self.users.append(name)
-                }
-            }
-            for name in self.users {
-                if name.userId == userId {
-                    self.accountNameLabel.text = name.name
-                }
-            }
-        }
-        
         setColorFontAndSizeOnButtonsAndLebels()
         buttons = createFourPredefinedButtons()
         tableView.tableFooterView = UIView(frame: .zero)
@@ -62,7 +42,32 @@ class SideMenuViewController: UIViewController {
         tableView.dataSource = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+                guard let userId = auth.currentUser?.uid else { return }
+        
+                db.collection("users").getDocuments() {
+                    (snapshot, error) in
+        
+                    if let error = error {
+                        print("Error getting document \(error)")
+                    } else {
+                        for document in snapshot!.documents {
+                            let name = User(snapshot: document)
+                            self.users.append(name)
+                        }
+                    }
+                    for name in self.users {
+                        if name.userId == userId {
+                            self.accountNameLabel.text = name.name
+                        }
+                    }
+                }
+    }
+    
     func setColorFontAndSizeOnButtonsAndLebels() {
+        accountNameLabel.textColor = Theme.current.accountNameTextColorLabelSideMenu
+        accountNameLabel.font = Theme.current.accountNameFontLabelSideMenu
+        
         for btn in sidebarButtons {
             btn.layer.cornerRadius = 20
             btn.layer.borderColor = Theme.current.sideBarButtonBorderColor.cgColor
@@ -100,7 +105,7 @@ class SideMenuViewController: UIViewController {
     
     func addANewButtonAndSetLabelText() {
         if addCategoriesTextField.text! == "" {
-            self.alertMessage(titel: "Your button most have a name")
+            self.alertMessage(titel: "Your button most have a name", message: "Pleace try again")
         } else {
             buttons.append(Button(buttonTitle: addCategoriesTextField.text!))
             

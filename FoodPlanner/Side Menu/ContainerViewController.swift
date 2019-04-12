@@ -36,8 +36,8 @@ class ContainerViewController: UIViewController {
 }
 
 extension UIViewController {
-    func alertMessage(titel: String) {
-        let alert = UIAlertController(title: titel, message: "Pleace try again", preferredStyle: .alert)
+    func alertMessage(titel: String, message: String) {
+        let alert = UIAlertController(title: titel, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         self.present(alert, animated: true, completion:  nil)
     }

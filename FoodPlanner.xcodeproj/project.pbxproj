@@ -17,6 +17,8 @@
 		1E0851F8225386CE0030DB81 /* ShoppingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0851F7225386CE0030DB81 /* ShoppingItem.swift */; };
 		1E47D4ED225C9710005E0FFF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47D4EC225C9710005E0FFF /* User.swift */; };
 		1E47D4EF225CB17E005E0FFF /* FamilyAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47D4EE225CB17E005E0FFF /* FamilyAccount.swift */; };
+		1E47D4F1225F78A7005E0FFF /* Invite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47D4F0225F78A7005E0FFF /* Invite.swift */; };
+		1E47D4F322605625005E0FFF /* Owner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47D4F222605625005E0FFF /* Owner.swift */; };
 		1E633C2C223691C200C87D6D /* RandomWeeklyMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E633C2B223691C200C87D6D /* RandomWeeklyMenuViewController.swift */; };
 		1E633C2E2236920C00C87D6D /* RandomWeeklyManuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E633C2D2236920C00C87D6D /* RandomWeeklyManuTableViewCell.swift */; };
 		1E768BDC225B5C9B006EC7A1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E768BDB225B5C9B006EC7A1 /* SettingsViewController.swift */; };
@@ -85,6 +87,8 @@
 		1E0851F7225386CE0030DB81 /* ShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItem.swift; sourceTree = "<group>"; };
 		1E47D4EC225C9710005E0FFF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1E47D4EE225CB17E005E0FFF /* FamilyAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyAccount.swift; sourceTree = "<group>"; };
+		1E47D4F0225F78A7005E0FFF /* Invite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invite.swift; sourceTree = "<group>"; };
+		1E47D4F222605625005E0FFF /* Owner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Owner.swift; sourceTree = "<group>"; };
 		1E633C2B223691C200C87D6D /* RandomWeeklyMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomWeeklyMenuViewController.swift; sourceTree = "<group>"; };
 		1E633C2D2236920C00C87D6D /* RandomWeeklyManuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomWeeklyManuTableViewCell.swift; sourceTree = "<group>"; };
 		1E768BDB225B5C9B006EC7A1 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -280,6 +284,8 @@
 				1E0851F7225386CE0030DB81 /* ShoppingItem.swift */,
 				1E47D4EC225C9710005E0FFF /* User.swift */,
 				1E47D4EE225CB17E005E0FFF /* FamilyAccount.swift */,
+				1E47D4F0225F78A7005E0FFF /* Invite.swift */,
+				1E47D4F222605625005E0FFF /* Owner.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -658,6 +664,7 @@
 				1E041355223BCEB0007B3406 /* FinishedWeeklyMenuTableViewCell.swift in Sources */,
 				1E7E339A222C4B70000CAA9A /* MealOfDayViewController.swift in Sources */,
 				1EC629172224FCEE0049BCD6 /* ThemeProtocol.swift in Sources */,
+				1E47D4F1225F78A7005E0FFF /* Invite.swift in Sources */,
 				1EC62910222479D60049BCD6 /* signInViewController.swift in Sources */,
 				1E7E33B322300451000CAA9A /* DishesViewController.swift in Sources */,
 				1E041353223BCE08007B3406 /* WeeklyFoodMenuViewController.swift in Sources */,
@@ -672,6 +679,7 @@
 				1E47D4ED225C9710005E0FFF /* User.swift in Sources */,
 				1E7E3382222C20F5000CAA9A /* Dish.swift in Sources */,
 				1E044E912232AA3600889883 /* ShowDishTableViewCell.swift in Sources */,
+				1E47D4F322605625005E0FFF /* Owner.swift in Sources */,
 				1EF42E3F2226F62900CE28AD /* ContainerViewController.swift in Sources */,
 				1EC629192224FD2D0049BCD6 /* PinkTheme.swift in Sources */,
 				1E7E337922295478000CAA9A /* CheckPassword.swift in Sources */,

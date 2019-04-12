@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 
 class CreateADishViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextViewDelegate, UITextFieldDelegate {
+    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var nameOnDishTextField: UITextField!
     @IBOutlet weak var dishImageView: UIImageView!
     @IBOutlet weak var nameOnIngredientsLAbel: UITableView!
@@ -27,9 +28,6 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     var db: Firestore!
     var auth: Auth!
     
-    var imageReference: StorageReference {
-        return Storage.storage().reference().child("dishImages")
-    }
     let imagePickerController: UIImagePickerController = UIImagePickerController()
     
     var ingredientsAmount: Int = 0
@@ -37,12 +35,17 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     var dishes : Dishes?
     var ingredients: [Ingredient] = []
     var dishImageId: String = ""
+    var userID: String = ""
+    
+    var imageReference: StorageReference {
+        return Storage.storage().reference().child("usersImages").child(userID)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setFontColorRadiusOnTexFieldLabelAndView()
         db = Firestore.firestore()
         auth = Auth.auth()
-        
         imagePickerController.delegate = self
         ingredientTextField.delegate = self
         stepperTextField.delegate = self
@@ -52,11 +55,9 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         cookingDescriptionTextView.delegate = self
         cookingDescriptionTextView.layer.zPosition = 1
         
-        setFontColorRadiusOnTexFieldLabelAndView()
         tapOnTapHereLabelToAddAPicture()
         self.hideKeyboard()
         showAndHideKeyboardWithNotifications()
-        
     }
     
     func showAndHideKeyboardWithNotifications() {
@@ -127,15 +128,6 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         stepsLabel.isHidden = false
     }
     
-//    func hideKeyboard() {
-//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-//        view.addGestureRecognizer(tap)
-//    }
-//
-//    @objc func dismissKeyboard() {
-//        view.endEditing(true)
-//    }
-    
     func tapOnTapHereLabelToAddAPicture() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         dishImageView.isUserInteractionEnabled = true
@@ -153,27 +145,32 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     }
     
     func setFontColorRadiusOnTexFieldLabelAndView() {
+        view.backgroundColor = Theme.current.backgroundColorAddDishController
         tableView.layer.borderWidth = 1
-        tableView.layer.borderColor = Theme.current.colorForBorder.cgColor
+        tableView.layer.borderColor = Theme.current.borderColorForIngredentsTableViewAddDishController.cgColor
         tableView.layer.cornerRadius = 10
-        cookingDescriptionTextView.layer.borderColor = Theme.current.colorForBorder.cgColor
+        cookingDescriptionTextView.layer.borderColor = Theme.current.borderColorForCookingDescriptionAddDishController.cgColor
         cookingDescriptionTextView.layer.borderWidth = 1
         cookingDescriptionTextView.layer.cornerRadius = 10
         dishImageView.layer.masksToBounds = true
         dishImageView.layer.borderWidth = 1
-        dishImageView.layer.borderColor = Theme.current.colorForBorder.cgColor
+        dishImageView.layer.borderColor = Theme.current.borderColorForImageViewAddDishController.cgColor
         dishImageView.layer.cornerRadius = 10
-        stepper.layer.borderColor = Theme.current.colorForBorder.cgColor
-        addButton.layer.borderColor = Theme.current.colorForBorder.cgColor
-        addButton.layer.cornerRadius = 15
-        addButton.layer.borderWidth = 2
-        addButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 18)
-        addButton.setTitleColor(Theme.current.colorForBorder, for: .normal)
         
-        navigationController?.navigationBar.barTintColor = Theme.current.backgroundColorInDishesView
-        navigationController?.navigationBar.tintColor = Theme.current.navigationbarTextColor
-        navigationController?.navigationBar.barStyle = .default
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.navigationbarTextColor]
+        stepper.layer.masksToBounds = true
+        stepper.layer.cornerRadius = 5
+        stepper.layer.borderWidth = 1
+        stepper.layer.borderColor = Theme.current.borderAndTextColorForStepperAndAddButton.cgColor
+        
+        addButton.layer.borderColor = Theme.current.borderAndTextColorForStepperAndAddButton.cgColor
+        addButton.layer.cornerRadius = 15
+        addButton.layer.borderWidth = 1
+        addButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 18)
+        addButton.setTitleColor(Theme.current.borderAndTextColorForStepperAndAddButton, for: .normal)
+        
+        navigationBar.barTintColor = Theme.current.backgroundColorAddDishController
+        navigationBar.tintColor = Theme.current.navigationbarTextColor
+        navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.navigationbarTextColor]
     }
     
     @IBAction func addIngredientsButton(_ sender: UIButton) {
@@ -187,7 +184,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         // Check so that the text strings are not empty. If they are empty then an alert
         // comes upp that tells the user to fill in all fields.
         if ingredientTextField.text == "" || unitTextField.text == "" || stepperTextField.text == "" {
-            alertMessage(titel: "You must fill in all fields")
+            alertMessage(titel: "You must fill in all fields", message: "Please try again")
         } else {
             let saveIngredient = Ingredient(ingredientsTitle: ingredientTextField.text!, amount: ingredientsAmount, unit: unitTextField.text!)
             ingredients.append(saveIngredient)
@@ -216,7 +213,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     func saveDish() {
         let uid = auth.currentUser
         guard let userId = uid?.uid else { return }
-        
+        userID = userId
         var dishPicture = UIImage()
         var cookingDescription = UITextView()
         
@@ -229,7 +226,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         }
         
         if nameOnDishTextField.text == "" {
-            alertMessage(titel: "Your dish must have a name!")
+            alertMessage(titel: "Your dish must have a name!", message: "Please try again")
         } else {
             
             let saveDish = Dish(dishTitle: nameOnDishTextField.text!, dishImageId: dishPicture, ingredientsAndAmount: ingredients, cooking: cookingDescription.text)
@@ -284,7 +281,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
                 self.imagePickerController.sourceType = .camera
                 self.present(self.imagePickerController, animated: true, completion: nil)
             } else {
-                self.alertMessage(titel: "Your device have no camera")
+                self.alertMessage(titel: "Your device have no camera", message: "Please use your photo library")
                 print("Camera not available")
             }
         }))

@@ -21,6 +21,8 @@ protocol ThemeProtocol {
     var navigationbarTextColor: UIColor { get }
     
     // Sidebar menu
+    var accountNameFontLabelSideMenu: UIFont { get }
+    var accountNameTextColorLabelSideMenu: UIColor { get }
     var backgroundColorSideMenu: UIColor { get }
     var sideBarButtonColor: UIColor { get }
     var sideBarButtonFont: UIFont { get }
@@ -48,13 +50,21 @@ protocol ThemeProtocol {
     // Show dish view controller
     var backgroundColorShowDishController: UIColor { get }
     var backgroundColorInTableViewAndTextViewInShowDishController: UIColor { get }
-    var borderColorInTableViewAndTextViewInShowDishController: UIColor { get }
+    var borderColorInTableViewAndTextViewAndImageViewInShowDishController: UIColor { get }
     var textColorInTableViewAndTextViewInShowDishController: UIColor { get }
     var textFontInTextViewInShowDishController: UIFont { get }
     var textFontInTableViewInShowDishController: UIFont { get }
     var labelFontInShowDishController: UIFont { get }
     var labelTextColorInShowDishController: UIColor { get }
     var dishNameLabelFontInShowDishController: UIFont { get }
+    
+    // Add dish view controller
+    var backgroundColorAddDishController: UIColor { get }
+    var borderColorForImageViewAddDishController: UIColor { get }
+    var borderColorForIngredentsTableViewAddDishController: UIColor { get }
+    var borderColorForCookingDescriptionAddDishController: UIColor { get }
+    var borderAndTextColorForStepperAndAddButton: UIColor { get }
+    
     
     // Select random dish view controller
     var backgroundColorSelectRandomDishController: UIColor { get }

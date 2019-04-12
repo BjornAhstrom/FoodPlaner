@@ -24,9 +24,10 @@ class PinkTheme: ThemeProtocol {
     var textColor: UIColor = UIColor(named: "OldRose")!
     
     
-    // Side menu buttons
+    // Side menu buttons and namelabel
+    var accountNameFontLabelSideMenu: UIFont = UIFont(name: "SnellRoundhand-Black", size: 25)!
+    var accountNameTextColorLabelSideMenu: UIColor = UIColor(named: "OldRose")!
     var backgroundColorSideMenu: UIColor = UIColor(named: "customGray")!
-    
     var sideBarButtonColor: UIColor = UIColor(named: "OldPink")!
     var sideBarButtonFont: UIFont = UIFont(name: "Futura", size: 18)!
     var sideBarButtonTextColor: UIColor = UIColor(named: "OldRose")!
@@ -64,13 +65,21 @@ class PinkTheme: ThemeProtocol {
     // Show dish view controller
     var backgroundColorShowDishController: UIColor = UIColor(named: "OldPink")!
     var backgroundColorInTableViewAndTextViewInShowDishController: UIColor = UIColor(named: "OldPink")!
-    var borderColorInTableViewAndTextViewInShowDishController: UIColor = UIColor(named: "OldRose")!
+    var borderColorInTableViewAndTextViewAndImageViewInShowDishController: UIColor = UIColor(named: "OldRose")!
     var textColorInTableViewAndTextViewInShowDishController: UIColor = UIColor(named: "OldRose")!
     var textFontInTextViewInShowDishController: UIFont = UIFont(name: "TimesNewRomanPS-BoldItalicMT", size: 18)!
     var textFontInTableViewInShowDishController: UIFont = UIFont(name: "Futura", size: 16)!
     var labelFontInShowDishController: UIFont = UIFont(name: "TimesNewRomanPS-BoldItalicMT", size: 22)!
     var labelTextColorInShowDishController: UIColor = UIColor(named: "OldRose")!
     var dishNameLabelFontInShowDishController: UIFont = UIFont(name: "TimesNewRomanPS-BoldItalicMT", size: 24)!
+    
+    
+    // Add dish view controller
+    var backgroundColorAddDishController: UIColor = UIColor(named: "OldPink")!
+    var borderColorForImageViewAddDishController: UIColor = UIColor(named: "OldRose")!
+    var borderColorForIngredentsTableViewAddDishController: UIColor = UIColor(named: "OldRose")!
+    var borderColorForCookingDescriptionAddDishController: UIColor = UIColor(named: "OldRose")!
+    var borderAndTextColorForStepperAndAddButton: UIColor = UIColor(named: "OldRose")!
     
     
     // Select random dish view controller

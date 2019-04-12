@@ -11,20 +11,23 @@ import Firebase
 
 class User {
     var name: String
+    var email: String
     var userId: String
     
-    init(name: String) {
+    init(name: String, email: String) {
         self.name = name
+        self.email = email
         userId = ""
     }
     
     init(snapshot: QueryDocumentSnapshot) {
         let snapshotValue = snapshot.data() as [String : Any]
         name = snapshotValue["name"] as! String
+        email = snapshotValue["email"] as! String
         userId = snapshot.documentID
     }
     
     func toAny() -> [String : Any] {
-        return ["name": name]
+        return ["name": name, "email": email]
     }
 }

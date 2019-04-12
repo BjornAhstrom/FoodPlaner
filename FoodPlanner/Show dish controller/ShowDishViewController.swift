@@ -27,9 +27,10 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     var dish: Dish?
     var dishId: String?
     var ingredientsId: [String] = []
+    var userID: String = ""
     
     var imageReference: StorageReference {
-        return Storage.storage().reference().child("dishImages")
+        return Storage.storage().reference().child("usersImages").child(userID)
     }
     
     override func viewDidLoad() {
@@ -41,9 +42,8 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         dishName.text = dish?.dishName
         
         cookingDescriptionTextView.text = dish?.cooking
-        
-        downloadImageFromStorage()
         getDishIdFromFirestore()
+        downloadImageFromStorage()
     }
     
     func setRadiusBorderColorAndFontOnLabelsViewsAndButtons() {
@@ -56,10 +56,10 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         dishName.textColor = Theme.current.labelTextColorInShowDishController
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 10
-        imageView.layer.borderColor = Theme.current.colorForBorder.cgColor
-        imageView.layer.borderWidth = 2
+        imageView.layer.borderColor = Theme.current.borderColorInTableViewAndTextViewAndImageViewInShowDishController.cgColor
+        imageView.layer.borderWidth = 1
         cookingDescriptionTextView.layer.masksToBounds = true
-        cookingDescriptionTextView.layer.borderColor = Theme.current.borderColorInTableViewAndTextViewInShowDishController.cgColor
+        cookingDescriptionTextView.layer.borderColor = Theme.current.borderColorInTableViewAndTextViewAndImageViewInShowDishController.cgColor
         cookingDescriptionTextView.layer.borderWidth = 1
         cookingDescriptionTextView.layer.cornerRadius = 12
         cookingDescriptionTextView.font = Theme.current.textFontInTextViewInShowDishController
@@ -67,7 +67,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         cookingDescriptionTextView.backgroundColor = Theme.current.backgroundColorInTableViewAndTextViewInShowDishController
         tableView.backgroundColor = Theme.current.backgroundColorInTableViewAndTextViewInShowDishController
         tableView.layer.masksToBounds = true
-        tableView.layer.borderColor = Theme.current.borderColorInTableViewAndTextViewInShowDishController.cgColor
+        tableView.layer.borderColor = Theme.current.borderColorInTableViewAndTextViewAndImageViewInShowDishController.cgColor
         tableView.layer.borderWidth = 1
         tableView.layer.cornerRadius = 12
         
@@ -91,11 +91,12 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     func getDishIdFromFirestore() {
         let uid = auth.currentUser
         guard let userId = uid?.uid else { return }
+        userID = userId
         
         db.collection("users").document(userId).collection("dishes").document(dishId!).collection("ingredients").getDocuments() {
             (snapshot, error) in
             if let error = error {
-                print("Error getting document \(error)")
+                self.alertMessage(titel: "Error", message: error.localizedDescription)
             } else {
                 for ingId in snapshot!.documents {
                     let ingredientID = Ingredient(snapshot: ingId)
@@ -111,7 +112,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         if downloadImageRef.name == dishId {
             let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
                 if let error = error {
-                    print("Error downloading \(error)")
+                    print("No image \(error)")
                 } else {
                     if let data = data {
                         let image = UIImage(data: data)
@@ -140,7 +141,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         // Deleting image
         imageReference.child(dishId ?? "No dishId").delete { (error) in
             if let error = error {
-                print("Error deleting image \(error)")
+                self.alertMessage(titel: "Error", message: error.localizedDescription)
             } else {
                 print("File deleted successfully")
             }

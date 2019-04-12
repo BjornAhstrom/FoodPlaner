@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class signInViewController: UIViewController {
+class signInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var createNewAccountButton: UIButton!
@@ -29,6 +29,8 @@ class signInViewController: UIViewController {
         auth = Auth.auth()
         setColorFontAndSizeOnLabelsAndButtons()
         self.hideKeyboard()
+        showAndHideKeyBoardWithNotifications()
+        whenEnterIsTappedOnKeyboardMoveToNextTextField()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -36,7 +38,27 @@ class signInViewController: UIViewController {
         if Auth.auth().currentUser != nil {
             goToContainerViewController()
         }
+    }
+    
+    func whenEnterIsTappedOnKeyboardMoveToNextTextField() {
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
         
+        emailTextField.tag = 0
+        passwordTextField.tag = 1
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let nextTextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextTextField.becomeFirstResponder()
+        } else {
+            signIn()
+        }
+        return false
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     func setColorFontAndSizeOnLabelsAndButtons() {
@@ -63,19 +85,34 @@ class signInViewController: UIViewController {
         }
     }
     
+    func showAndHideKeyBoardWithNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidBeginEditing), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidEndEditing), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func textFieldDidBeginEditing() {
+        UITextView.animate(withDuration: 0.2, animations: { self.view.frame.origin.y = -170})
+    }
+    
+    @objc func textFieldDidEndEditing() {
+        UITextView.animate(withDuration: 0.2, animations: { self.view.frame.origin.y = 0})
+    }
+    
     func signIn() {
-        if let email = emailTextField.text,
-            let password = passwordTextField.text {
-            
-            auth.signIn(withEmail: email, password: password) { user, error in
-                if let user = self.auth.currentUser {
-                    
-                    print(user.email ?? "No users")
-                    self.goToContainerViewController()
-                } else {
-                    print("Error to sign in \(error!.localizedDescription)")
-                }
+        guard let email = emailTextField.text,
+        let password = passwordTextField.text else {
+            self.alertMessage(titel: "Missing info", message: "Please fill out all required fields")
+            return
+        }
+
+        auth.signIn(withEmail: email, password: password) { (user, error) in
+            guard error == nil else {
+                self.alertMessage(titel: "Error", message: error!.localizedDescription)
+                return
             }
+            self.goToContainerViewController()
+
         }
     }
     

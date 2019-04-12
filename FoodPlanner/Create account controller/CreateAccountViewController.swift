@@ -11,11 +11,11 @@ import Firebase
 import FirebaseAuth
 
 class CreateAccountViewController: UIViewController, UITextFieldDelegate {
+    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet private weak var nameTextField: UITextField!
     @IBOutlet private weak var emailTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet private weak var confirmPasswordTextField: UITextField!
-    @IBOutlet private weak var createAccountLabel: UILabel!
     @IBOutlet private weak var termsLabel: UILabel!
     @IBOutlet private weak var continueButton: UIButton!
     
@@ -30,9 +30,25 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         auth = Auth.auth()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         setColorFontAndSizeOnLabelsAndButtons()
         whenEnterIsTappedOnKeyboardMoveToNextTextField()
+        showAndHideKeyBoardWithNotifications()
+    }
+    
+    func setColorFontAndSizeOnLabelsAndButtons() {
+        navigationBar.barTintColor = UIColor.white
+        navigationBar.tintColor = Theme.current.textColor
+        navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.textColor]
+
+        
+        termsLabel.font = UIFont(name: Theme.current.fontForLabels, size: 12)
+        termsLabel.textColor = Theme.current.textColor
+        
+        continueButton.layer.cornerRadius = 25
+        continueButton.layer.backgroundColor = Theme.current.colorForButtons.cgColor
+        continueButton.setTitleColor(Theme.current.textColorForButtons, for: .normal)
     }
     
     func whenEnterIsTappedOnKeyboardMoveToNextTextField() {
@@ -46,7 +62,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.tag = 2
         confirmPasswordTextField.tag = 3
     }
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -55,30 +71,46 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         if let nextTextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
             nextTextField.becomeFirstResponder()
         } else {
-            //textField.resignFirstResponder()
-            sendUserToStartView()
+            checkingPassword()
         }
         return false
     }
     
+    func showAndHideKeyBoardWithNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidBeginEditing), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidEndEditing), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func textFieldDidBeginEditing() {
+        UITextView.animate(withDuration: 0.2, animations: { self.view.frame.origin.y = -190})
+    }
+    
+    @objc func textFieldDidEndEditing() {
+        UITextView.animate(withDuration: 0.2, animations: { self.view.frame.origin.y = 0})
+    }
+    
     @IBAction func continueButton(_ sender: UIButton) {
+        checkingPassword()
+    }
+    
+    func checkingPassword() {
         passwordMatch = checkIfPasswordAndConfirmPasswordIsCorrect(password: passwordTextField.text!, confirmPassword: confirmPasswordTextField.text!)
         
         if passwordMatch == true && passwordTextField.text! != "" {
             createUser()
         }
         if nameTextField.text! == "" {
-            
-            self.alertMessage(titel: "Namefield can not be empty")
+            self.alertMessage(titel: "Namefield can not be empty", message: "Pleace try again")
         }
         if emailTextField.text! == "" {
-            self.alertMessage(titel: "Emailfield can not be empty")
+            self.alertMessage(titel: "Emailfield can not be empty", message: "Pleace try again")
         }
         if passwordTextField.text! == "" || confirmPasswordTextField.text! == "" {
-            self.alertMessage(titel: "Passwordfield can not be empty")
+            self.alertMessage(titel: "Passwordfield can not be empty", message: "Pleace try again")
         }
         if passwordMatch == false {
-            self.alertMessage(titel: "Password do not match")
+            self.alertMessage(titel: "Password do not match", message: "Pleace try again")
         }
     }
     
@@ -87,13 +119,23 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         guard let password = passwordTextField.text else { return }
         guard let name = nameTextField.text else { return }
         
-        let user = User(name: name)
-
-        auth.createUser(withEmail: email, password: password) { authResult, error in
+        let userName = User(name: name, email: email)
+        
+        auth.createUser(withEmail: email, password: password) { (user, error) in
+            guard error == nil else {
+                self.alertMessage(titel: "Error" , message: error!.localizedDescription)
+                return
+            }
             
             guard let userId = self.auth.currentUser?.uid else { return }
             
-            self.db.collection("users").document(userId).setData(user.toAny())
+            let changeRequest = self.auth.currentUser?.createProfileChangeRequest()
+            changeRequest?.displayName = name
+            changeRequest?.commitChanges(completion: { (error) in
+                self.alertMessage(titel: "Error", message: error?.localizedDescription ?? "No name")
+            })
+            
+            self.db.collection("users").document(userId).setData(userName.toAny())
             print("Account created")
             self.sendUserToStartView()
         }
@@ -106,17 +148,5 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
             containerViewController.modalTransitionStyle = modalStyle
             self.present(containerViewController, animated: true, completion: nil)
         }
-    }
-    
-    func setColorFontAndSizeOnLabelsAndButtons() {
-        createAccountLabel.font = UIFont(name: Theme.current.fontForLabels, size: 25)
-        createAccountLabel.textColor = Theme.current.textColor
-        
-        termsLabel.font = UIFont(name: Theme.current.fontForLabels, size: 12)
-        termsLabel.textColor = Theme.current.textColor
-        
-        continueButton.layer.cornerRadius = 25
-        continueButton.layer.backgroundColor = Theme.current.colorForButtons.cgColor
-        continueButton.setTitleColor(Theme.current.textColorForButtons, for: .normal)
     }
 }
