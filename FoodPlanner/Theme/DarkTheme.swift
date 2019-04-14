@@ -1,14 +1,14 @@
 //
-//  PinkTheme.swift
+//  DarkTheme.swift
 //  FoodPlanner
 //
-//  Created by Björn Åhström on 2019-02-26.
+//  Created by Björn Åhström on 2019-04-14.
 //  Copyright © 2019 Björn Åhström. All rights reserved.
 //
 
 import UIKit
 
-class PinkTheme: ThemeProtocol {
+class DarkTheme: ThemeProtocol {
     var fontForLabels: String = "Futura"
     
     var textColorForLabels: UIColor = UIColor(named: "TextColor")!
@@ -97,7 +97,7 @@ class PinkTheme: ThemeProtocol {
     
     
     // Settings View controller
-    var backgroundColorForSettingsViewController: UIColor = UIColor(named: "OldPink")!
+    var backgroundColorForSettingsViewController: UIColor = UIColor.blue //(named: "OldPink")!
 }
 
 

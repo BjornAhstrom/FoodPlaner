@@ -14,13 +14,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
     var window: UIWindow?
+    var hasLaunchedId: String = "hasLaunched"
+    
+    // The storyboards name (Onboarding)
+    var OnboardingStoryboard: String = "Onboarding"
+    
+    // The views controllers name (OnboardingView)
+    var onboardingViewController: String = "onboardingView"
+    
+    // The id to save theme in userdefault
+    var saveThemeId : String = "Theme"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         
-        let launchedBefore = UserDefaults.standard.bool(forKey: "hasLaunched")
+        let launchedBefore = UserDefaults.standard.bool(forKey: hasLaunchedId)
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        let launchStoryboard = UIStoryboard(name: "Onboarding", bundle: nil)
+        let launchStoryboard = UIStoryboard(name: OnboardingStoryboard, bundle: nil)
         let signInStoyboard = UIStoryboard(name: "Main", bundle: nil)
         
         var vc: UIViewController
@@ -28,13 +38,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if launchedBefore {
             vc = signInStoyboard.instantiateInitialViewController()!
         } else {
-            vc = launchStoryboard.instantiateViewController(withIdentifier: "onboardingView")
+            vc = launchStoryboard.instantiateViewController(withIdentifier: onboardingViewController)
         }
-        UserDefaults.standard.set(true, forKey: "hasLaunched")
+        UserDefaults.standard.set(true, forKey: hasLaunchedId)
         
         self.window?.rootViewController = vc
         self.window?.makeKeyAndVisible()
         
+        //When user start the app, the same theme will show upp as the user chosen
+        if UserDefaults.standard.object(forKey: saveThemeId) != nil {
+            Theme.current = UserDefaults.standard.bool(forKey: saveThemeId) ? PinkTheme() : DarkTheme()
+        }
         
         return true
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rfT-wf-P2W">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mM9-Zx-ROm">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -91,6 +91,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="switchButton:" destination="ecd-Q0-peb" eventType="valueChanged" id="vMp-z6-dE1"/>
+                                    <action selector="themeChangerSwitch:" destination="ecd-Q0-peb" eventType="valueChanged" id="c6r-oE-PVJ"/>
                                 </connections>
                             </switch>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wie-W1-IJh">
@@ -135,6 +136,7 @@
                         <outlet property="sendInviteButton" destination="LFe-Du-5gB" id="s0b-fw-e9X"/>
                         <outlet property="settingLabel" destination="gnM-2a-if2" id="yrA-IT-tPP"/>
                         <outlet property="signOutButton" destination="ebR-fc-AoQ" id="smh-uT-XHo"/>
+                        <outlet property="themeChangerSwitch" destination="34h-fP-tCJ" id="ldH-Ly-iZb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dFi-2o-7bN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -149,13 +151,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="270" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Add new catergories" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FCc-9H-uVS">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Add new categories" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FCc-9H-uVS">
                                 <rect key="frame" x="22" y="133" width="143" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="a9W-3q-BPd"/>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aov-Ca-3tH">
@@ -261,7 +263,6 @@
                         <outlet property="settingsButton" destination="6Rb-iB-ZJn" id="1JS-nM-g5o"/>
                         <outlet property="shoppingListButton" destination="aov-Ca-3tH" id="jcS-TR-kMG"/>
                         <outlet property="tableView" destination="jO5-BU-yCy" id="xdi-xw-UZ0"/>
-                        <outletCollection property="sidebarButtons" destination="a4f-3m-A2c" collectionClass="NSMutableArray" id="UI0-W6-PA4"/>
                         <outletCollection property="sidebarButtons" destination="aov-Ca-3tH" collectionClass="NSMutableArray" id="qJz-bC-A3I"/>
                     </connections>
                 </viewController>
@@ -301,7 +302,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="hamburgerMenuButton" destination="xgJ-UI-t5i" id="YN2-hb-82c"/>
                         <outlet property="mainView" destination="Yro-kW-E8W" id="bWF-cx-bxV"/>
+                        <outlet property="shoppingListMenuButton" destination="XOc-cS-0Vj" id="giz-sU-1Ko"/>
                         <segue destination="F36-FH-rTY" kind="show" identifier="addAndShowDishSegue" id="9gq-yW-DEe"/>
                         <segue destination="fTM-sB-izi" kind="show" identifier="weeklyMenuSegue" id="ltu-rI-ss4"/>
                         <segue destination="TWs-11-eXz" kind="show" identifier="shoppingListSegue" id="CIx-cv-D9C"/>
@@ -1210,6 +1213,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="LeU-ef-n5w"/>
         <segue reference="kMZ-Nz-yCl"/>
         <segue reference="CIx-cv-D9C"/>
     </inferredMetricsTieBreakers>

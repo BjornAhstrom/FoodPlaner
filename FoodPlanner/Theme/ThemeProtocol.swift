@@ -26,6 +26,7 @@ protocol ThemeProtocol {
     var backgroundColorSideMenu: UIColor { get }
     var sideBarButtonColor: UIColor { get }
     var sideBarButtonFont: UIFont { get }
+    var sideBarAddButtonFont: UIFont { get }
     var sideBarButtonTextColor: UIColor { get }
     var sideBarButtonBorderColor: UIColor { get }
     
@@ -75,4 +76,7 @@ protocol ThemeProtocol {
     
     // Finished weekly menu controller
     var backgrondColorFinishedWeeklyMenuController: UIColor { get }
+    
+    // Settings View controller
+    var backgroundColorForSettingsViewController: UIColor { get }
 }

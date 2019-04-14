@@ -77,6 +77,13 @@ class SideMenuViewController: UIViewController {
             btn.titleLabel?.font = Theme.current.sideBarButtonFont
         }
         
+        addButton.titleLabel?.font = Theme.current.sideBarAddButtonFont
+        addButton.layer.cornerRadius = 20
+        addButton.layer.borderColor = Theme.current.sideBarButtonBorderColor.cgColor
+        addButton.layer.borderWidth = 1
+        addButton.backgroundColor = Theme.current.colorForButtons
+        addButton.setTitleColor(Theme.current.sideBarButtonTextColor, for: .normal)
+        
         view.layer.borderColor = UIColor.lightGray.cgColor
         view.layer.borderWidth = 2
         view.layer.shadowColor = UIColor.black.cgColor

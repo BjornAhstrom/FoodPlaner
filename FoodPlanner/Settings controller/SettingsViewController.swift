@@ -17,10 +17,13 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var inviteEmailTextField: UITextField!
     @IBOutlet weak var sendInviteButton: UIButton!
     @IBOutlet weak var acceptInviteButton: UIButton!
+    @IBOutlet weak var themeChangerSwitch: UISwitch!
     
     
     
-    private var signInPageId = "signInPage"
+    private var signInPageId: String = "signInPage"
+    private var switchButtonId: String = "switchButton"
+    private var ThemeId: String = "Theme"
     
     var db: Firestore!
     var auth: Auth!
@@ -35,6 +38,24 @@ class SettingsViewController: UIViewController {
         auth = Auth.auth()
         self.hideKeyboard()
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        applayTheme()
+        themeChangerSwitch.isOn = UserDefaults.standard.bool(forKey: switchButtonId)
+    }
+    
+    @IBAction func themeChangerSwitch(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: switchButtonId)
+        
+        Theme.current = sender.isOn ? PinkTheme() : DarkTheme()
+        UserDefaults.standard.set(sender.isOn, forKey: ThemeId)
+        UserDefaults.standard.synchronize()
+        applayTheme()
+    }
+    
+    func applayTheme() {
+        view.backgroundColor = Theme.current.backgroundColorForSettingsViewController
     }
     
     func signOut() {

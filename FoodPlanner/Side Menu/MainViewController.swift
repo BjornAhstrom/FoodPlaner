@@ -11,6 +11,8 @@ import Foundation
 
 class MainViewController: UIViewController {
     @IBOutlet weak var mainView: UIView!
+    @IBOutlet weak var hamburgerMenuButton: UIBarButtonItem!
+    @IBOutlet weak var shoppingListMenuButton: UIBarButtonItem!
     
     private let addAndShowDish = "addAndShowDish"
     private let selectRandomDishMenu = "selectRandomDishMenu"
@@ -26,6 +28,9 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        hamburgerMenuButton.image = UIImage(named: "HamburgerMenuIcon")
+        shoppingListMenuButton.image = UIImage(named: "cartMenuIcon")
+        
         NotificationCenter.default.addObserver(self, selector: #selector(showDishList), name: NSNotification.Name( addAndShowDish), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(goToSelectRandomDishView), name: NSNotification.Name( selectRandomDishMenu), object: nil)

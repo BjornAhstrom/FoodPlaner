@@ -19,6 +19,8 @@
 		1E47D4EF225CB17E005E0FFF /* FamilyAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47D4EE225CB17E005E0FFF /* FamilyAccount.swift */; };
 		1E47D4F1225F78A7005E0FFF /* Invite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47D4F0225F78A7005E0FFF /* Invite.swift */; };
 		1E47D4F322605625005E0FFF /* Owner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47D4F222605625005E0FFF /* Owner.swift */; };
+		1E47D4FA22638D03005E0FFF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1E47D4FC22638D03005E0FFF /* Localizable.strings */; };
+		1E47D4FF22638E1C005E0FFF /* DarkTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47D4FE22638E1C005E0FFF /* DarkTheme.swift */; };
 		1E633C2C223691C200C87D6D /* RandomWeeklyMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E633C2B223691C200C87D6D /* RandomWeeklyMenuViewController.swift */; };
 		1E633C2E2236920C00C87D6D /* RandomWeeklyManuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E633C2D2236920C00C87D6D /* RandomWeeklyManuTableViewCell.swift */; };
 		1E768BDC225B5C9B006EC7A1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E768BDB225B5C9B006EC7A1 /* SettingsViewController.swift */; };
@@ -89,6 +91,12 @@
 		1E47D4EE225CB17E005E0FFF /* FamilyAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyAccount.swift; sourceTree = "<group>"; };
 		1E47D4F0225F78A7005E0FFF /* Invite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invite.swift; sourceTree = "<group>"; };
 		1E47D4F222605625005E0FFF /* Owner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Owner.swift; sourceTree = "<group>"; };
+		1E47D4F422638B79005E0FFF /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Main.strings; sourceTree = "<group>"; };
+		1E47D4F522638B79005E0FFF /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		1E47D4F722638C68005E0FFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		1E47D4FB22638D03005E0FFF /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1E47D4FD22638D18005E0FFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1E47D4FE22638E1C005E0FFF /* DarkTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkTheme.swift; sourceTree = "<group>"; };
 		1E633C2B223691C200C87D6D /* RandomWeeklyMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomWeeklyMenuViewController.swift; sourceTree = "<group>"; };
 		1E633C2D2236920C00C87D6D /* RandomWeeklyManuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomWeeklyManuTableViewCell.swift; sourceTree = "<group>"; };
 		1E768BDB225B5C9B006EC7A1 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -201,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				1EC628E3222473B70049BCD6 /* Main.storyboard */,
+				1E47D4FC22638D03005E0FFF /* Localizable.strings */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -381,6 +390,7 @@
 				1EC629142224FCD40049BCD6 /* Theme.swift */,
 				1EC629162224FCEE0049BCD6 /* ThemeProtocol.swift */,
 				1EC629182224FD2D0049BCD6 /* PinkTheme.swift */,
+				1E47D4FE22638E1C005E0FFF /* DarkTheme.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -497,6 +507,7 @@
 			knownRegions = (
 				en,
 				Base,
+				sv,
 			);
 			mainGroup = 1EC628D3222473B70049BCD6;
 			productRefGroup = 1EC628DD222473B70049BCD6 /* Products */;
@@ -518,6 +529,7 @@
 				1EC628EA222473B70049BCD6 /* LaunchScreen.storyboard in Resources */,
 				1EC6291322247DE00049BCD6 /* Color.xcassets in Resources */,
 				1E04B7A62237D4C600CCB8A8 /* GoogleService-Info.plist in Resources */,
+				1E47D4FA22638D03005E0FFF /* Localizable.strings in Resources */,
 				1E768BDE225B79E4006EC7A1 /* Onboarding.storyboard in Resources */,
 				1EC628E7222473B70049BCD6 /* Assets.xcassets in Resources */,
 				1EC628E5222473B70049BCD6 /* Main.storyboard in Resources */,
@@ -671,6 +683,7 @@
 				1E0851F8225386CE0030DB81 /* ShoppingItem.swift in Sources */,
 				1E7E33C022303CCE000CAA9A /* CreateADishViewController.swift in Sources */,
 				1E7E33802229A2D4000CAA9A /* Button.swift in Sources */,
+				1E47D4FF22638E1C005E0FFF /* DarkTheme.swift in Sources */,
 				1EC629152224FCD40049BCD6 /* Theme.swift in Sources */,
 				1EC628E2222473B70049BCD6 /* OnboardingViewController.swift in Sources */,
 				1E7E33A0222EE266000CAA9A /* Dishes.swift in Sources */,
@@ -722,10 +735,21 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1E47D4FC22638D03005E0FFF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E47D4FB22638D03005E0FFF /* sv */,
+				1E47D4FD22638D18005E0FFF /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		1EC628E3222473B70049BCD6 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1EC628E4222473B70049BCD6 /* Base */,
+				1E47D4F422638B79005E0FFF /* sv */,
+				1E47D4F722638C68005E0FFF /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -734,6 +758,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1EC628E9222473B70049BCD6 /* Base */,
+				1E47D4F522638B79005E0FFF /* sv */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -745,6 +770,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -806,6 +832,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
