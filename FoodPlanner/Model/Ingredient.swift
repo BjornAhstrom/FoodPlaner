@@ -12,7 +12,7 @@ import Firebase
 
 class Ingredient : Equatable {
     var ingredientsTitle: String
-    var amount: Int = 0
+    var amount: Double = 0
     var unit: String
     var ingredientID: String
     
@@ -21,7 +21,7 @@ class Ingredient : Equatable {
         
     }
     
-    init(ingredientsTitle: String, amount: Int, unit: String) {
+    init(ingredientsTitle: String, amount: Double, unit: String) {
         self.ingredientsTitle = ingredientsTitle
         self.amount = amount
         self.unit = unit
@@ -37,7 +37,7 @@ class Ingredient : Equatable {
     
     init(dictinary: [String: Any]) {
         ingredientsTitle = dictinary["ingredientName"] as! String
-        amount = dictinary["amount"] as! Int
+        amount = dictinary["amount"] as! Double
         unit = dictinary["unit"] as! String
         ingredientID = ""
     }

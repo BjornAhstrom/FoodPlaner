@@ -67,7 +67,7 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
         
         let item = shoppingItems[indexPath.row]
         
-        cell.setIngredients(name: item.ingredient.ingredientsTitle, amount: item.ingredient.amount, unit: item.ingredient.unit)
+        cell.setIngredients(name: item.ingredient.ingredientsTitle, amount: Int(item.ingredient.amount), unit: item.ingredient.unit)
         cell.setCheckBox(item.checkBox)
         cell.checkBox()
         

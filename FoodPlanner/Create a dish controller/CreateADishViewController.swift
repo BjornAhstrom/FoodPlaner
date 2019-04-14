@@ -13,6 +13,9 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var nameOnDishTextField: UITextField!
     @IBOutlet weak var dishImageView: UIImageView!
+    @IBOutlet weak var portionsLabel: UILabel!
+    @IBOutlet weak var portionsAmountStepper: UIStepper!
+    @IBOutlet weak var portonsAmountTextField: UITextField!
     @IBOutlet weak var nameOnIngredientsLAbel: UITableView!
     @IBOutlet weak var ingredientsTableView: UITableView!
     @IBOutlet weak var cookingDescriptionTextView: UITextView!
@@ -20,8 +23,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     @IBOutlet weak var ingredientTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var unitTextField: UITextField!
-    @IBOutlet weak var stepper: UIStepper!
-    @IBOutlet weak var tapToAddAPictureLabel: UILabel!
+    @IBOutlet weak var IngredientsAmountStepper: UIStepper!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var stepsLabel: UILabel!
     
@@ -30,7 +32,8 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     
     let imagePickerController: UIImagePickerController = UIImagePickerController()
     
-    var ingredientsAmount: Int = 0
+    var ingredientsAmount: Double = 0
+    var portionsAmount: Int = 0
     var labelIsHidden: Bool = true
     var dishes : Dishes?
     var ingredients: [Ingredient] = []
@@ -46,6 +49,10 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         setFontColorRadiusOnTexFieldLabelAndView()
         db = Firestore.firestore()
         auth = Auth.auth()
+        
+        guard let image: UIImage = UIImage(named: "IOSCamera1") else { return }
+        dishImageView.image = image
+        
         imagePickerController.delegate = self
         ingredientTextField.delegate = self
         stepperTextField.delegate = self
@@ -58,6 +65,35 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         tapOnTapHereLabelToAddAPicture()
         self.hideKeyboard()
         showAndHideKeyboardWithNotifications()
+    }
+    
+    func setFontColorRadiusOnTexFieldLabelAndView() {
+        view.backgroundColor = Theme.current.backgroundColorAddDishController
+        tableView.layer.borderWidth = 1
+        tableView.layer.borderColor = Theme.current.borderColorForIngredentsTableViewAddDishController.cgColor
+        tableView.layer.cornerRadius = 10
+        cookingDescriptionTextView.layer.borderColor = Theme.current.borderColorForCookingDescriptionAddDishController.cgColor
+        cookingDescriptionTextView.layer.borderWidth = 1
+        cookingDescriptionTextView.layer.cornerRadius = 10
+        dishImageView.layer.masksToBounds = true
+//        dishImageView.layer.borderWidth = 1
+//        dishImageView.layer.borderColor = Theme.current.borderColorForImageViewAddDishController.cgColor
+        dishImageView.layer.cornerRadius = 10
+        
+        IngredientsAmountStepper.layer.masksToBounds = true
+        IngredientsAmountStepper.layer.cornerRadius = 5
+        IngredientsAmountStepper.layer.borderWidth = 1
+        IngredientsAmountStepper.layer.borderColor = Theme.current.borderAndTextColorForStepperAndAddButton.cgColor
+        
+        addButton.layer.borderColor = Theme.current.borderAndTextColorForStepperAndAddButton.cgColor
+        addButton.layer.cornerRadius = 15
+        addButton.layer.borderWidth = 1
+        addButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 18)
+        addButton.setTitleColor(Theme.current.borderAndTextColorForStepperAndAddButton, for: .normal)
+        
+        navigationBar.barTintColor = Theme.current.backgroundColorAddDishController
+        navigationBar.tintColor = Theme.current.navigationbarTextColor
+        navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.navigationbarTextColor]
     }
     
     func showAndHideKeyboardWithNotifications() {
@@ -76,9 +112,10 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             UITextView.animate(withDuration: 0.2, animations: { self.stepperTextField.frame.origin.y = 320 })
             UITextView.animate(withDuration: 0.2, animations: { self.unitTextField.frame.origin.y = 320 })
             UITableView.animate(withDuration: 0.2, animations: { self.tableView.frame.origin.y = 390 })
-            UIStepper.animate(withDuration: 0.2, animations: { self.stepper.frame.origin.y = 320})
+            UIStepper.animate(withDuration: 0.2, animations: { self.IngredientsAmountStepper.frame.origin.y = 320})
             UIButton.animate(withDuration: 0.2, animations: { self.addButton.frame.origin.y = 353})
             UIView.animate(withDuration: 0.7, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: { self.stepsLabel.alpha = 0.0 }, completion: nil)
+             hidePortionsStepperLabelAndTextField()
         }
     }
     
@@ -88,9 +125,10 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             UITextView.animate(withDuration: 0.2, animations: { self.stepperTextField.frame.origin.y = 375 })
             UITextView.animate(withDuration: 0.2, animations: { self.unitTextField.frame.origin.y = 375 })
             UITableView.animate(withDuration: 0.2, animations: { self.tableView.frame.origin.y = 450 })
-            UIStepper.animate(withDuration: 0.2, animations: { self.stepper.frame.origin.y = 375})
+            UIStepper.animate(withDuration: 0.2, animations: { self.IngredientsAmountStepper.frame.origin.y = 375})
             UIButton.animate(withDuration: 0.2, animations: { self.addButton.frame.origin.y = 413})
             UIView.animate(withDuration: 0.7, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: { self.stepsLabel.alpha = 1.0 }, completion: nil)
+            showPortionsStepperLabelAndTextField()
         }
     }
     
@@ -98,6 +136,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         if textView == cookingDescriptionTextView {
             UITextView.animate(withDuration: 0.2, animations: { self.cookingDescriptionTextView.frame.origin.y = 320 })
             hideLabelsAndButtons()
+            hidePortionsStepperLabelAndTextField()
         }
     }
     
@@ -105,14 +144,60 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         if textView == cookingDescriptionTextView {
             UITextView.animate(withDuration: 0.2, animations: { self.cookingDescriptionTextView.frame.origin.y = 620 })
             showLabelsAndButtons()
+            showPortionsStepperLabelAndTextField()
         }
+    }
+    
+    func hidePortionsStepperLabelAndTextField() {
+        UIView.animate(withDuration: 0.2, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.portionsLabel.alpha  = 0.0 }, completion: nil)
+        UIView.animate(withDuration: 0.2, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.portonsAmountTextField.alpha = 0.0 }, completion: nil)
+        UIView.animate(withDuration: 0.2, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.portionsAmountStepper.alpha  = 0.0 }, completion: nil)
+        
+        UIView.animate(withDuration: 0.2, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.ingredientTextField.alpha  = 0.0 }, completion: nil)
+        UIView.animate(withDuration: 0.2, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.stepperTextField.alpha  = 0.0 }, completion: nil)
+        UIView.animate(withDuration: 0.2, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.unitTextField.alpha  = 0.0 }, completion: nil)
+        UIView.animate(withDuration: 0.2, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.tableView.alpha  = 0.0 }, completion: nil)
+        UIView.animate(withDuration: 0.2, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.addButton.alpha  = 0.0 }, completion: nil)
+        UIView.animate(withDuration: 0.2, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.stepsLabel.alpha  = 0.0 }, completion: nil)
+        
+    }
+    
+    func showPortionsStepperLabelAndTextField() {
+        UIView.animate(withDuration: 0.5, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.portionsLabel.alpha  = 1.0 }, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.portonsAmountTextField.alpha = 1.0 }, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.portionsAmountStepper.alpha  = 1.0 }, completion: nil)
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.ingredientTextField.alpha  = 1.0 }, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.stepperTextField.alpha  = 1.0 }, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.unitTextField.alpha  = 1.0 }, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.tableView.alpha  = 1.0 }, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.addButton.alpha  = 1.0 }, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.stepsLabel.alpha  = 1.0 }, completion: nil)
     }
     
     func hideLabelsAndButtons() {
         ingredientsTableView.isHidden = true
         stepperTextField.isHidden = true
         ingredientTextField.isHidden = true
-        stepper.isHidden = true
+        IngredientsAmountStepper.isHidden = true
         unitTextField.isHidden = true
         addButton.isHidden = true
         stepsLabel.isHidden = true
@@ -122,7 +207,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         ingredientsTableView.isHidden = false
         stepperTextField.isHidden = false
         ingredientTextField.isHidden = false
-        stepper.isHidden = false
+        IngredientsAmountStepper.isHidden = false
         unitTextField.isHidden = false
         addButton.isHidden = false
         stepsLabel.isHidden = false
@@ -136,50 +221,40 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer){
         openCameraOrPhotoLibrary()
-        tapToAddAPictureLabel.isHidden = labelIsHidden
     }
     
-    @IBAction func stepper(_ sender: UIStepper) {
-        ingredientsAmount = Int(sender.value)
-        stepperTextField.text = String(ingredientsAmount)
+    @IBAction func ingredientsAmountStepper(_ sender: UIStepper) {
+            ingredientsAmount = Double(sender.value)
+        stepperTextField.text =  String(ingredientsAmount)
     }
     
-    func setFontColorRadiusOnTexFieldLabelAndView() {
-        view.backgroundColor = Theme.current.backgroundColorAddDishController
-        tableView.layer.borderWidth = 1
-        tableView.layer.borderColor = Theme.current.borderColorForIngredentsTableViewAddDishController.cgColor
-        tableView.layer.cornerRadius = 10
-        cookingDescriptionTextView.layer.borderColor = Theme.current.borderColorForCookingDescriptionAddDishController.cgColor
-        cookingDescriptionTextView.layer.borderWidth = 1
-        cookingDescriptionTextView.layer.cornerRadius = 10
-        dishImageView.layer.masksToBounds = true
-        dishImageView.layer.borderWidth = 1
-        dishImageView.layer.borderColor = Theme.current.borderColorForImageViewAddDishController.cgColor
-        dishImageView.layer.cornerRadius = 10
-        
-        stepper.layer.masksToBounds = true
-        stepper.layer.cornerRadius = 5
-        stepper.layer.borderWidth = 1
-        stepper.layer.borderColor = Theme.current.borderAndTextColorForStepperAndAddButton.cgColor
-        
-        addButton.layer.borderColor = Theme.current.borderAndTextColorForStepperAndAddButton.cgColor
-        addButton.layer.cornerRadius = 15
-        addButton.layer.borderWidth = 1
-        addButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 18)
-        addButton.setTitleColor(Theme.current.borderAndTextColorForStepperAndAddButton, for: .normal)
-        
-        navigationBar.barTintColor = Theme.current.backgroundColorAddDishController
-        navigationBar.tintColor = Theme.current.navigationbarTextColor
-        navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.navigationbarTextColor]
+    func getDoubleFromLocalNumber(input: String) -> Double {
+        var value = 0.0
+        let numberFormatter = NumberFormatter()
+        let decimalFiltered = input.replacingOccurrences(of: "٫|,", with: ".", options: .regularExpression)
+        numberFormatter.locale = Locale(identifier: "SW")  //"EN"
+        if let amountValue = numberFormatter.number(from: decimalFiltered) {
+            value = amountValue.doubleValue
+        }
+        return value
     }
+    
+    
+    @IBAction func portionsAmountStepper(_ sender: UIStepper) {
+        portionsAmount = Int(sender.value)
+        portonsAmountTextField.text = String(portionsAmount)
+    }
+ 
     
     @IBAction func addIngredientsButton(_ sender: UIButton) {
         createIngredients()
     }
     
     func createIngredients() {
-        // Convert the text string to an int
-        ingredientsAmount = Int(stepperTextField.text!)!
+        // Convert the text string to an Double
+        guard let stepperText = stepperTextField.text else { return }
+        let ingAmount = getDoubleFromLocalNumber(input: stepperText)
+        ingredientsAmount = ingAmount
         
         // Check so that the text strings are not empty. If they are empty then an alert
         // comes upp that tells the user to fill in all fields.
@@ -199,7 +274,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             unitTextField.text! = ""
             stepperTextField.text! = ""
             ingredientsAmount = 0
-            stepper.value = 0
+            IngredientsAmountStepper.value = 0
             
             // Dismiss the keyboard
             view.endEditing(true)
@@ -214,6 +289,8 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         let uid = auth.currentUser
         guard let userId = uid?.uid else { return }
         userID = userId
+        
+        guard let nameOnDishTextField = nameOnDishTextField.text else { return }
         var dishPicture = UIImage()
         var cookingDescription = UITextView()
         
@@ -225,17 +302,17 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             cookingDescription = currentCookingDescription
         }
         
-        if nameOnDishTextField.text == "" {
+        if nameOnDishTextField == "" {
             alertMessage(titel: "Your dish must have a name!", message: "Please try again")
         } else {
             
-            let saveDish = Dish(dishTitle: nameOnDishTextField.text!, dishImageId: dishPicture, ingredientsAndAmount: ingredients, cooking: cookingDescription.text)
+            let saveDish = Dish(dishTitle: nameOnDishTextField, dishImageId: dishPicture, ingredientsAndAmount: ingredients, cooking: cookingDescription.text, portions: portionsAmount)
             
-            if dishes!.add(dish: saveDish) == true {
+            guard dishes?.add(dish: saveDish) == true else { return }
                 
-            } else {
-                print("Error getting saved")
-            }
+//            } else {
+//                print("Error getting saved")
+//            }
             
             let docRef = db.collection("users").document(userId).collection("dishes").addDocument(data: saveDish.toAny())
             dishImageId = docRef.documentID

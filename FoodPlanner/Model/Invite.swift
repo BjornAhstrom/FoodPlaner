@@ -10,26 +10,33 @@ import Foundation
 import Firebase
 
 class Invite {
-    var toUserId: String
-    var fromUserName: String
-    var invite: Bool
+    // var toUserId: String
+    var fromUserId: String
+    //var invite: Bool
+    //var familyAccount: String
     
-    init(toUserId: String, fromUserName: String, invite: Bool) {
-        
-        self.toUserId = toUserId
-        self.fromUserName = fromUserName
-        self.invite = invite
+    init(fromUserId: String) {//, familyAcount: String) {
+        self.fromUserId = fromUserId
+      //  self.familyAccount = familyAcount
     }
+    
+    //    init(toUserId: String, fromUserName: String) {
+    //
+    //        self.toUserId = toUserId
+    //        self.fromUserName = fromUserName
+    //        self.invite = false
+    //    }
     
     init(snapshot: QueryDocumentSnapshot) {
         let snapshotValue = snapshot.data() as [String : Any]
         
-        toUserId = snapshotValue["toUserId"] as! String
-        fromUserName = snapshotValue["fromUserName"] as! String
-        invite = snapshotValue["invite"] as! Bool
+        //   toUserId = snapshotValue["toUserId"] as! String
+        fromUserId = snapshotValue["fromUserName"] as! String
+      //  familyAccount = snapshotValue["familyAccount"] as! String
+        // invite = snapshotValue["invite"] as! Bool
     }
     
     func toAny() -> [String : Any] {
-        return ["toUserId": toUserId, "fromUserName": fromUserName, "invite": invite]
+        return ["fromUserId": fromUserId] // "familyAccount": familyAccount]
     }
 }

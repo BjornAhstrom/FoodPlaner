@@ -57,6 +57,7 @@ protocol ThemeProtocol {
     var labelFontInShowDishController: UIFont { get }
     var labelTextColorInShowDishController: UIColor { get }
     var dishNameLabelFontInShowDishController: UIFont { get }
+    var portionsLabelFontInShowDishController: UIFont { get }
     
     // Add dish view controller
     var backgroundColorAddDishController: UIColor { get }

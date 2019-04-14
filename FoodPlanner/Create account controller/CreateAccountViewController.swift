@@ -136,6 +136,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
             })
             
             self.db.collection("users").document(userId).setData(userName.toAny())
+            self.db.collection("familyAccount").document(userId).setData(["name": userName.name ])
             print("Account created")
             self.sendUserToStartView()
         }

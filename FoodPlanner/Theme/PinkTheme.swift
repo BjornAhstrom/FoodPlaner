@@ -72,6 +72,7 @@ class PinkTheme: ThemeProtocol {
     var labelFontInShowDishController: UIFont = UIFont(name: "TimesNewRomanPS-BoldItalicMT", size: 22)!
     var labelTextColorInShowDishController: UIColor = UIColor(named: "OldRose")!
     var dishNameLabelFontInShowDishController: UIFont = UIFont(name: "TimesNewRomanPS-BoldItalicMT", size: 24)!
+    var portionsLabelFontInShowDishController: UIFont = UIFont(name: "TimesNewRomanPS-BoldItalicMT", size: 15)!
     
     
     // Add dish view controller

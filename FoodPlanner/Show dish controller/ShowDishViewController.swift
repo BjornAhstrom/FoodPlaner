@@ -17,6 +17,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet private var labels: [UILabel]!
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet var itemButtons: [UIBarButtonItem]!
+    @IBOutlet weak var portionsLabel: UILabel!
     
     
     private var savedDishCell: String = "savedDishCell"
@@ -39,7 +40,8 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         tableView.dataSource = self
         setRadiusBorderColorAndFontOnLabelsViewsAndButtons()
-        dishName.text = dish?.dishName
+        dishName.text = dish?.dishName ?? ""
+        portionsLabel.text = "Portions: \(dish?.portions ?? 0)"
         
         cookingDescriptionTextView.text = dish?.cooking
         getDishIdFromFirestore()
@@ -52,6 +54,8 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
             label.font = Theme.current.labelFontInShowDishController
         }
         
+        portionsLabel.textColor = Theme.current.labelTextColorInShowDishController
+        portionsLabel.font = Theme.current.portionsLabelFontInShowDishController
         dishName.font = Theme.current.dishNameLabelFontInShowDishController
         dishName.textColor = Theme.current.labelTextColorInShowDishController
         imageView.layer.masksToBounds = true
