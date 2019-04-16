@@ -38,7 +38,6 @@ class CompareDayWithWeeklyMenuViewController: UIViewController {
                 }
                 for document in snapshot.documents {
                     let weeklyMenu = DishAndDate(snapshot: document)
-                    print("Datum från veckomenyn \(weeklyMenu.date), Dagens datum \(Date())")
                     
                     let date1 = Date()
                     let dateFormatter1 = DateFormatter()
@@ -50,13 +49,10 @@ class CompareDayWithWeeklyMenuViewController: UIViewController {
                     dateFormatter2.dateStyle = .long
                     let stringOutput2 = dateFormatter2.string(from: date2)
                     
-                    print("\(stringOutput1) == \(stringOutput2)")
                     
                     if stringOutput1 == stringOutput2 {
                         self.mealOfTheDayName = String(weeklyMenu.dishName)
                         self.mealOfTheDayID = String(weeklyMenu.idFromDish)
-                        print("Testar \(self.mealOfTheDayName) \(self.mealOfTheDayID)")
-                        print("Saved")
                         self.goToMeal()
                         // Go To MealOfTheDayController
                         NotificationCenter.default.post(name: NSNotification.Name("mealOfTheDay"), object: nil)

@@ -18,6 +18,8 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
     var dishes = Dishes()
     var db: Firestore!
     var auth: Auth!
+    var userIdFromFamilyAccount: [String] = []
+    var ownerFamilyAccountId: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,18 +30,55 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
         foodMenuTableView.delegate = self
         foodMenuTableView.dataSource = self
         
-        getWeeklyMenuFromFireStore()        
+        getFamilyAccountFromFirestore()
+        //getWeeklyMenuFromFireStore()
     }
     
     func setColorAndFontonBackgroundAndText() {
         view.backgroundColor = Theme.current.backgrondColorFinishedWeeklyMenuController
     }
     
-    func getWeeklyMenuFromFireStore() {
-        let uid = auth.currentUser
-        guard let userId = uid?.uid else { return }
+    func getFamilyAccountFromFirestore() {
+        guard let userId = auth.currentUser?.uid else { return }
         
-        db.collection("users").document(userId).collection("weeklyMenu").getDocuments() {
+        db.collection("users").document(userId).getDocument() {
+            (document, error) in
+            
+            if let error = error {
+                print("Error getting document \(error)")
+            } else {
+                guard let doc = document else { return }
+                
+                let famAccountId = doc.data()!["familyAccount"] as! String
+                self.ownerFamilyAccountId = famAccountId
+                
+                self.userIdFromFamilyAccount = []
+                self.db.collection("familyAccounts").document(famAccountId).collection("members").getDocuments() {
+                    (snapshot, error) in
+                    
+                    if let error = error {
+                        print("Error getting document \(error)")
+                    } else {
+                        guard let snapDoc = snapshot?.documents else { return }
+                        
+                        for document in snapDoc {
+                            //let user = User(snapshot: document)
+                            
+                            self.userIdFromFamilyAccount.append(document.documentID)
+                            print("!!!!!!!!!!!!!!!!!!!!!\(document.documentID)")
+                        }
+                        self.getWeeklyMenuFromFireStore()
+                    }
+                }
+            }
+        }
+    }
+    
+    func getWeeklyMenuFromFireStore() {
+//        let uid = auth.currentUser
+//        guard let userId = uid?.uid else { return }
+        
+        db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").getDocuments() {
             (querySnapshot, error) in
             
             if let error = error {

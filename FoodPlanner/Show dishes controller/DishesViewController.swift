@@ -23,6 +23,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var db: Firestore!
     var auth: Auth!
     var dishes = Dishes()
+    var userIdFromFamilyAccount: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +38,8 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
         auth = Auth.auth()
-        getDishesFromFirestore()
+        getFamilyAccountFromFirestore()
+        // getDishesFromFirestore()
         self.showDishTableView.reloadData()
     }
     
@@ -73,39 +75,92 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return dish.dishName.lowercased().contains(inputText.lowercased())
         })
         self.showDishTableView.reloadData()
-        
     }
     
-    func getDishesFromFirestore() {
-        let uid = auth.currentUser
-        guard let userId = uid?.uid else { return }
+    func getFamilyAccountFromFirestore() {
+        guard let userId = auth.currentUser?.uid else { return }
         
-        db.collection("users").document(userId).collection("dishes").order(by: "dishName", descending: false).addSnapshotListener() {
-            (querySnapshot, error) in
+        db.collection("users").document(userId).getDocument() {
+            (document, error) in
             
             if let error = error {
                 print("Error getting document \(error)")
             } else {
-                self.dishes.clear()
+                guard let doc = document else { return }
                 
-                for document in (querySnapshot?.documents)! {
-                    let dish = Dish(snapshot: document)
-                    self.db.collection("users").document(userId).collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
-                        (querySnapshot, error) in
+                let famAccountId = doc.data()!["familyAccount"] as! String
+                
+                self.userIdFromFamilyAccount = []
+                self.db.collection("familyAccounts").document(famAccountId).collection("members").getDocuments() {
+                    (snapshot, error) in
+                    
+                    
+                    if let error = error {
+                        print("Error getting document \(error)")
+                    } else {
+                        guard let snapDoc = snapshot?.documents else { return }
                         
-                        for document in (querySnapshot?.documents)!{
-                            let ing = Ingredient(snapshot: document)
+                        for document in snapDoc {
+                            //let user = User(snapshot: document)
                             
-                            dish.add(ingredient: ing)
+                            self.userIdFromFamilyAccount.append(document.documentID)
+                            
+                            
                         }
-                    }
-                    if self.dishes.add(dish: dish) == true {
+                        self.getDishesFromFirestore()
                     }
                 }
-                self.showDishTableView.reloadData()
             }
         }
     }
+    
+    func getDishesFromFirestore() {
+        for userID in userIdFromFamilyAccount {
+            
+            self.db.collection("users").document(userID).collection("dishes").order(by: "dishName", descending: false).addSnapshotListener() {
+                (querySnapshot, error) in
+                
+                if let error = error {
+                    print("Error getting document \(error)")
+                } else {
+                    
+                    for change in querySnapshot!.documentChanges {
+                        switch change.type {
+                        case .added:
+                            
+                            let dish = Dish(snapshot: change.document)
+                            print("added \(dish.dishName)")
+                            self.db.collection("users").document(userID).collection("dishes").document(change.document.documentID).collection("ingredients").getDocuments(){
+                                (querySnapshot, error) in
+                                
+                                for document in (querySnapshot?.documents)!{
+                                    let ing = Ingredient(snapshot: document)
+                                    
+                                    dish.add(ingredient: ing)
+                                }
+                                 _ = self.dishes.add(dish: dish)
+                                 self.showDishTableView.reloadData()
+                            }
+                        case .removed:
+                            
+                            let dish = Dish(snapshot: change.document)
+                        
+                            // find dish in dishes and remove it
+                            if let index =  self.dishes.dishes.index(of: dish) {
+                                self.dishes.dishes.remove(at: index)
+                                print("removed \(dish.dishName)")
+                            }
+                            
+                                
+                        default:
+                            print("changed")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1

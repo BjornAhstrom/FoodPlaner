@@ -106,7 +106,7 @@ class signInViewController: UIViewController, UITextFieldDelegate {
             return
         }
 
-        auth.signIn(withEmail: email, password: password) { (user, error) in
+        auth.signIn(withEmail: email.lowercased(), password: password) { (user, error) in
             guard error == nil else {
                 self.alertMessage(titel: "Error", message: error!.localizedDescription)
                 return

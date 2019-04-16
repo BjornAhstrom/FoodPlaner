@@ -16,6 +16,8 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     var db: Firestore!
     var auth: Auth!
     var shoppingItems: [ShoppingItem] = []
+    var userIdFromFamilyAccount: [String] = []
+    var ownerFamilyAccountId: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,31 +25,71 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
         auth = Auth.auth()
         setColorOnButtonsAndLabels()
         
-        getShoppingItemsFromFirestore()
+        getFamilyAccountFromFirestore()
+        //getShoppingItemsFromFirestore()
         
         shoppingListTableView.delegate = self
         shoppingListTableView.dataSource = self
     }
     
-    func getShoppingItemsFromFirestore() {
-        let uid = auth.currentUser
-        guard let userId = uid?.uid else { return }
+    func getFamilyAccountFromFirestore() {
+        guard let userId = auth.currentUser?.uid else { return }
         
-        db.collection("users").document(userId).collection("shoppingItems").addSnapshotListener() {
-            (snapshot, error) in
+        db.collection("users").document(userId).getDocument() {
+            (document, error) in
             
-            self.shoppingItems = []
             if let error = error {
-                self.alertMessage(titel: "Error", message: error.localizedDescription)
                 print("Error getting document \(error)")
             } else {
-                for document in snapshot!.documents {
-                    let item = ShoppingItem(snapshot: document)
-                    self.shoppingItems.append(item)
+                guard let doc = document else { return }
+                
+                let famAccountId = doc.data()!["familyAccount"] as! String
+                self.ownerFamilyAccountId = famAccountId
+                
+                self.userIdFromFamilyAccount = []
+                self.db.collection("familyAccounts").document(famAccountId).collection("members").getDocuments() {
+                    (snapshot, error) in
+                    
+                    
+                    if let error = error {
+                        print("Error getting document \(error)")
+                    } else {
+                        guard let snapDoc = snapshot?.documents else { return }
+                        
+                        for document in snapDoc {
+                            //let user = User(snapshot: document)
+                            
+                            self.userIdFromFamilyAccount.append(document.documentID)
+                        }
+                        self.getShoppingItemsFromFirestore()
+                    }
                 }
             }
-            self.shoppingListTableView.reloadData()
         }
+    }
+    
+    func getShoppingItemsFromFirestore() {
+        //        let uid = auth.currentUser
+        //        guard let userId = uid?.uid else { return }
+        
+        //for userID in userIdFromFamilyAccount {
+            
+            db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").addSnapshotListener() {
+                (snapshot, error) in
+                
+                self.shoppingItems = []
+                if let error = error {
+                    self.alertMessage(titel: "Error", message: error.localizedDescription)
+                    print("Error getting document \(error)")
+                } else {
+                    for document in snapshot!.documents {
+                        let item = ShoppingItem(snapshot: document)
+                        self.shoppingItems.append(item)
+                    }
+                }
+                self.shoppingListTableView.reloadData()
+            }
+      //  }
     }
     
     func setColorOnButtonsAndLabels() {
@@ -79,15 +121,15 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        let uid = auth.currentUser
-        guard let userId = uid?.uid else { return }
+//        let uid = auth.currentUser
+//        guard let userId = uid?.uid else { return }
         
         if editingStyle == .delete {
             let itemId = shoppingItems[indexPath.row]
             shoppingItems.remove(at: indexPath.row)
             
             if let id = itemId.itemId {
-                db.collection("users").document(userId).collection("shoppingItems").document(id).delete()
+                db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").document(id).delete()
             }
             
             tableView.beginUpdates()
@@ -97,14 +139,14 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let uid = auth.currentUser
-        guard let userId = uid?.uid else { return }
+//        let uid = auth.currentUser
+//        guard let userId = uid?.uid else { return }
         
         let item = shoppingItems[indexPath.row]
         
         item.checkBox = !item.checkBox
         if let id = item.itemId {
-            db.collection("users").document(userId).collection("shoppingItems").document(id).setData(item.toAny())
+            db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").document(id).setData(item.toAny())
         }
     }
     

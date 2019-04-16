@@ -190,3 +190,6 @@
 
 /* Class = "UIButton"; normalTitle = "Recipe"; ObjectID = "ztv-KY-3FJ"; */
 "ztv-KY-3FJ.normalTitle" = "Recept";
+
+/* Class = "UIButton"; normalTitle = "Decline"; ObjectID = "qdQ-yx-HPA"; */
+"qdQ-yx-HPA.normalTitle" = "Avsluta";

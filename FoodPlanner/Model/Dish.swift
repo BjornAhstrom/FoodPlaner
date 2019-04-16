@@ -48,6 +48,6 @@ class Dish: Equatable {
     }
     
     func toAny() -> [String : Any] {
-        return ["dishName": dishName, "cooking": cooking!, "portions": portions] //
+        return ["dishName": dishName, "cooking": cooking!, "portions": portions]
     }
 }

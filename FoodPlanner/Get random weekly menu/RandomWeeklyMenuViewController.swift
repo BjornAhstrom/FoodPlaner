@@ -24,6 +24,8 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     var shoppingItems: [ShoppingItem] = []
     var selectedDateFromUser: Date!
     var getNumberOfDishesFromUser: Int!
+    var userIdFromFamilyAccount: [String] = []
+    var ownerFamilyAccountId: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,72 +38,110 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         
         self.weeklyMenuTableView.reloadData()
         
-        getRandomDishesFromFirestore(count: getNumberOfDishesFromUser)
+        getFamilyAccountFromFirestore()
+        //getRandomDishesFromFirestore(count: getNumberOfDishesFromUser)
     }
-
     
-    func getRandomDishesFromFirestore(count: Int) {
-        let uid = auth.currentUser
-        guard let userId = uid?.uid else { return }
+    func getFamilyAccountFromFirestore() {
+        guard let userId = auth.currentUser?.uid else { return }
         
-        let calendar = Calendar.current
-        let date = calendar.startOfDay(for: selectedDateFromUser)
-        
-        db.collection("users").document(userId).collection("dishes").getDocuments() {
-            (querySnapshot, error) in
+        db.collection("users").document(userId).getDocument() {
+            (document, error) in
             
             if let error = error {
                 print("Error getting document \(error)")
             } else {
-                guard let snapshot = querySnapshot else {
-                    return
-                }
+                guard let doc = document else { return }
                 
+                let famAccountId = doc.data()!["familyAccount"] as! String
+                self.ownerFamilyAccountId = famAccountId
                 
-                let delta = Int(round( 7.0 / Double(count)))
-                var index = 0
-                while self.dishes.count < count {
-                    let randomIndex = Int.random(in: 0..<snapshot.documents.count)
-                    let randomDishSnapshot = snapshot.documents[randomIndex]
+                self.userIdFromFamilyAccount = []
+                self.db.collection("familyAccounts").document(famAccountId).collection("members").getDocuments() {
+                    (snapshot, error) in
                     
-                    let randomDish = Dish(snapshot: randomDishSnapshot)
-                    
-                    if self.dishes.add(dish: randomDish) {
+                    if let error = error {
+                        print("Error getting document \(error)")
+                    } else {
+                        guard let snapDoc = snapshot?.documents else { return }
                         
-                        let newDate = calendar.date(byAdding: .day, value: index, to: date)!
-                        
-                        let foodAndDate = DishAndDate(dishName: randomDish.dishName, date: newDate, idFromDish: randomDish.dishID)
-                        
-                        self.foodMenu.append(foodAndDate)
-                        
-                        self.foodMenu = self.foodMenu.sorted(by: {$0.date.compare($1.date) == .orderedAscending}) // Ändra tillbaka till Descending och $1.date.compare($0.date) om det inte funkar
-                        
-                        index += delta
-                        self.db.collection("users").document(userId).collection("weeklyMenu").addDocument(data: foodAndDate.toAny())
-                        
-                        self.db.collection("users").document(userId).collection("dishes").document(randomDish.dishID).collection("ingredients").getDocuments() {
-                            (querySnapshot, error) in
+                        for document in snapDoc {
+                            //let user = User(snapshot: document)
                             
-                            if let error = error {
-                                print("Error getting document \(error)")
-                            } else {
-                                guard let snapshot = querySnapshot else {
-                                    return
-                                }
-                                for document in snapshot.documents {
-                                    let ing = Ingredient(snapshot: document)
-                                    
-                                    let items = ShoppingItem(ingredient: ing, checkBox: false) // 
-                                    self.shoppingItems.append(items)
-                                    
-                                    self.db.collection("users").document(userId).collection("shoppingItems").addDocument(data: items.toAny())
-                                }
-                            }
+                            self.userIdFromFamilyAccount.append(document.documentID)
                         }
-                        
+                        self.getRandomDishesFromFirestore(count: self.getNumberOfDishesFromUser)
                     }
                 }
-                self.weeklyMenuTableView.reloadData()
+            }
+        }
+    }
+    
+    
+    func getRandomDishesFromFirestore(count: Int) {
+//        let uid = auth.currentUser
+//        guard let userId = uid?.uid else { return }
+        
+        for userID in userIdFromFamilyAccount {
+            print("!!!!!!!!!!!!!!!!!!!!!\(ownerFamilyAccountId)")
+            let calendar = Calendar.current
+            let date = calendar.startOfDay(for: selectedDateFromUser)
+            
+            db.collection("users").document(userID).collection("dishes").getDocuments() {
+                (querySnapshot, error) in
+                
+                if let error = error {
+                    print("Error getting document \(error)")
+                } else {
+                    guard let snapshot = querySnapshot else {
+                        return
+                    }
+                    
+                    let delta = Int(round( 7.0 / Double(count)))
+                    var index = 0
+                    while self.dishes.count < count {
+                        let randomIndex = Int.random(in: 0..<snapshot.documents.count)
+                        let randomDishSnapshot = snapshot.documents[randomIndex]
+                        
+                        let randomDish = Dish(snapshot: randomDishSnapshot)
+                        
+                        if self.dishes.add(dish: randomDish) {
+                            
+                            let newDate = calendar.date(byAdding: .day, value: index, to: date)!
+                            
+                            let foodAndDate = DishAndDate(dishName: randomDish.dishName, date: newDate, idFromDish: randomDish.dishID)
+                            
+                            self.foodMenu.append(foodAndDate)
+                            
+                            self.foodMenu = self.foodMenu.sorted(by: {$0.date.compare($1.date) == .orderedAscending}) // Ändra tillbaka till Descending och $1.date.compare($0.date) om det inte funkar
+                            
+                            index += delta
+                            self.db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").addDocument(data: foodAndDate.toAny())
+                            
+                            self.db.collection("users").document(userID).collection("dishes").document(randomDish.dishID).collection("ingredients").getDocuments() {
+                                (querySnapshot, error) in
+                                
+                                if let error = error {
+                                    print("Error getting document \(error)")
+                                } else {
+                                    guard let snapshot = querySnapshot else {
+                                        return
+                                    }
+                                    for document in snapshot.documents {
+                                        let ing = Ingredient(snapshot: document)
+                                        
+                                        let items = ShoppingItem(ingredient: ing, checkBox: false)
+                                        self.shoppingItems.append(items)
+                                        
+                                        self.db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").addDocument(data: items.toAny())
+                                    }
+                                }
+                            }
+                            
+                        }
+                    }
+                    self.weeklyMenuTableView.reloadData()
+                }
             }
         }
     }

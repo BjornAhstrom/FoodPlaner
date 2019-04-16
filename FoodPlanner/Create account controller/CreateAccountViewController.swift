@@ -119,15 +119,15 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         guard let password = passwordTextField.text else { return }
         guard let name = nameTextField.text else { return }
         
-        let userName = User(name: name, email: email)
-        
-        auth.createUser(withEmail: email, password: password) { (user, error) in
+        auth.createUser(withEmail: email.lowercased(), password: password) { (user, error) in
             guard error == nil else {
                 self.alertMessage(titel: "Error" , message: error!.localizedDescription)
                 return
             }
             
             guard let userId = self.auth.currentUser?.uid else { return }
+            
+            let userName = User(name: name, email: email.lowercased(), familyAccount: userId)
             
             let changeRequest = self.auth.currentUser?.createProfileChangeRequest()
             changeRequest?.displayName = name
@@ -136,8 +136,11 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
             })
             
             self.db.collection("users").document(userId).setData(userName.toAny())
-            self.db.collection("familyAccount").document(userId).setData(["name": userName.name ])
-            print("Account created")
+            
+            self.db.collection("familyAccounts").document(userId).collection("members").document(userId).setData(["name": userName.userId ])
+            
+            self.db.collection("familyAccounts").document(userId).setData(["name": userName.name ])
+            
             self.sendUserToStartView()
         }
     }

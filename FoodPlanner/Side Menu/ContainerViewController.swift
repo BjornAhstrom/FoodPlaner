@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ContainerViewController: UIViewController {
     @IBOutlet weak var sideMenuTrailingConstraint: NSLayoutConstraint!
@@ -15,6 +16,7 @@ class ContainerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        swipeLeftAndRight()
         NotificationCenter.default.addObserver(self, selector: #selector(showSideMenu), name: NSNotification.Name( "showSideMenu"), object: nil)
     }
     
@@ -33,6 +35,27 @@ class ContainerViewController: UIViewController {
     func animations() {
         UIView.animate(withDuration: 0.5, delay: 0.1, options: .curveEaseInOut, animations: {self.view.layoutIfNeeded()})
     }
+    
+    func swipeLeftAndRight() {
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.showSideMenu))
+        swipeLeft.direction = .left
+        self.view.addGestureRecognizer(swipeLeft)
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.showSideMenu))
+        swipeRight.direction = .right
+        self.view.addGestureRecognizer(swipeRight)
+    }
+    
+//    override func becomeFirstResponder() -> Bool {
+//        return true
+//    }
+//
+//    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+//
+//        if motion == .motionShake {
+//            print("!!!!!!!!!!!!!!Shake")
+//        }
+//    }
 }
 
 extension UIViewController {

@@ -13,21 +13,24 @@ class User {
     var name: String
     var email: String
     var userId: String
+    var familyAccount: String
     
-    init(name: String, email: String) {
+    init(name: String, email: String,familyAccount: String) {
         self.name = name
         self.email = email
+        self.familyAccount = familyAccount
         userId = ""
     }
     
     init(snapshot: QueryDocumentSnapshot) {
         let snapshotValue = snapshot.data() as [String : Any]
-        name = snapshotValue["name"] as! String
-        email = snapshotValue["email"] as! String
+        name = snapshotValue["name"] as? String ?? ""
+        email = snapshotValue["email"] as? String ?? ""
+        familyAccount = snapshotValue["familyAccount"] as? String ?? ""
         userId = snapshot.documentID
     }
     
     func toAny() -> [String : Any] {
-        return ["name": name, "email": email]
+        return ["name": name, "email": email, "familyAccount" : familyAccount]
     }
 }

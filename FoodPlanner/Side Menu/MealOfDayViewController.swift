@@ -27,8 +27,12 @@ class MealOfDayViewController: UIViewController {
     var db: Firestore!
     var auth: Auth!
     var dishes = Dishes()
+    var users: [User] = []
+    var invites: [Invite] = []
     var dishId: String?
     var userID: String = ""
+    var userIdFromFamilyAccount: [String] = []
+    var ownerFamilyAccountId: String = ""
     
     var imageReference: StorageReference {
         return Storage.storage().reference().child("usersImages").child(userID)
@@ -37,10 +41,9 @@ class MealOfDayViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
         auth = Auth.auth()
-        getWeeklyMenuFromFireStore()
-        getDishesIdFromFirestore()
+        getFamilyAccountFromFirestore() // Få sidan att uppdateras när något händer
         setRadiusBorderColorAndFontOnLabelsViewsAndButtons()
-        
+        ifUserGetAnInviteThenShowPopup()
         
         // Om det inte finns några maträtter att hämta från databasaen, gå direkt till DishesViewController så att användaren kan börja lägga till maträtter.
         if dishesID == [""] {
@@ -77,13 +80,50 @@ class MealOfDayViewController: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.navigationbarTextColor]
     }
     
+    func getFamilyAccountFromFirestore() {
+        guard let userId = auth.currentUser?.uid else { return }
+        
+        db.collection("users").document(userId).getDocument() {
+            (document, error) in
+            
+            if let error = error {
+                print("Error getting document \(error)")
+            } else {
+                guard let doc = document else { return }
+                
+                let famAccountId = doc.data()!["familyAccount"] as! String
+                self.ownerFamilyAccountId = famAccountId
+                
+                self.userIdFromFamilyAccount = []
+                self.db.collection("familyAccounts").document(famAccountId).collection("members").getDocuments() {
+                    (snapshot, error) in
+                    
+                    if let error = error {
+                        print("Error getting document \(error)")
+                    } else {
+                        guard let snapDoc = snapshot?.documents else { return }
+                        
+                        for document in snapDoc {
+                            //let user = User(snapshot: document)
+                            
+                            self.userIdFromFamilyAccount.append(document.documentID)
+                        }
+                        self.getWeeklyMenuFromFireStore()
+                        self.getDishesIdFromFirestore()
+                    }
+                }
+            }
+        }
+    }
+    
     // Hämtar maträtter och sparar deras id i en array (dishesID).
     func getDishesIdFromFirestore() {
-        let uid = auth.currentUser
-        guard let userId = uid?.uid else { return }
-        userID = userId
+//        let uid = auth.currentUser
+//        guard let userId = uid?.uid else { return }
+//        userID = userId
         
-        db.collection("users").document(userId).collection("dishes").getDocuments() {
+        for iserID in userIdFromFamilyAccount {
+        db.collection("users").document(iserID).collection("dishes").getDocuments() {
             (querySnapshot, error) in
             
             if let error = error {
@@ -95,7 +135,7 @@ class MealOfDayViewController: UIViewController {
                 for document in snapshot.documents {
                     let dish = Dish(snapshot: document)
                     self.dishesID.append(dish.dishID)
-                    self.db.collection("users").document(userId).collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
+                    self.db.collection("users").document(iserID).collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
                         (querySnapshot, error) in
                         
                         for document in (querySnapshot?.documents)!{
@@ -109,16 +149,17 @@ class MealOfDayViewController: UIViewController {
                 }
             }
         }
+        }
     }
     
     // Hämtar data från veckomenyn för att sedan jämföra dagens datum med datum i veckomenyn och visa rätt maträtt,
     // om menyn inte har en maträtt då ska selectRandomDishController visas
     func getWeeklyMenuFromFireStore() {
-        let uid = auth.currentUser
-        guard let userId = uid?.uid else { return }
-        userID = userId
+//        let uid = auth.currentUser
+//        guard let userId = uid?.uid else { return }
+//        userID = userId
         
-        db.collection("users").document(userId).collection("weeklyMenu").order(by: "date", descending: false).getDocuments() {
+        db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").order(by: "date", descending: false).getDocuments() {
             (querySnapshot, error) in
             
             if let error = error {
@@ -154,7 +195,6 @@ class MealOfDayViewController: UIViewController {
                         break
                     }
                     if order == .orderedAscending {
-                        print("\(todayDate) < \(dateFromDish) ")
                         mealOfToday = weeklyMenu
                         self.dateLabel.text = "Start date: \(outputDate)"
                         break
@@ -172,7 +212,7 @@ class MealOfDayViewController: UIViewController {
     
     func downloadImageFromStorage() {
         let downloadImageRef = imageReference.child(dishId ?? "No dishId")
-        print("!!!!!!!!\(dishId ?? "")")
+        
         if downloadImageRef.name == dishId {
             let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
                 if let error = error {
@@ -223,5 +263,99 @@ class MealOfDayViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func ifUserGetAnInviteThenShowPopup() {
+        guard let userId = auth.currentUser?.uid else { return }
+        
+        db.collection("users").document(userId).collection("invites").addSnapshotListener() {
+            (snapshot, error) in
+            
+            if let error = error {
+                print("No users \(error)")
+            } else {
+                
+                guard let snapDoc = snapshot?.documents else { return }
+                
+                for document in snapDoc {
+                    let invite = Invite(snapshot: document)
+                    if invite.invite == true {
+                        guard let nameFromUser = invite.fromUserName else { return }
+                        self.accpetOrDeclineInvite(title: "You got an invite!", message: "Do you accept the invite from \(nameFromUser)?")
+                    }
+                }
+            }
+        }
+    }
+    
+    func acceptInvite(invite: Invite) {
+        guard let userId = self.auth.currentUser?.uid else { return }
+        guard let name = self.auth.currentUser?.displayName else { return }
+        guard let email = self.auth.currentUser?.email else { return }
+        
+        // 1. lägg till dig själv som medlem i familyaccountet som du är invitad till
+        db.collection("familyAccounts").document(invite.fromUserId).collection("members").document(userId).setData(["name" : name])
+        
+        // 2. lägg till familyaccountet som du accpterar som ditt eget familyaccount
+        db.collection("users").document(userId).setData(["name" : name, "email" : email, "familyAccount" : invite.fromUserId])
+        
+        // 3. radera inviten
+        db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete()
+    }
+    
+    func declineInvite(invite: Invite) {
+        guard let userId = self.auth.currentUser?.uid else { return }
+        
+        // radera inviten
+        db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete()
+    }
+    
+    func accpetOrDeclineInvite(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Accept", style: .default) { (UIAlertAction) in
+            guard let userId = self.auth.currentUser?.uid else { return }
+            
+            self.db.collection("users").document(userId).collection("invites").getDocuments() {
+                (snapshot, error) in
+                
+                if let error = error {
+                    print("No users \(error)")
+                } else {
+                    guard let snapDoc = snapshot?.documents else { return }
+                    
+                    for document in snapDoc {
+                        let invite = Invite(snapshot: document)
+                        self.invites.append(invite)
+                    }
+                    for invite in self.invites {
+                        self.acceptInvite(invite: invite)
+                    }
+                }
+            }
+        })
+        
+        alert.addAction(UIAlertAction(title: "Decline", style: .default) { (UIAlertAction) in
+            self.db.collection("users").getDocuments() {
+                (snapshot, error) in
+                
+                if let error = error {
+                    print("No users \(error)")
+                } else {
+                    
+                    guard let snapDoc = snapshot?.documents else { return }
+                    
+                    for document in snapDoc {
+                        let user = User(snapshot: document)
+                        self.users.append(user)
+                    }
+                }
+                
+                for user in self.users {
+                    let invite = Invite(fromUserId: user.userId, fromUserName: user.name )
+                    self.declineInvite(invite: invite)
+                }
+            }
+        })
+        self.present(alert, animated: true, completion:  nil)
     }
 }

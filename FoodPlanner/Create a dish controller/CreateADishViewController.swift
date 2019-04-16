@@ -62,7 +62,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         cookingDescriptionTextView.delegate = self
         cookingDescriptionTextView.layer.zPosition = 1
         
-        tapOnTapHereLabelToAddAPicture()
+        tapOnImageViewToAddAPicture()
         self.hideKeyboard()
         showAndHideKeyboardWithNotifications()
     }
@@ -149,13 +149,30 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     }
     
     func hidePortionsStepperLabelAndTextField() {
-        UIView.animate(withDuration: 0.2, delay: 0.0, options:
+        UIView.animate(withDuration: 0.3, delay: 0.0, options:
             UIView.AnimationOptions.curveEaseIn, animations: { self.portionsLabel.alpha  = 0.0 }, completion: nil)
-        UIView.animate(withDuration: 0.2, delay: 0.0, options:
+        UIView.animate(withDuration: 0.3, delay: 0.0, options:
             UIView.AnimationOptions.curveEaseIn, animations: { self.portonsAmountTextField.alpha = 0.0 }, completion: nil)
-        UIView.animate(withDuration: 0.2, delay: 0.0, options:
+        UIView.animate(withDuration: 0.3, delay: 0.0, options:
             UIView.AnimationOptions.curveEaseIn, animations: { self.portionsAmountStepper.alpha  = 0.0 }, completion: nil)
-        
+        portionsLabel.isHidden = true
+        portonsAmountTextField.isHidden = true
+        portionsAmountStepper.isHidden = true
+    }
+    
+    func showPortionsStepperLabelAndTextField() {
+        UIView.animate(withDuration: 0.5, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.portionsLabel.alpha  = 1.0 }, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.portonsAmountTextField.alpha = 1.0 }, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0.0, options:
+            UIView.AnimationOptions.curveEaseIn, animations: { self.portionsAmountStepper.alpha  = 1.0 }, completion: nil)
+        portionsLabel.isHidden = false
+        portonsAmountTextField.isHidden = false
+        portionsAmountStepper.isHidden = false
+    }
+    
+    func hideLabelsAndButtons() {
         UIView.animate(withDuration: 0.2, delay: 0.0, options:
             UIView.AnimationOptions.curveEaseIn, animations: { self.ingredientTextField.alpha  = 0.0 }, completion: nil)
         UIView.animate(withDuration: 0.2, delay: 0.0, options:
@@ -168,17 +185,9 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             UIView.AnimationOptions.curveEaseIn, animations: { self.addButton.alpha  = 0.0 }, completion: nil)
         UIView.animate(withDuration: 0.2, delay: 0.0, options:
             UIView.AnimationOptions.curveEaseIn, animations: { self.stepsLabel.alpha  = 0.0 }, completion: nil)
-        
     }
     
-    func showPortionsStepperLabelAndTextField() {
-        UIView.animate(withDuration: 0.5, delay: 0.0, options:
-            UIView.AnimationOptions.curveEaseIn, animations: { self.portionsLabel.alpha  = 1.0 }, completion: nil)
-        UIView.animate(withDuration: 0.5, delay: 0.0, options:
-            UIView.AnimationOptions.curveEaseIn, animations: { self.portonsAmountTextField.alpha = 1.0 }, completion: nil)
-        UIView.animate(withDuration: 0.5, delay: 0.0, options:
-            UIView.AnimationOptions.curveEaseIn, animations: { self.portionsAmountStepper.alpha  = 1.0 }, completion: nil)
-        
+    func showLabelsAndButtons() {
         UIView.animate(withDuration: 0.5, delay: 0.0, options:
             UIView.AnimationOptions.curveEaseIn, animations: { self.ingredientTextField.alpha  = 1.0 }, completion: nil)
         UIView.animate(withDuration: 0.5, delay: 0.0, options:
@@ -193,27 +202,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             UIView.AnimationOptions.curveEaseIn, animations: { self.stepsLabel.alpha  = 1.0 }, completion: nil)
     }
     
-    func hideLabelsAndButtons() {
-        ingredientsTableView.isHidden = true
-        stepperTextField.isHidden = true
-        ingredientTextField.isHidden = true
-        IngredientsAmountStepper.isHidden = true
-        unitTextField.isHidden = true
-        addButton.isHidden = true
-        stepsLabel.isHidden = true
-    }
-    
-    func showLabelsAndButtons() {
-        ingredientsTableView.isHidden = false
-        stepperTextField.isHidden = false
-        ingredientTextField.isHidden = false
-        IngredientsAmountStepper.isHidden = false
-        unitTextField.isHidden = false
-        addButton.isHidden = false
-        stepsLabel.isHidden = false
-    }
-    
-    func tapOnTapHereLabelToAddAPicture() {
+    func tapOnImageViewToAddAPicture() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         dishImageView.isUserInteractionEnabled = true
         dishImageView.addGestureRecognizer(tapGestureRecognizer)
@@ -308,7 +297,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             
             let saveDish = Dish(dishTitle: nameOnDishTextField, dishImageId: dishPicture, ingredientsAndAmount: ingredients, cooking: cookingDescription.text, portions: portionsAmount)
             
-            guard dishes?.add(dish: saveDish) == true else { return }
+           // guard dishes?.add(dish: saveDish) == true else { return }
                 
 //            } else {
 //                print("Error getting saved")
@@ -333,13 +322,13 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         let uploadImageRef = imageReference.child(dishImageId)
         
         let uploadTask = uploadImageRef.putData(imageData, metadata: nil) { (metadata, error) in
-            print("Upload task finished")
+            //print("Upload task finished")
             print(metadata ?? "No metadat")
             print(error ?? "No error")
         }
         
         uploadTask.observe(.progress) { (snapshot) in
-            print(snapshot.progress ?? "No more progress")
+            //print(snapshot.progress ?? "No more progress")
         }
         
         uploadTask.resume()
@@ -359,7 +348,6 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
                 self.present(self.imagePickerController, animated: true, completion: nil)
             } else {
                 self.alertMessage(titel: "Your device have no camera", message: "Please use your photo library")
-                print("Camera not available")
             }
         }))
         

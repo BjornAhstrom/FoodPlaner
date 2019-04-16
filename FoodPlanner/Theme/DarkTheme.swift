@@ -40,7 +40,7 @@ class DarkTheme: ThemeProtocol {
     
     
     // Meal of the day
-    var backgroundColorMealOfTheDay: UIColor = UIColor(named: "OldPink")!
+    var backgroundColorMealOfTheDay: UIColor = UIColor(named: "PaleTurquoise")!
     
     var mealOfTheDayLabelFont: UIFont = UIFont(name: "Zapfino", size: 30)!
     var mealOfTheDayLabelTextColor: UIColor = UIColor(named: "Gray")!
@@ -58,14 +58,14 @@ class DarkTheme: ThemeProtocol {
     
     
     // Dishes view controller
-    var backgroundColorInDishesView: UIColor = UIColor(named: "OldPink")!
+    var backgroundColorInDishesView: UIColor = UIColor(named: "PaleTurquoise")!
     var textColorInTableViewInDishesView: UIColor = UIColor(named: "OldRose")!
     var textFontInTableViewInDishesView: UIFont = UIFont(name: "TimesNewRomanPS-BoldItalicMT", size: 22)!
     
     
     // Show dish view controller
-    var backgroundColorShowDishController: UIColor = UIColor(named: "OldPink")!
-    var backgroundColorInTableViewAndTextViewInShowDishController: UIColor = UIColor(named: "OldPink")!
+    var backgroundColorShowDishController: UIColor = UIColor(named: "PaleTurquoise")!
+    var backgroundColorInTableViewAndTextViewInShowDishController: UIColor = UIColor(named: "PaleTurquoise")!
     var borderColorInTableViewAndTextViewAndImageViewInShowDishController: UIColor = UIColor(named: "OldRose")!
     var textColorInTableViewAndTextViewInShowDishController: UIColor = UIColor(named: "OldRose")!
     var textFontInTextViewInShowDishController: UIFont = UIFont(name: "TimesNewRomanPS-BoldItalicMT", size: 18)!
@@ -77,7 +77,7 @@ class DarkTheme: ThemeProtocol {
     
     
     // Add dish view controller
-    var backgroundColorAddDishController: UIColor = UIColor(named: "OldPink")!
+    var backgroundColorAddDishController: UIColor = UIColor(named: "PaleTurquoise")!
     var borderColorForImageViewAddDishController: UIColor = UIColor(named: "OldRose")!
     var borderColorForIngredentsTableViewAddDishController: UIColor = UIColor(named: "OldRose")!
     var borderColorForCookingDescriptionAddDishController: UIColor = UIColor(named: "OldRose")!
@@ -85,19 +85,19 @@ class DarkTheme: ThemeProtocol {
     
     
     // Select random dish view controller
-    var backgroundColorSelectRandomDishController: UIColor = UIColor(named: "OldPink")!
+    var backgroundColorSelectRandomDishController: UIColor = UIColor(named: "PaleTurquoise")!
     
     
     // Random weekly menuController
-    var backgroundColorRandomWeeklyMenuController: UIColor = UIColor(named: "OldPink")!
+    var backgroundColorRandomWeeklyMenuController: UIColor = UIColor(named: "PaleTurquoise")!
     
     
     // Finished weekly menu controller
-    var backgrondColorFinishedWeeklyMenuController: UIColor = UIColor(named: "OldPink")!
+    var backgrondColorFinishedWeeklyMenuController: UIColor = UIColor(named: "PaleTurquoise")!
     
     
     // Settings View controller
-    var backgroundColorForSettingsViewController: UIColor = UIColor.blue //(named: "OldPink")!
+    var backgroundColorForSettingsViewController: UIColor = UIColor(named: "PaleTurquoise")!
 }
 
 
