@@ -112,7 +112,7 @@ class SideMenuViewController: UIViewController {
     
     func addANewButtonAndSetLabelText() {
         if addCategoriesTextField.text! == "" {
-            self.alertMessage(titel: "Your button most have a name", message: "Pleace try again")
+            self.alertMessage(titel: "\(NSLocalizedString("alertTitle1", comment: ""))", message: "\(NSLocalizedString("alertMessage1", comment: ""))")
         } else {
             buttons.append(Button(buttonTitle: addCategoriesTextField.text!))
             
@@ -129,11 +129,11 @@ class SideMenuViewController: UIViewController {
     func createFourPredefinedButtons() -> [Button] {
         var tempButtons: [Button] = []
         
-        let button1 = Button(buttonTitle: "My recipes")
-        let button2 = Button(buttonTitle: "My recipes from pictures")
-        let button3 = Button(buttonTitle: "My webrecipes")
-        let button4 = Button(buttonTitle: "Weekly menu")
-        let button5 = Button(buttonTitle: "Create new food menu")
+        let button1 = Button(buttonTitle: "\(NSLocalizedString("button1", comment: ""))")
+        let button2 = Button(buttonTitle: "\(NSLocalizedString("button2", comment: ""))")
+        let button3 = Button(buttonTitle: "\(NSLocalizedString("button3", comment: ""))")
+        let button4 = Button(buttonTitle: "\(NSLocalizedString("button4", comment: ""))")
+        let button5 = Button(buttonTitle: "\(NSLocalizedString("button5", comment: ""))")
         
         tempButtons.append(button1)
         tempButtons.append(button2)

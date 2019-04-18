@@ -18,14 +18,17 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     
     var db: Firestore!
     var auth: Auth!
-    let dishes = Dishes()
-    var foodMenu = [DishAndDate]()
+    //let dishes = Dishes.dishes
+    
+    var weeklyMenu = [DishAndDate]()
     var ingredients: [Ingredient] = []
     var shoppingItems: [ShoppingItem] = []
     var selectedDateFromUser: Date!
-    var getNumberOfDishesFromUser: Int!
+    var getNumberOfDishesFromUser: Int = 0
     var userIdFromFamilyAccount: [String] = []
     var ownerFamilyAccountId: String = ""
+    
+    var dishId: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +73,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
                             
                             self.userIdFromFamilyAccount.append(document.documentID)
                         }
-                        self.getRandomDishesFromFirestore(count: self.getNumberOfDishesFromUser)
+                        self.createWeeklyMenu(count: self.getNumberOfDishesFromUser)
                     }
                 }
             }
@@ -78,74 +81,58 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     
-    func getRandomDishesFromFirestore(count: Int) {
-//        let uid = auth.currentUser
-//        guard let userId = uid?.uid else { return }
+    // Ska göras: Om användaren viljer 2 maträtter då ska det kollas om det finns gånger 3 maträtter, för det ska inte kunna bli samma maträtter som föregående vecka
+    func createWeeklyMenu(count: Int) {
+        if count > Dishes.instance.dishes.count {
+            self.alertMessage(titel: "Varning!", message: "Du har endast \(Dishes.instance.dishes.count) maträtter inlagda i dina recept, så du kommer endast få ut \(Dishes.instance.dishes.count) maträtter i din veckomeny")
+        }
+        
+        let calendar = Calendar.current
+        let date = calendar.startOfDay(for: selectedDateFromUser)
+        
+        let weekleyDishes = Dishes.instance.randomDishes(count: count)
+        
+        let delta = Int(round( 7.0 / Double(count)))
+        var index = 0
+        
+        for dish in weekleyDishes {
+            let newDate = calendar.date(byAdding: .day, value: index, to: date)!
+            
+            let foodAndDate = DishAndDate(dishName: dish.dishName, date: newDate, idFromDish: dish.dishID)
+            dishId.append(dish.dishID)
+            self.db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").addDocument(data: foodAndDate.toAny())
+            
+            self.weeklyMenu.append(foodAndDate)
+            index += delta
+        }
+        
+        self.weeklyMenu = self.weeklyMenu.sorted(by: {$0.date.compare($1.date) == .orderedAscending})
         
         for userID in userIdFromFamilyAccount {
-            print("!!!!!!!!!!!!!!!!!!!!!\(ownerFamilyAccountId)")
-            let calendar = Calendar.current
-            let date = calendar.startOfDay(for: selectedDateFromUser)
-            
-            db.collection("users").document(userID).collection("dishes").getDocuments() {
-                (querySnapshot, error) in
-                
-                if let error = error {
-                    print("Error getting document \(error)")
-                } else {
-                    guard let snapshot = querySnapshot else {
-                        return
-                    }
+            for id in dishId {
+                self.db.collection("users").document(userID).collection("dishes").document(id).collection("ingredients").getDocuments() {
+                    (querySnapshot, error) in
                     
-                    let delta = Int(round( 7.0 / Double(count)))
-                    var index = 0
-                    while self.dishes.count < count {
-                        let randomIndex = Int.random(in: 0..<snapshot.documents.count)
-                        let randomDishSnapshot = snapshot.documents[randomIndex]
-                        
-                        let randomDish = Dish(snapshot: randomDishSnapshot)
-                        
-                        if self.dishes.add(dish: randomDish) {
+                    if let error = error {
+                        print("Error getting document \(error)")
+                    } else {
+                        guard let snapshot = querySnapshot else {
+                            return
+                        }
+                        for document in snapshot.documents {
+                            let ing = Ingredient(snapshot: document)
                             
-                            let newDate = calendar.date(byAdding: .day, value: index, to: date)!
+                            let items = ShoppingItem(ingredient: ing, checkBox: false)
+                            self.shoppingItems.append(items)
                             
-                            let foodAndDate = DishAndDate(dishName: randomDish.dishName, date: newDate, idFromDish: randomDish.dishID)
-                            
-                            self.foodMenu.append(foodAndDate)
-                            
-                            self.foodMenu = self.foodMenu.sorted(by: {$0.date.compare($1.date) == .orderedAscending}) // Ändra tillbaka till Descending och $1.date.compare($0.date) om det inte funkar
-                            
-                            index += delta
-                            self.db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").addDocument(data: foodAndDate.toAny())
-                            
-                            self.db.collection("users").document(userID).collection("dishes").document(randomDish.dishID).collection("ingredients").getDocuments() {
-                                (querySnapshot, error) in
-                                
-                                if let error = error {
-                                    print("Error getting document \(error)")
-                                } else {
-                                    guard let snapshot = querySnapshot else {
-                                        return
-                                    }
-                                    for document in snapshot.documents {
-                                        let ing = Ingredient(snapshot: document)
-                                        
-                                        let items = ShoppingItem(ingredient: ing, checkBox: false)
-                                        self.shoppingItems.append(items)
-                                        
-                                        self.db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").addDocument(data: items.toAny())
-                                    }
-                                }
-                            }
-                            
+                            self.db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").addDocument(data: items.toAny())
                         }
                     }
-                    self.weeklyMenuTableView.reloadData()
                 }
             }
         }
+        self.weeklyMenuTableView.reloadData()
     }
-    
     
     @IBAction func saveWeeklyMenu(_ sender: UIButton) {
     }
@@ -164,13 +151,13 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return foodMenu.count
+        return weeklyMenu.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: randomMenuCell, for: indexPath) as? RandomWeeklyManuTableViewCell
         
-        let foodAndDate = foodMenu[indexPath.row]
+        let foodAndDate = weeklyMenu[indexPath.row]
         
         cell?.setDateOnLabel(date: foodAndDate.date)
         cell?.setFoodnameOnLabel(foodName: foodAndDate.dishName)
@@ -184,7 +171,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            foodMenu.remove(at: indexPath.row)
+            weeklyMenu.remove(at: indexPath.row)
             
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .automatic)

@@ -22,7 +22,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var db: Firestore!
     var auth: Auth!
-    var dishes = Dishes()
+    //var dishes = Dishes.dishes
     var userIdFromFamilyAccount: [String] = []
     
     override func viewDidLoad() {
@@ -65,13 +65,13 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
             getDishesFromFirestore()
-            dishes = Dishes()
+            //Dishes.dishes
         } else {
             filterSearcTableView(inputText: searchText)
         }
     }
     func filterSearcTableView(inputText: String) {
-        dishes.dishes = dishes.dishes.filter({ (dish) -> Bool in
+        Dishes.instance.dishes = Dishes.instance.dishes.filter({ (dish) -> Bool in
             return dish.dishName.lowercased().contains(inputText.lowercased())
         })
         self.showDishTableView.reloadData()
@@ -138,7 +138,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                     
                                     dish.add(ingredient: ing)
                                 }
-                                 _ = self.dishes.add(dish: dish)
+                                 _ = Dishes.instance.add(dish: dish)
                                  self.showDishTableView.reloadData()
                             }
                         case .removed:
@@ -146,8 +146,8 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             let dish = Dish(snapshot: change.document)
                         
                             // find dish in dishes and remove it
-                            if let index =  self.dishes.dishes.index(of: dish) {
-                                self.dishes.dishes.remove(at: index)
+                            if let index =  Dishes.instance.dishes.index(of: dish) {
+                                Dishes.instance.dishes.remove(at: index)
                                 print("removed \(dish.dishName)")
                             }
                             
@@ -167,13 +167,13 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dishes.count
+        return Dishes.instance.dishes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
         
-        if let dish = dishes.dish(index: indexPath.row) {
+        if let dish = Dishes.instance.dish(index: indexPath.row) {
             cell.textLabel?.text = dish.dishName
             
             let backgroundView = UIView()
@@ -191,7 +191,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == segueId {
             if let destVC = segue.destination as? CreateADishViewController {
-                destVC.dishes = dishes
+                //destVC.dishes = Dishes.dish
             }
         }
         
@@ -208,7 +208,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 print("indexPath")
                 return
             }
-            guard let dish = dishes.dish(index: indexPath.row) else {
+            guard let dish = Dishes.instance.dish(index: indexPath.row) else {
                 print("dish")
                 return
             }

@@ -8,15 +8,15 @@
 
 import Foundation
 import UIKit
-import Firebase
 
+
+// Dishes.dishes -> Dishes.instance.dishes
 class Dishes {
-    var dishes = [Dish]()
-    var db: Firestore!
+   
+    private init() {}
+    static let instance = Dishes()
     
-    init() {
-       // addMockDishes()
-    }
+    var dishes = [Dish]()
     
     var count: Int {
         return dishes.count
@@ -32,16 +32,17 @@ class Dishes {
     }
     
     func clear() {
-        dishes = []
+       dishes = []
     }
     
     func dish(index: Int) -> Dish? {
         if index >= 0 && index <= dishes.count {
-        return dishes[index]
+            return dishes[index]
         }
         return nil
     }
     
+    // Tror inte denna funktion behövs. Ta bort?
     func randomDish() -> Dish {
         for _ in 0...6 {
             let randomIndex = Int(arc4random_uniform(UInt32(dishes.count)))
@@ -50,53 +51,25 @@ class Dishes {
         return dishes[0]
     }
     
-//    func addMockDishes() {
-//        let ingredients: [Ingredient] = [Ingredient(ingredientsTitle: "Tomat", amount: 2, unit: "ST")]
-//        let imageName = "Lasagne"
-//        let image = UIImage(named: imageName)
-//
-//        let dish1 = Dish(dishTitle: "Pannkaka", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish1)
-//
-//        let dish2 = Dish(dishTitle: "Potatis och köttbullar", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish2)
-//
-//        let dish3 = Dish(dishTitle: "Lasagne", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish3)
-//
-//        let dish4 = Dish(dishTitle: "spaghetti carbonara", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish4)
-//
-//        let dish5 = Dish(dishTitle: "spaghetti med köttfärssås", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish5)
-//
-//        let dish6 = Dish(dishTitle: "Pizza", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish6)
-//
-//        let dish7 = Dish(dishTitle: "Korvstroganoff och ris", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish7)
-//
-//        let dish8 = Dish(dishTitle: "Kokt potatis med fläskfilé och sås", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish8)
-//
-//        let dish9 = Dish(dishTitle: "Potatis och köttbullar med sås", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish9)
-//
-//        let dish10 = Dish(dishTitle: "Potatismos och köttbullar med lingonslyt", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish10)
-//
-//        let dish11 = Dish(dishTitle: "Hamburgare", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish11)
-//
-//        let dish12 = Dish(dishTitle: "Pommes och grillkorv", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish12)
-//
-//        let dish13 = Dish(dishTitle: "Rotfruktssoppa", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish13)
-//
-//        let dish14 = Dish(dishTitle: "Minestronesoppa", dishImage: image!, ingredientsAndAmount: ingredients, cooking: "rör om")
-//        dishes.append(dish14)
-        
-//        let sortedDishes = dishes.sorted {$0.dishName < $1.dishName}
-//  }
+    func randomDishes(count: Int) -> [Dish] {
+        // Kollar så att det finns tillräckligt med maträtter. Om det inte finns det då får användaren ut dem maträtterna som finns
+        var randomMeals: [Dish] = []
+        if count > dishes.count {
+            randomMeals = dishes
+            return randomMeals
+        } else {
+            
+            // slumpar ut maträtter
+            while(randomMeals.count < count ) {
+                let randomIndex = Int(arc4random_uniform(UInt32(dishes.count)))
+                let random = dishes[randomIndex]
+                
+                // Jämför så att det inte blir samma maträtt mer än en gång, om det finns minst dubbelt så många maträtter än vad anvädaren vill ha ut i sin veckomeny
+                if (!randomMeals.contains(random)) {
+                    randomMeals.append(random)
+                }
+            }
+        }
+        return randomMeals
+    }
 }

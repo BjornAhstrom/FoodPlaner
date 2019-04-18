@@ -37,6 +37,17 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
         getFamilyAccountFromFirestore()
     }
     
+//    override func becomeFirstResponder() -> Bool {
+//        return true
+//    }
+//
+//    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+//
+//        if motion == .motionShake {
+//            print("!!!!!!!!!!!!Shake")
+//        }
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()

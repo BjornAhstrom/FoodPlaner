@@ -29,14 +29,19 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     var dishId: String?
     var ingredientsId: [String] = []
     var userID: String = ""
+    var userIdFromFamilyAccount: [String] = []
+    var ownerFamilyAccountId: String = ""
     
-    var imageReference: StorageReference {
-        return Storage.storage().reference().child("usersImages").child(userID)
-    }
+    var imageReference: StorageReference!
+//    var imageReference: StorageReference {
+//        return Storage.storage().reference().child("usersImages").child(userID)
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         auth = Auth.auth()
+        imageReference = Storage.storage().reference()
+        
         tableView.delegate = self
         tableView.dataSource = self
         setRadiusBorderColorAndFontOnLabelsViewsAndButtons()
@@ -44,8 +49,10 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         portionsLabel.text = "Portions: \(dish?.portions ?? 0)"
         
         cookingDescriptionTextView.text = dish?.cooking
-        getDishIdFromFirestore()
-        downloadImageFromStorage()
+        getFamilyAccountFromFirestore()
+        //getDishIdFromFirestore()
+        
+        //downloadImageFromStorage()
     }
     
     func setRadiusBorderColorAndFontOnLabelsViewsAndButtons() {
@@ -92,6 +99,40 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         dismiss(animated: true, completion: nil)
     }
     
+    func getFamilyAccountFromFirestore() {
+        guard let userId = auth.currentUser?.uid else { return }
+        
+        db.collection("users").document(userId).addSnapshotListener() {
+            (document, error) in
+            
+            if let error = error {
+                print("Error getting document \(error)")
+            } else {
+                guard let doc = document else { return }
+                
+                let famAccountId = doc.data()!["familyAccount"] as! String
+                self.ownerFamilyAccountId = famAccountId
+                
+                self.userIdFromFamilyAccount = []
+                self.db.collection("familyAccounts").document(famAccountId).collection("members").addSnapshotListener() {
+                    (snapshot, error) in
+                    
+                    if let error = error {
+                        print("Error getting document \(error)")
+                    } else {
+                        guard let snapDoc = snapshot?.documents else { return }
+                        
+                        for document in snapDoc {
+                            
+                            self.userIdFromFamilyAccount.append(document.documentID)
+                        }
+                        self.getDishIdFromFirestore()
+                    }
+                }
+            }
+        }
+    }
+    
     func getDishIdFromFirestore() {
         let uid = auth.currentUser
         guard let userId = uid?.uid else { return }
@@ -106,6 +147,11 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
                     let ingredientID = Ingredient(snapshot: ingId)
                     self.ingredientsId.append(ingredientID.ingredientID)
                 }
+            }
+            for usersId in self.userIdFromFamilyAccount {
+                print("!!!!!!! usersId \(usersId)")
+                self.imageReference = Storage.storage().reference().child("usersImages").child(usersId)
+                self.downloadImageFromStorage()
             }
         }
     }

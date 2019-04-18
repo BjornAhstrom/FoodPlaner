@@ -24,9 +24,7 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
         db = Firestore.firestore()
         auth = Auth.auth()
         setColorOnButtonsAndLabels()
-        
         getFamilyAccountFromFirestore()
-        //getShoppingItemsFromFirestore()
         
         shoppingListTableView.delegate = self
         shoppingListTableView.dataSource = self
@@ -69,27 +67,26 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func getShoppingItemsFromFirestore() {
-        //        let uid = auth.currentUser
-        //        guard let userId = uid?.uid else { return }
-        
-        //for userID in userIdFromFamilyAccount {
+        db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").addSnapshotListener() {
+            (snapshot, error) in
             
-            db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").addSnapshotListener() {
-                (snapshot, error) in
-                
-                self.shoppingItems = []
-                if let error = error {
-                    self.alertMessage(titel: "Error", message: error.localizedDescription)
-                    print("Error getting document \(error)")
-                } else {
-                    for document in snapshot!.documents {
-                        let item = ShoppingItem(snapshot: document)
-                        self.shoppingItems.append(item)
-                    }
+            self.shoppingItems = []
+            if let error = error {
+                self.alertMessage(titel: "Error", message: error.localizedDescription)
+                print("Error getting document \(error)")
+            } else {
+                for document in snapshot!.documents {
+                    let item = ShoppingItem(snapshot: document)
+                    self.shoppingItems.append(item)
                 }
-                self.shoppingListTableView.reloadData()
             }
-      //  }
+            self.shoppingListTableView.reloadData()
+        }
+        //        if let index = self.ingredients.firstIndex(of: ingredient) {
+        //            self.ingredients[index].amount += ingredient.amount
+        //        } else {
+        //            self.ingredients.append(ingredient)
+        //        }
     }
     
     func setColorOnButtonsAndLabels() {
@@ -109,9 +106,9 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
         
         let item = shoppingItems[indexPath.row]
         
-        cell.setIngredients(name: item.ingredient.ingredientsTitle, amount: Int(item.ingredient.amount), unit: item.ingredient.unit)
-        cell.setCheckBox(item.checkBox)
-        cell.checkBox()
+            cell.setIngredients(name: item.ingredient.ingredientsTitle, amount: Int(item.ingredient.amount), unit: item.ingredient.unit)
+            cell.setCheckBox(item.checkBox)
+            cell.checkBox()
         
         return cell
     }
@@ -121,9 +118,6 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        let uid = auth.currentUser
-//        guard let userId = uid?.uid else { return }
-        
         if editingStyle == .delete {
             let itemId = shoppingItems[indexPath.row]
             shoppingItems.remove(at: indexPath.row)
@@ -139,9 +133,6 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let uid = auth.currentUser
-//        guard let userId = uid?.uid else { return }
-        
         let item = shoppingItems[indexPath.row]
         
         item.checkBox = !item.checkBox

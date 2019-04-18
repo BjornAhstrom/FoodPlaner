@@ -5,3 +5,13 @@
   Created by Björn Åhström on 2019-04-14.
   Copyright © 2019 Björn Åhström. All rights reserved.
 */
+
+"dateLanguageFormatter" = "sv_SE";
+"StartDate" = "Nästa maträtt är på :";
+"alertTitle1" = "Din knapp måste ha ett namn";
+"alertMessage1" = "Försök igen";
+"button1" = "Mina recept";
+"button2" = "Mina recept från bilder";
+"button3" = "Mina webbrecept";
+"button4" = "Veckomeny";
+"button5" = "Skapa en vecomeny";

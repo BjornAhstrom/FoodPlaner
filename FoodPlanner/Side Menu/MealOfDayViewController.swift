@@ -17,6 +17,8 @@ class MealOfDayViewController: UIViewController {
     @IBOutlet weak var recipeButton: UIButton!
     
     private let goToDish = "goToDish"
+    private let dishesViewId = "dishesView"
+    private let SelectRandomWeekId = "SelectRandomWeekId"
     
     var mealOfTheDayName: String?
     var mealOfTheDayID: String?
@@ -26,7 +28,7 @@ class MealOfDayViewController: UIViewController {
     
     var db: Firestore!
     var auth: Auth!
-    var dishes = Dishes()
+    //var dishes = Dishes.dishes
     var users: [User] = []
     var invites: [Invite] = []
     var dishId: String?
@@ -34,14 +36,17 @@ class MealOfDayViewController: UIViewController {
     var userIdFromFamilyAccount: [String] = []
     var ownerFamilyAccountId: String = ""
     
-    var imageReference: StorageReference {
-        return Storage.storage().reference().child("usersImages").child(userID)
-    }
+    var imageReference: StorageReference?
+    
+//    var imageReference: StorageReference {
+//            return Storage.storage().reference().child("usersImages").child(userID)
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
         auth = Auth.auth()
-        getFamilyAccountFromFirestore() // Få sidan att uppdateras när något händer
+         getFamilyAccountFromFirestore()
+        
         setRadiusBorderColorAndFontOnLabelsViewsAndButtons()
         ifUserGetAnInviteThenShowPopup()
         
@@ -83,7 +88,7 @@ class MealOfDayViewController: UIViewController {
     func getFamilyAccountFromFirestore() {
         guard let userId = auth.currentUser?.uid else { return }
         
-        db.collection("users").document(userId).getDocument() {
+        db.collection("users").document(userId).addSnapshotListener() {
             (document, error) in
             
             if let error = error {
@@ -95,7 +100,7 @@ class MealOfDayViewController: UIViewController {
                 self.ownerFamilyAccountId = famAccountId
                 
                 self.userIdFromFamilyAccount = []
-                self.db.collection("familyAccounts").document(famAccountId).collection("members").getDocuments() {
+                self.db.collection("familyAccounts").document(famAccountId).collection("members").addSnapshotListener() {
                     (snapshot, error) in
                     
                     if let error = error {
@@ -104,7 +109,6 @@ class MealOfDayViewController: UIViewController {
                         guard let snapDoc = snapshot?.documents else { return }
                         
                         for document in snapDoc {
-                            //let user = User(snapshot: document)
                             
                             self.userIdFromFamilyAccount.append(document.documentID)
                         }
@@ -118,37 +122,36 @@ class MealOfDayViewController: UIViewController {
     
     // Hämtar maträtter och sparar deras id i en array (dishesID).
     func getDishesIdFromFirestore() {
-//        let uid = auth.currentUser
-//        guard let userId = uid?.uid else { return }
-//        userID = userId
-        
-        for iserID in userIdFromFamilyAccount {
-        db.collection("users").document(iserID).collection("dishes").getDocuments() {
-            (querySnapshot, error) in
-            
-            if let error = error {
-                self.alertMessage(titel: "Error", message: error.localizedDescription)
-            } else {
-                guard let snapshot = querySnapshot else {
-                    return
-                }
-                for document in snapshot.documents {
-                    let dish = Dish(snapshot: document)
-                    self.dishesID.append(dish.dishID)
-                    self.db.collection("users").document(iserID).collection("dishes").document(document.documentID).collection("ingredients").getDocuments(){
-                        (querySnapshot, error) in
-                        
-                        for document in (querySnapshot?.documents)!{
-                            let ing = Ingredient(snapshot: document)
-                            
-                            dish.add(ingredient: ing)
-                        }
+        for userID in userIdFromFamilyAccount {
+            db.collection("users").document(userID).collection("dishes").addSnapshotListener() {
+                (querySnapshot, error) in
+                
+                if let error = error {
+                    self.alertMessage(titel: "Error", message: error.localizedDescription)
+                } else {
+                    guard let snapshot = querySnapshot else {
+                        return
                     }
-                    if self.dishes.add(dish: dish) == true {
+                    for document in snapshot.documents {
+                        let dish = Dish(snapshot: document)
+                        self.dishesID.append(dish.dishID)
+                        self.db.collection("users").document(userID).collection("dishes").document(document.documentID).collection("ingredients").addSnapshotListener(){
+                            (querySnapshot, error) in
+                            
+                            guard let snapDoc = querySnapshot?.documents else { return }
+                            
+                            for document in snapDoc {
+                                let ing = Ingredient(snapshot: document)
+                                
+                                dish.add(ingredient: ing)
+                            }
+                        }
+                        
+                        //Dishes.add(dish: dish)
+                        Dishes.instance.add(dish: dish)
                     }
                 }
             }
-        }
         }
     }
     
@@ -159,14 +162,13 @@ class MealOfDayViewController: UIViewController {
 //        guard let userId = uid?.uid else { return }
 //        userID = userId
         
-        db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").order(by: "date", descending: false).getDocuments() {
+        db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").order(by: "date", descending: false).addSnapshotListener() {
             (querySnapshot, error) in
             
             if let error = error {
                 print("Error getting document \(error)")
             } else {
                 guard let snapshot = querySnapshot else {
-                    
                     
                     self.goToSelectRandomDish()
                     return
@@ -183,7 +185,7 @@ class MealOfDayViewController: UIViewController {
                     
                     let date = dateFromDish
                     let dateFormatter = DateFormatter()
-                    dateFormatter.locale = NSLocale(localeIdentifier: "en_US") as Locale //"sv_SE"
+                    dateFormatter.locale = NSLocale(localeIdentifier: "\(NSLocalizedString("dateLanguageFormatter", comment: ""))") as Locale //"sv_SE"
                     dateFormatter.dateFormat = "EEEE dd/MM"
                     outputDate = dateFormatter.string(from: date)
                     
@@ -196,7 +198,7 @@ class MealOfDayViewController: UIViewController {
                     }
                     if order == .orderedAscending {
                         mealOfToday = weeklyMenu
-                        self.dateLabel.text = "Start date: \(outputDate)"
+                        self.dateLabel.text = "\(NSLocalizedString("StartDate", comment: "")) \(outputDate)"
                         break
                     }
                 }
@@ -204,14 +206,18 @@ class MealOfDayViewController: UIViewController {
                 self.mealOfTheDayID = mealOfToday?.idFromDish ?? ""
                 self.dishId = mealOfToday?.idFromDish ?? ""
                 
-                self.downloadImageFromStorage()
+                //self.downloadImageFromStorage()
+                for usersId in self.userIdFromFamilyAccount {
+                    self.imageReference = Storage.storage().reference().child("usersImages").child(usersId)
+                    self.downloadImageFromStorage()
+                }
             }
             self.foodNameLabel.text = self.mealOfTheDayName
         }
     }
     
     func downloadImageFromStorage() {
-        let downloadImageRef = imageReference.child(dishId ?? "No dishId")
+        guard let downloadImageRef = imageReference?.child(dishId ?? "No dishId") else { return }
         
         if downloadImageRef.name == dishId {
             let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
@@ -233,7 +239,7 @@ class MealOfDayViewController: UIViewController {
     }
     
     func goToDishesViewController() {
-        if let dishes = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "dishesView") as? DishesViewController {
+        if let dishes = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: dishesViewId) as? DishesViewController {
             
             let modalStyle: UIModalTransitionStyle = UIModalTransitionStyle.crossDissolve
             dishes.modalTransitionStyle = modalStyle
@@ -242,7 +248,7 @@ class MealOfDayViewController: UIViewController {
     }
     
     func goToSelectRandomDish() {
-        if let selectRandomDish = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SelectRandomWeekId") as? SelectRandomDishesViewController {
+        if let selectRandomDish = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: SelectRandomWeekId) as? SelectRandomDishesViewController {
             
             let modalStyle: UIModalTransitionStyle = UIModalTransitionStyle.crossDissolve
             selectRandomDish.modalTransitionStyle = modalStyle
@@ -254,7 +260,7 @@ class MealOfDayViewController: UIViewController {
         if segue.identifier == goToDish {
             let destVC = segue.destination as? ShowDishViewController
             
-            for dish in dishes.dishes  {
+            for dish in Dishes.instance.dishes  {
                 if mealOfTheDayID == dish.dishID {
                     
                     destVC!.dish = dish

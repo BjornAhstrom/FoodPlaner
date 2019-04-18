@@ -5,3 +5,13 @@
   Created by Björn Åhström on 2019-04-14.
   Copyright © 2019 Björn Åhström. All rights reserved.
 */
+
+"dateLanguageFormatter" = "en_US";
+"StartDate" = "the next dish is on:";
+"alertTitle1" = "Your button most have a name";
+"alertMessage1" = "Pleace try again";
+"button1" = "My recipes";
+"button2" = "My recipes from pictures";
+"button3" = "My webrecipes";
+"button4" = "Weekly menu";
+"button5" = "Create new food menu";

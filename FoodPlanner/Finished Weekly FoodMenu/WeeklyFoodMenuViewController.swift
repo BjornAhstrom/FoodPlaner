@@ -15,7 +15,7 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
     private let finishedWeeklyFoodMenyCell = "finishedWeeklyFoodMenyCell"
     
     var foodMenu = [DishAndDate]()
-    var dishes = Dishes()
+    //var dishes = Dishes.dishes
     var db: Firestore!
     var auth: Auth!
     var userIdFromFamilyAccount: [String] = []

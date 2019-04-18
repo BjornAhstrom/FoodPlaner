@@ -13,7 +13,9 @@ class CompareDayWithWeeklyMenuViewController: UIViewController {
     var mealOfTheDayName: String = ""
     var mealOfTheDayID: String = ""
     
-    let mealOfTheDaySegue = "mealOfTheDaySegue"
+    //private let mealOfTheDaySegueId = "mealOfTheDaySegue"
+    private let mealOfTheDayId = "mealOfTheDayId"
+    private let mealOfTheDay = "mealOfTheDay"
     
     var db: Firestore!
     var foodMenu = [DishAndDate]()
@@ -23,7 +25,7 @@ class CompareDayWithWeeklyMenuViewController: UIViewController {
         db = Firestore.firestore()
         getWeeklyMenuFromFireStore()
         
-        //        NotificationCenter.default.addObserver(self, selector: #selector(goToMealOfTheDay), name: NSNotification.Name( "mealOfTheDay"), object: nil)
+        // NotificationCenter.default.addObserver(self, selector: #selector(goToMealOfTheDay), name: NSNotification.Name( "mealOfTheDay"), object: nil)
     }
     
     func getWeeklyMenuFromFireStore() {
@@ -55,7 +57,7 @@ class CompareDayWithWeeklyMenuViewController: UIViewController {
                         self.mealOfTheDayID = String(weeklyMenu.idFromDish)
                         self.goToMeal()
                         // Go To MealOfTheDayController
-                        NotificationCenter.default.post(name: NSNotification.Name("mealOfTheDay"), object: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(self.mealOfTheDayId), object: nil)
                     } else {
                         //Go to selectRandomDishesController
                         print("Error getting saved")
@@ -69,7 +71,7 @@ class CompareDayWithWeeklyMenuViewController: UIViewController {
     }
     
     func goToMeal() {
-        if let mealOfTheDay = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mealOfTheDayId") as? MealOfDayViewController {
+        if let mealOfTheDay = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: mealOfTheDay) as? MealOfDayViewController {
             
             mealOfTheDay.mealOfTheDayName = mealOfTheDayName
             
@@ -80,7 +82,7 @@ class CompareDayWithWeeklyMenuViewController: UIViewController {
     }
     
     func goToSelectRandomDish() {
-        if let selectRandomDish = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mealOfTheDayId") as? SelectRandomDishesViewController {
+        if let selectRandomDish = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: mealOfTheDay) as? SelectRandomDishesViewController {
             
             let modalStyle: UIModalTransitionStyle = UIModalTransitionStyle.crossDissolve
             selectRandomDish.modalTransitionStyle = modalStyle

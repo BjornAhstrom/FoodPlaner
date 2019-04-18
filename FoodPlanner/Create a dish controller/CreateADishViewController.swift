@@ -35,7 +35,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     var ingredientsAmount: Double = 0
     var portionsAmount: Int = 0
     var labelIsHidden: Bool = true
-    var dishes : Dishes?
+    //var dishes : Dishes?
     var ingredients: [Ingredient] = []
     var dishImageId: String = ""
     var userID: String = ""
