@@ -79,4 +79,21 @@ protocol ThemeProtocol {
     
     // Settings View controller
     var backgroundColorForSettingsViewController: UIColor { get }
+    
+    var colorTextOnSettingLabelInSettingsViewController: UIColor { get }
+    var fontOnSettingLabelInSettingsViewController: UIFont { get }
+    
+    var colorTextOnLabelsInSettingsViewController: UIColor { get }
+    var fonOntLabelsInSettingsViewController: UIFont { get }
+    
+    var colorOnButtonsInSettingsViewController: UIColor { get }
+    var collorOntextOnButtonsInSettingViewController: UIColor { get }
+    var borderCollorOnButtonsInSettingViewController: UIColor { get }
+    var fontOnButtonsInSettingsViewController: UIFont { get }
+    
+    // Shoping items view controller
+    var backgroundColorInShoppingListViewController: UIColor { get }
+    var textColorInTableViewInShoppingViewController: UIColor { get}
+    var textFontInTableViewInShoppingViewController: UIFont { get }
+    var borderColorForCheckBoxInShoppingViewController: UIColor { get }
 }

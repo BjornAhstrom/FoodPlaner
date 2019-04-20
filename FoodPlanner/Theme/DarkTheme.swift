@@ -98,6 +98,23 @@ class DarkTheme: ThemeProtocol {
     
     // Settings View controller
     var backgroundColorForSettingsViewController: UIColor = UIColor(named: "PaleTurquoise")!
+    var colorTextOnSettingLabelInSettingsViewController: UIColor = UIColor(named: "OldRose")!
+    var fontOnSettingLabelInSettingsViewController: UIFont = UIFont(name: "TimesNewRomanPS-BoldItalicMT", size: 25)!
+    
+    var colorTextOnLabelsInSettingsViewController: UIColor = UIColor(named: "OldRose")!
+    var fonOntLabelsInSettingsViewController: UIFont = UIFont(name: "TimesNewRomanPS-BoldItalicMT", size: 20)!
+    
+    var colorOnButtonsInSettingsViewController: UIColor = UIColor(named: "OldRose")!
+    var collorOntextOnButtonsInSettingViewController: UIColor = UIColor(named: "OldRose")!
+    var borderCollorOnButtonsInSettingViewController: UIColor = UIColor(named: "OldRose")!
+    var fontOnButtonsInSettingsViewController: UIFont = UIFont(name: "Futura", size: 18)!
+    
+    
+    // Shopping list view controller
+    var backgroundColorInShoppingListViewController: UIColor = UIColor(named: "OldPink")!
+    var textColorInTableViewInShoppingViewController: UIColor = UIColor(named: "OldRose")!
+    var textFontInTableViewInShoppingViewController: UIFont = UIFont(name: "TimesNewRomanPS-BoldItalicMT", size: 22)!
+    var borderColorForCheckBoxInShoppingViewController: UIColor = UIColor(named: "OldRose")!
 }
 
 

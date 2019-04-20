@@ -20,12 +20,12 @@ class FinishedWeeklyMenuTableViewCell: UITableViewCell {
         
         let dateFormated = dateFormatter.string(from: date)
         
-        dateLabel.text! = dateFormated
+        dateLabel.text? = dateFormated
     }
     
     func setFoodnameOnLabel(foodName: String) {
         foodNameLabel.textColor = Theme.current.textColor
         foodNameLabel.font = UIFont(name: Theme.current.fontForLabels, size: 20)
-        foodNameLabel.text! = foodName
+        foodNameLabel.text? = foodName
     }
 }

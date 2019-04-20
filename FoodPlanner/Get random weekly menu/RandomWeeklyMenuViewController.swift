@@ -18,7 +18,6 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     
     var db: Firestore!
     var auth: Auth!
-    //let dishes = Dishes.dishes
     
     var weeklyMenu = [DishAndDate]()
     var ingredients: [Ingredient] = []
@@ -27,6 +26,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     var getNumberOfDishesFromUser: Int = 0
     var userIdFromFamilyAccount: [String] = []
     var ownerFamilyAccountId: String = ""
+    var currentDishesId: [String] = []
     
     var dishId: [String] = []
     
@@ -56,7 +56,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
             } else {
                 guard let doc = document else { return }
                 
-                let famAccountId = doc.data()!["familyAccount"] as! String
+                guard let famAccountId = doc.data()?["familyAccount"] as? String else { return }
                 self.ownerFamilyAccountId = famAccountId
                 
                 self.userIdFromFamilyAccount = []
@@ -80,11 +80,13 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     
-    
     // Ska göras: Om användaren viljer 2 maträtter då ska det kollas om det finns gånger 3 maträtter, för det ska inte kunna bli samma maträtter som föregående vecka
     func createWeeklyMenu(count: Int) {
-        if count > Dishes.instance.dishes.count {
-            self.alertMessage(titel: "Varning!", message: "Du har endast \(Dishes.instance.dishes.count) maträtter inlagda i dina recept, så du kommer endast få ut \(Dishes.instance.dishes.count) maträtter i din veckomeny")
+        if Dishes.instance.dishes.count == 1 {
+            self.alertMessage(titel: "Du har för få maträtter!", message: "Du har endast \(Dishes.instance.dishes.count) maträtt inlagd i dina recept, så du kommer endast få ut \(Dishes.instance.dishes.count) maträtt i din veckomeny")
+        }
+        else if count > Dishes.instance.dishes.count {
+            self.alertMessage(titel: "Du har för få maträtter!", message: "Du har endast \(Dishes.instance.dishes.count) maträtter inlagda i dina recept, så du kommer endast få ut \(Dishes.instance.dishes.count) maträtter i din veckomeny")
         }
         
         let calendar = Calendar.current
@@ -96,7 +98,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         var index = 0
         
         for dish in weekleyDishes {
-            let newDate = calendar.date(byAdding: .day, value: index, to: date)!
+            guard let newDate = calendar.date(byAdding: .day, value: index, to: date) else { return }
             
             let foodAndDate = DishAndDate(dishName: dish.dishName, date: newDate, idFromDish: dish.dishID)
             dishId.append(dish.dishID)
@@ -162,7 +164,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         cell?.setDateOnLabel(date: foodAndDate.date)
         cell?.setFoodnameOnLabel(foodName: foodAndDate.dishName)
         
-        return cell!
+        return cell ?? cell!
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

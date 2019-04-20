@@ -13,11 +13,12 @@ class ContainerViewController: UIViewController {
     @IBOutlet weak var sideMenuTrailingConstraint: NSLayoutConstraint!
     
     var sideMenuOpen: Bool = false
+    private let showSideMenuId = "showSideMenu"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         swipeLeftAndRight()
-        NotificationCenter.default.addObserver(self, selector: #selector(showSideMenu), name: NSNotification.Name( "showSideMenu"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showSideMenu), name: NSNotification.Name( showSideMenuId), object: nil)
     }
     
     @objc func showSideMenu() {
@@ -45,17 +46,6 @@ class ContainerViewController: UIViewController {
         swipeRight.direction = .right
         self.view.addGestureRecognizer(swipeRight)
     }
-    
-//    override func becomeFirstResponder() -> Bool {
-//        return true
-//    }
-//
-//    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-//
-//        if motion == .motionShake {
-//            print("!!!!!!!!!!!!!!Shake")
-//        }
-//    }
 }
 
 extension UIViewController {

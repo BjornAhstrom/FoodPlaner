@@ -49,11 +49,11 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
             } else {
                 guard let doc = document else { return }
                 
-                let famAccountId = doc.data()!["familyAccount"] as! String
+                guard let famAccountId = doc.data()?["familyAccount"] as? String else { return }
                 self.ownerFamilyAccountId = famAccountId
                 
                 self.userIdFromFamilyAccount = []
-                self.db.collection("familyAccounts").document(famAccountId).collection("members").getDocuments() {
+                self.db.collection("familyAccounts").document(famAccountId).collection("members").addSnapshotListener() {
                     (snapshot, error) in
                     
                     if let error = error {
@@ -65,7 +65,6 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
                             //let user = User(snapshot: document)
                             
                             self.userIdFromFamilyAccount.append(document.documentID)
-                            print("!!!!!!!!!!!!!!!!!!!!!\(document.documentID)")
                         }
                         self.getWeeklyMenuFromFireStore()
                     }
@@ -78,7 +77,7 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
 //        let uid = auth.currentUser
 //        guard let userId = uid?.uid else { return }
         
-        db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").getDocuments() {
+        db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").addSnapshotListener() {
             (querySnapshot, error) in
             
             if let error = error {
@@ -116,6 +115,6 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
         cell?.setDateOnLabel(date: dish.date)
         cell?.setFoodnameOnLabel(foodName: dish.dishName)
         
-        return cell!
+        return cell ?? cell!
     }
 }

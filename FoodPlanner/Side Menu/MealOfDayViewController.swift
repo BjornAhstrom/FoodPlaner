@@ -96,7 +96,9 @@ class MealOfDayViewController: UIViewController {
             } else {
                 guard let doc = document else { return }
                 
-                let famAccountId = doc.data()!["familyAccount"] as! String
+                guard let famAccount = doc.data()?["familyAccount"] as? String else { return }
+                
+                let famAccountId = famAccount
                 self.ownerFamilyAccountId = famAccountId
                 
                 self.userIdFromFamilyAccount = []
@@ -135,7 +137,7 @@ class MealOfDayViewController: UIViewController {
                     for document in snapshot.documents {
                         let dish = Dish(snapshot: document)
                         self.dishesID.append(dish.dishID)
-                        self.db.collection("users").document(userID).collection("dishes").document(document.documentID).collection("ingredients").addSnapshotListener(){
+                        self.db.collection("users").document(userID).collection("dishes").document(document.documentID).collection("ingredients").addSnapshotListener() {
                             (querySnapshot, error) in
                             
                             guard let snapDoc = querySnapshot?.documents else { return }
@@ -146,9 +148,7 @@ class MealOfDayViewController: UIViewController {
                                 dish.add(ingredient: ing)
                             }
                         }
-                        
-                        //Dishes.add(dish: dish)
-                        Dishes.instance.add(dish: dish)
+                        _ = Dishes.instance.add(dish: dish)
                     }
                 }
             }
@@ -158,10 +158,7 @@ class MealOfDayViewController: UIViewController {
     // Hämtar data från veckomenyn för att sedan jämföra dagens datum med datum i veckomenyn och visa rätt maträtt,
     // om menyn inte har en maträtt då ska selectRandomDishController visas
     func getWeeklyMenuFromFireStore() {
-//        let uid = auth.currentUser
-//        guard let userId = uid?.uid else { return }
-//        userID = userId
-        
+        // Kolla om det är här jag måste nollställa dishes
         db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").order(by: "date", descending: false).addSnapshotListener() {
             (querySnapshot, error) in
             
@@ -258,14 +255,14 @@ class MealOfDayViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == goToDish {
-            let destVC = segue.destination as? ShowDishViewController
+            guard let destVC = segue.destination as? ShowDishViewController else { return }
             
             for dish in Dishes.instance.dishes  {
                 if mealOfTheDayID == dish.dishID {
                     
-                    destVC!.dish = dish
+                    destVC.dish = dish
                     
-                    destVC!.dishId = dish.dishID
+                    destVC.dishId = dish.dishID
                 }
             }
         }
@@ -321,7 +318,7 @@ class MealOfDayViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Accept", style: .default) { (UIAlertAction) in
             guard let userId = self.auth.currentUser?.uid else { return }
             
-            self.db.collection("users").document(userId).collection("invites").getDocuments() {
+            self.db.collection("users").document(userId).collection("invites").addSnapshotListener() {
                 (snapshot, error) in
                 
                 if let error = error {

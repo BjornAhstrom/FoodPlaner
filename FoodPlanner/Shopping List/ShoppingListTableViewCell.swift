@@ -19,8 +19,8 @@ class ShoppingListTableViewCell: UITableViewCell {
         amountAndUnitLabel.text = "\(amount) \(unit)"
         
         for label in labels {
-            label.font = UIFont(name: Theme.current.fontForLabels, size: 17)
-            label.textColor = Theme.current.textColorForLabels
+            label.font = Theme.current.textFontInTableViewInShoppingViewController
+            label.textColor = Theme.current.textColorInTableViewInShoppingViewController
         }
     }
     
@@ -34,7 +34,7 @@ class ShoppingListTableViewCell: UITableViewCell {
     
     func checkBox() {
         checkBoxImageView.layer.masksToBounds = true
-        checkBoxImageView.layer.borderColor = Theme.current.colorForBorder.cgColor
+        checkBoxImageView.layer.borderColor = Theme.current.borderColorForCheckBoxInShoppingViewController.cgColor
         checkBoxImageView.layer.borderWidth = 2
         checkBoxImageView.layer.cornerRadius = 8
     }

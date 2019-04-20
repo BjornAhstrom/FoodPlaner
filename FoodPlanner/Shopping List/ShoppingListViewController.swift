@@ -30,6 +30,12 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
         shoppingListTableView.dataSource = self
     }
     
+    func setColorOnButtonsAndLabels() {
+        doneItemButton.tintColor = Theme.current.textColorForLabels
+        view.backgroundColor = Theme.current.backgroundColorInShoppingListViewController
+        shoppingListTableView.backgroundColor = Theme.current.backgroundColorInShoppingListViewController
+    }
+    
     func getFamilyAccountFromFirestore() {
         guard let userId = auth.currentUser?.uid else { return }
         
@@ -41,7 +47,7 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
             } else {
                 guard let doc = document else { return }
                 
-                let famAccountId = doc.data()!["familyAccount"] as! String
+                guard let famAccountId = doc.data()?["familyAccount"] as? String else { return }
                 self.ownerFamilyAccountId = famAccountId
                 
                 self.userIdFromFamilyAccount = []
@@ -75,7 +81,8 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
                 self.alertMessage(titel: "Error", message: error.localizedDescription)
                 print("Error getting document \(error)")
             } else {
-                for document in snapshot!.documents {
+                guard let snapDoc = snapshot?.documents else { return }
+                for document in snapDoc {
                     let item = ShoppingItem(snapshot: document)
                     self.shoppingItems.append(item)
                 }
@@ -89,10 +96,6 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
         //        }
     }
     
-    func setColorOnButtonsAndLabels() {
-        doneItemButton.tintColor = Theme.current.textColorForLabels
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return shoppingItems.count
     }
@@ -102,15 +105,16 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "shoppingListCell", for: indexPath) as! ShoppingListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "shoppingListCell", for: indexPath) as? ShoppingListTableViewCell
         
         let item = shoppingItems[indexPath.row]
         
-            cell.setIngredients(name: item.ingredient.ingredientsTitle, amount: Int(item.ingredient.amount), unit: item.ingredient.unit)
-            cell.setCheckBox(item.checkBox)
-            cell.checkBox()
+        cell?.backgroundColor = Theme.current.backgroundColorInShoppingListViewController
+        cell?.setIngredients(name: item.ingredient.ingredientsTitle, amount: Int(item.ingredient.amount), unit: item.ingredient.unit)
+        cell?.setCheckBox(item.checkBox)
+        cell?.checkBox()
         
-        return cell
+        return cell ?? cell!
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

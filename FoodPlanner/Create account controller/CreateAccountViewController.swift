@@ -95,18 +95,23 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     }
     
     func checkingPassword() {
-        passwordMatch = checkIfPasswordAndConfirmPasswordIsCorrect(password: passwordTextField.text!, confirmPassword: confirmPasswordTextField.text!)
+        guard let nameText = nameTextField.text else { return }
+        guard let passwordText = passwordTextField.text else { return }
+        guard let confirmPassword = confirmPasswordTextField.text else { return }
+        guard let emailText = emailTextField.text else { return }
         
-        if passwordMatch == true && passwordTextField.text! != "" {
+        passwordMatch = checkIfPasswordAndConfirmPasswordIsCorrect(password: passwordText, confirmPassword: confirmPassword)
+        
+        if passwordMatch == true && passwordText != "" {
             createUser()
         }
-        if nameTextField.text! == "" {
+        if nameText == "" {
             self.alertMessage(titel: "Namefield can not be empty", message: "Pleace try again")
         }
-        if emailTextField.text! == "" {
+        if emailText == "" {
             self.alertMessage(titel: "Emailfield can not be empty", message: "Pleace try again")
         }
-        if passwordTextField.text! == "" || confirmPasswordTextField.text! == "" {
+        if passwordText == "" || confirmPassword == "" {
             self.alertMessage(titel: "Passwordfield can not be empty", message: "Pleace try again")
         }
         if passwordMatch == false {
@@ -121,7 +126,9 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         
         auth.createUser(withEmail: email.lowercased(), password: password) { (user, error) in
             guard error == nil else {
-                self.alertMessage(titel: "Error" , message: error!.localizedDescription)
+                guard let err = error?.localizedDescription else { return }
+                
+                self.alertMessage(titel: "Error" , message: err)
                 return
             }
             

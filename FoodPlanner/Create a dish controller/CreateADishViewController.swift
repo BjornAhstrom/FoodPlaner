@@ -35,7 +35,6 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     var ingredientsAmount: Double = 0
     var portionsAmount: Int = 0
     var labelIsHidden: Bool = true
-    //var dishes : Dishes?
     var ingredients: [Ingredient] = []
     var dishImageId: String = ""
     var userID: String = ""
@@ -242,15 +241,18 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     func createIngredients() {
         // Convert the text string to an Double
         guard let stepperText = stepperTextField.text else { return }
+        guard let ingredientText = ingredientTextField.text else { return }
+        guard let unitText = unitTextField.text else { return }
+        
         let ingAmount = getDoubleFromLocalNumber(input: stepperText)
         ingredientsAmount = ingAmount
         
         // Check so that the text strings are not empty. If they are empty then an alert
         // comes upp that tells the user to fill in all fields.
-        if ingredientTextField.text == "" || unitTextField.text == "" || stepperTextField.text == "" {
+        if ingredientText == "" || unitText == "" || unitText == "" {
             alertMessage(titel: "You must fill in all fields", message: "Please try again")
         } else {
-            let saveIngredient = Ingredient(ingredientsTitle: ingredientTextField.text!, amount: ingredientsAmount, unit: unitTextField.text!)
+            let saveIngredient = Ingredient(ingredientsTitle: ingredientText, amount: ingredientsAmount, unit: unitText)
             ingredients.append(saveIngredient)
             
             let indexPath = IndexPath(row: ingredients.count-1, section: 0)
@@ -259,9 +261,9 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             tableView.endUpdates()
             
             // When the user presses the Add button, then all fields will be restored.
-            ingredientTextField.text! = ""
-            unitTextField.text! = ""
-            stepperTextField.text! = ""
+            ingredientTextField.text = ""
+            unitTextField.text = ""
+            stepperTextField.text = ""
             ingredientsAmount = 0
             IngredientsAmountStepper.value = 0
             
@@ -387,16 +389,16 @@ extension CreateADishViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let ingredient = ingredients[indexPath.row]
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseCellIngredients") as! IngredientTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseCellIngredients") as? IngredientTableViewCell
         
-        cell.setIngredientsTitle(title: ingredient, amount: ingredient, unit: ingredient)
+        cell?.setIngredientsTitle(title: ingredient, amount: ingredient, unit: ingredient)
         
         let backgroundView = UIView()
         
         backgroundView.backgroundColor = UIColor.white
-        cell.selectedBackgroundView = backgroundView
+        cell?.selectedBackgroundView = backgroundView
         
-        return cell
+        return cell ?? cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

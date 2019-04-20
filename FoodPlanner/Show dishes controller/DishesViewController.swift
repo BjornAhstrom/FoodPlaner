@@ -22,7 +22,6 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var db: Firestore!
     var auth: Auth!
-    //var dishes = Dishes.dishes
     var userIdFromFamilyAccount: [String] = []
     
     override func viewDidLoad() {
@@ -39,7 +38,6 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         db = Firestore.firestore()
         auth = Auth.auth()
         getFamilyAccountFromFirestore()
-        // getDishesFromFirestore()
         self.showDishTableView.reloadData()
     }
     
@@ -51,7 +49,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func searchBarSetup() {
         // Skapar sökbaren, sätter bredden till skärmbredden och en höjd på 70
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: (UIScreen.main.bounds.width), height: 70))
-        searchBar.barTintColor = Theme.current.colorForBorder
+        searchBar.barTintColor = Theme.current.backgroundColorInDishesView
         let inputText = searchBar.value(forKey: "searchField") as? UITextField
         inputText?.font = UIFont(name: Theme.current.fontForLabels, size: 17)
         inputText?.textColor = Theme.current.textColorForLabels
@@ -78,6 +76,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getFamilyAccountFromFirestore() {
+        Dishes.instance.clear()
         guard let userId = auth.currentUser?.uid else { return }
         
         db.collection("users").document(userId).getDocument() {
@@ -88,10 +87,10 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             } else {
                 guard let doc = document else { return }
                 
-                let famAccountId = doc.data()!["familyAccount"] as! String
+                guard let famAccountId = doc.data()?["familyAccount"] as? String else { return }
                 
                 self.userIdFromFamilyAccount = []
-                self.db.collection("familyAccounts").document(famAccountId).collection("members").getDocuments() {
+                self.db.collection("familyAccounts").document(famAccountId).collection("members").addSnapshotListener() {
                     (snapshot, error) in
                     
                     
@@ -115,6 +114,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getDishesFromFirestore() {
+        Dishes.instance.clear()
         for userID in userIdFromFamilyAccount {
             
             self.db.collection("users").document(userID).collection("dishes").order(by: "dishName", descending: false).addSnapshotListener() {
@@ -123,17 +123,20 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 if let error = error {
                     print("Error getting document \(error)")
                 } else {
+                    guard let snapDoc = querySnapshot?.documentChanges else { return }
                     
-                    for change in querySnapshot!.documentChanges {
+                    for change in snapDoc {
                         switch change.type {
                         case .added:
                             
                             let dish = Dish(snapshot: change.document)
                             print("added \(dish.dishName)")
-                            self.db.collection("users").document(userID).collection("dishes").document(change.document.documentID).collection("ingredients").getDocuments(){
+                            self.db.collection("users").document(userID).collection("dishes").document(change.document.documentID).collection("ingredients").addSnapshotListener() {
                                 (querySnapshot, error) in
                                 
-                                for document in (querySnapshot?.documents)!{
+                                guard let snapDoc = querySnapshot?.documents else { return }
+                                
+                                for document in snapDoc {
                                     let ing = Ingredient(snapshot: document)
                                     
                                     dish.add(ingredient: ing)
@@ -142,16 +145,12 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                  self.showDishTableView.reloadData()
                             }
                         case .removed:
-                            
                             let dish = Dish(snapshot: change.document)
                         
                             // find dish in dishes and remove it
                             if let index =  Dishes.instance.dishes.index(of: dish) {
                                 Dishes.instance.dishes.remove(at: index)
-                                print("removed \(dish.dishName)")
                             }
-                            
-                                
                         default:
                             print("changed")
                         }

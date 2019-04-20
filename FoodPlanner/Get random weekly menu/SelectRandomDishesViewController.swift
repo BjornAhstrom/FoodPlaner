@@ -36,7 +36,6 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
         //getWeeklyMenuAndShoppingItemsFromFirestore()
         getFamilyAccountFromFirestore()
     }
-    
 //    override func becomeFirstResponder() -> Bool {
 //        return true
 //    }
@@ -96,7 +95,7 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
             } else {
                 guard let doc = document else { return }
                 
-                let famAccountId = doc.data()!["familyAccount"] as! String
+                guard let famAccountId = doc.data()?["familyAccount"] as? String else { return }
                 self.ownerFamilyAccountId = famAccountId
                 
                 self.userIdFromFamilyAccount = []
@@ -135,7 +134,9 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
                 if let error = error {
                     print("Error getting document \(error)")
                 }else {
-                    for document in snapshot!.documents {
+                    guard let snapDoc = snapshot?.documents else { return }
+                    
+                    for document in snapDoc {
                         let dishId = DishAndDate(snapshot: document)
                         
                         self.weeklyMenuId.append(dishId.weeklyMenuID)
@@ -149,10 +150,14 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
                 if let error = error {
                     print("Error getting document \(error)")
                 } else {
-                    for document in snapshot!.documents {
+                    guard let snapDoc = snapshot?.documents else { return }
+                    
+                    for document in snapDoc {
                         let itemId = ShoppingItem(snapshot: document)
                         
-                        self.shoppingItemsId.append(itemId.itemId!)
+                        guard let itId = itemId.itemId else { return }
+                        
+                        self.shoppingItemsId.append(itId)
                     }
                 }
             }
@@ -224,7 +229,7 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
         }
         pickerLabel?.text = "\(numberOfDishes[row])"
         pickerLabel?.textColor = Theme.current.textColor
-        return pickerLabel!
+        return pickerLabel ?? pickerLabel!
     }
     
     func savedSelectedRow(row: Int) {

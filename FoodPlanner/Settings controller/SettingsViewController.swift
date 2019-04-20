@@ -11,12 +11,17 @@ import Firebase
 
 class SettingsViewController: UIViewController {
     @IBOutlet weak var settingLabel: UILabel!
-    @IBOutlet weak var changeColorThemeLabel: UILabel!
-    @IBOutlet weak var signOutButton: UIButton!
+    @IBOutlet weak var changeThemeLabel: UILabel!
+    @IBOutlet weak var sendInviteLabel: UILabel!
+    @IBOutlet weak var endFamilyAccountLabel: UILabel!
     @IBOutlet weak var inviteEmailTextField: UITextField!
-    @IBOutlet weak var sendInviteButton: UIButton!
-    @IBOutlet weak var acceptInviteButton: UIButton!
     @IBOutlet weak var themeChangerSwitch: UISwitch!
+    @IBOutlet weak var sendInviteButton: UIButton!
+    @IBOutlet weak var endFamilyAccountButton: UIButton!
+    @IBOutlet weak var signOutButton: UIButton!
+    @IBOutlet var buttons: [UIButton]!
+    @IBOutlet var labels: [UILabel]!
+
     
     private var signInPageId: String = "signInPage"
     private var switchButtonId: String = "switchButton"
@@ -37,9 +42,37 @@ class SettingsViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        setColorFontAndSizeOnLabelsAndButtons()
         ifUserGetAnInviteThenShowPopup()
         applayTheme()
         themeChangerSwitch.isOn = UserDefaults.standard.bool(forKey: switchButtonId)
+        
+    }
+    
+    func setColorFontAndSizeOnLabelsAndButtons() {
+        settingLabel.font = Theme.current.fontOnSettingLabelInSettingsViewController
+        settingLabel.textColor = Theme.current.colorTextOnLabelsInSettingsViewController
+        
+        changeThemeLabel.font = Theme.current.fonOntLabelsInSettingsViewController
+        changeThemeLabel.textColor = Theme.current.colorTextOnLabelsInSettingsViewController
+        
+        //inviteEmailTextField
+        
+        //themeChangerSwitch
+        
+        for label in labels {
+            label.font = Theme.current.fonOntLabelsInSettingsViewController
+            label.textColor = Theme.current.colorTextOnLabelsInSettingsViewController
+        }
+        
+        for button in buttons {
+            button.titleLabel?.font = Theme.current.fontOnButtonsInSettingsViewController
+            button.layer.borderWidth = 1
+            button.layer.cornerRadius = 12
+            button.layer.borderColor = Theme.current.borderCollorOnButtonsInSettingViewController.cgColor
+            button.setTitleColor(Theme.current.collorOntextOnButtonsInSettingViewController, for: .normal)
+        }
+        
     }
     
     @IBAction func themeChangerSwitch(_ sender: UISwitch) {
@@ -113,7 +146,7 @@ class SettingsViewController: UIViewController {
     func acceptInvite(invite: Invite) {
         guard let userId = self.auth.currentUser?.uid else { return }
         guard let name = self.auth.currentUser?.displayName else { return }
-//        guard let userNameFromInvite = invite.fromUserName else { return }
+        //guard let userNameFromInvite = invite.fromUserName else { return }
         guard let email = self.auth.currentUser?.email else { return }
         
         // 1. lägg till dig själv som medlem i familyaccountet som du är invitad till, och lägg til
@@ -124,33 +157,32 @@ class SettingsViewController: UIViewController {
         // 2. lägg till familyaccountet om du accpterar som ditt eget familyaccount
         db.collection("users").document(userId).setData(["name" : name, "email" : email, "familyAccount" : invite.fromUserId])
         
-        // 3. radera inviten
+        // Delete the invite from firestore
         db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete()
-        
     }
     
-    @IBAction func declineInviteButton(_ sender: UIButton) {
-        db.collection("users").getDocuments() {
-            (snapshot, error) in
-            
-            if let error = error {
-                print("No users \(error)")
-            } else {
-                
-                guard let snapDoc = snapshot?.documents else { return }
-                
-                for document in snapDoc {
-                    let user = User(snapshot: document)
-                    self.users.append(user)
-                }
-            }
-            
-            for user in self.users {
-                let invite = Invite(fromUserId: user.userId, fromUserName: user.name )
-                self.declineInvite(invite: invite)
-            }
-        }
-    }
+//    @IBAction func declineInviteButton(_ sender: UIButton) {
+//        db.collection("users").getDocuments() {
+//            (snapshot, error) in
+//
+//            if let error = error {
+//                print("No users \(error)")
+//            } else {
+//
+//                guard let snapDoc = snapshot?.documents else { return }
+//
+//                for document in snapDoc {
+//                    let user = User(snapshot: document)
+//                    self.users.append(user)
+//                }
+//            }
+//
+//            for user in self.users {
+//                let invite = Invite(fromUserId: user.userId, fromUserName: user.name )
+//                self.declineInvite(invite: invite)
+//            }
+//        }
+//    }
     
     func declineInvite(invite: Invite) {
         guard let userId = self.auth.currentUser?.uid else { return }
@@ -160,6 +192,8 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func endFamilyAccountButton(_ sender: UIButton) {
+        guard let userId = self.auth.currentUser?.uid else { return }
+        
         db.collection("users").getDocuments() {
             (snapshot, error) in
             
@@ -177,7 +211,9 @@ class SettingsViewController: UIViewController {
             
             for user in self.users {
                 let invite = Invite(fromUserId: user.familyAccount, fromUserName: user.name )
-                self.endFamilyAccount(invite: invite)
+                if invite.fromUserId != userId {
+                    self.endFamilyAccount(invite: invite)
+                }
             }
         }
     }
@@ -192,29 +228,64 @@ class SettingsViewController: UIViewController {
         
         // Sätter tillbaka familyAccoundId till användarens egna id igen
         db.collection("users").document(userId).setData(["name" : name, "email" : email, "familyAccount" : userId])
-    }
-    
-    @IBAction func acceptInviteButton(_ sender: UIButton) {
-        guard let userId = auth.currentUser?.uid else { return }
         
-        db.collection("users").document(userId).collection("invites").getDocuments() {
+        // Hämtar weeklyMenu och shoppingItems för att sedan ta bort veckomenyn och shoppingItems som användarna har gemensamt
+        db.collection("familyAccounts").document(invite.fromUserId).collection("shoppingItems").addSnapshotListener() {
             (snapshot, error) in
             
             if let error = error {
-                print("No users \(error)")
+                print("Error getting document \(error)")
             } else {
                 guard let snapDoc = snapshot?.documents else { return }
                 
                 for document in snapDoc {
-                    let invite = Invite(snapshot: document)
-                    self.invites.append(invite)
+                    let items = ShoppingItem(snapshot: document)
+                    guard let id = items.itemId else { return }
+                    
+                    self.db.collection("familyAccounts").document(invite.fromUserId).collection("shoppingItems").document(id).delete()
+                    self.db.collection("familyAccounts").document(userId).collection("shoppingItems").document(id).delete()
                 }
-                for invite in self.invites {
-                    self.acceptInvite(invite: invite)
+            }
+        }
+        
+        db.collection("familyAccounts").document(invite.fromUserId).collection("weeklyMenu").addSnapshotListener() {
+            (snapshot, error) in
+            
+            if let error = error {
+                print("Error getting document \(error)")
+            } else {
+                guard let snapDoc = snapshot?.documents else { return }
+                
+                for document in snapDoc {
+                    let weeklyMenu = DishAndDate(snapshot: document)
+                    self.db.collection("familyAccounts").document(invite.fromUserId).collection("weeklyMenu").document(weeklyMenu.weeklyMenuID).delete()
+                    self.db.collection("familyAccounts").document(userId).collection("weeklyMenu").document(weeklyMenu.weeklyMenuID).delete()
                 }
             }
         }
     }
+    
+//    @IBAction func acceptInviteButton(_ sender: UIButton) {
+//        guard let userId = auth.currentUser?.uid else { return }
+//
+//        db.collection("users").document(userId).collection("invites").getDocuments() {
+//            (snapshot, error) in
+//
+//            if let error = error {
+//                print("No users \(error)")
+//            } else {
+//                guard let snapDoc = snapshot?.documents else { return }
+//
+//                for document in snapDoc {
+//                    let invite = Invite(snapshot: document)
+//                    self.invites.append(invite)
+//                }
+//                for invite in self.invites {
+//                    self.acceptInvite(invite: invite)
+//                }
+//            }
+//        }
+//    }
     
     func sendUserToSignInView() {
         if let containerViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: signInPageId) as? signInViewController {
@@ -257,7 +328,7 @@ class SettingsViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Accept", style: .default) { (UIAlertAction) in
             guard let userId = self.auth.currentUser?.uid else { return }
             
-            self.db.collection("users").document(userId).collection("invites").getDocuments() {
+            self.db.collection("users").document(userId).collection("invites").addSnapshotListener() {
                 (snapshot, error) in
                 
                 if let error = error {

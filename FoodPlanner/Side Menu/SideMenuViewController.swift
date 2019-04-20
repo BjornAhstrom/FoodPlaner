@@ -24,6 +24,7 @@ class SideMenuViewController: UIViewController {
     private let showSideMenu = "showSideMenu"
     private let shoppingList = "shoppingList"
     private var goToSettingsId = "settingsController"
+    private let buttonCellId = "buttonCell"
     
     var db: Firestore!
     var auth: Auth!
@@ -51,7 +52,9 @@ class SideMenuViewController: UIViewController {
                     if let error = error {
                         print("Error getting document \(error)")
                     } else {
-                        for document in snapshot!.documents {
+                        guard let snapDoc = snapshot?.documents else { return }
+                        
+                        for document in snapDoc {
                             let name = User(snapshot: document)
                             self.users.append(name)
                         }
@@ -111,17 +114,19 @@ class SideMenuViewController: UIViewController {
     
     
     func addANewButtonAndSetLabelText() {
-        if addCategoriesTextField.text! == "" {
+        guard let addCategoriesText = addCategoriesTextField.text else { return }
+        
+        if addCategoriesText == "" {
             self.alertMessage(titel: "\(NSLocalizedString("alertTitle1", comment: ""))", message: "\(NSLocalizedString("alertMessage1", comment: ""))")
         } else {
-            buttons.append(Button(buttonTitle: addCategoriesTextField.text!))
+            buttons.append(Button(buttonTitle: addCategoriesText))
             
             let indexPath = IndexPath(row: buttons.count-1, section: 0)
             tableView.beginUpdates()
             tableView.insertRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
             
-            addCategoriesTextField.text! = ""
+            addCategoriesTextField.text? = ""
             //self.hideKeyboard()
         }
     }
@@ -160,20 +165,22 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
         let button = buttons[indexPath.row]
         
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "buttonCell") as! ButtonCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: buttonCellId) as? ButtonCell
         
-        cell.setButtonTile(title: button)
+        cell?.setButtonTile(title: button)
         
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.white
-        cell.selectedBackgroundView = backgroundView
-        cell.backgroundColor = Theme.current.backgroundColorSideMenu
-        return cell
+        cell?.selectedBackgroundView = backgroundView
+        cell?.backgroundColor = Theme.current.backgroundColorSideMenu
+        
+        
+        return cell ?? cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        let destination = UIViewController() as? DishesViewController
+         let destination = UIViewController() as? DishesViewController
         navigationController?.pushViewController(destination!, animated: true)
         
         switch indexPath.row {
@@ -181,7 +188,12 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
         case 1: print("1")
         case 2: print("2")
         case 3: NotificationCenter.default.post(name: NSNotification.Name(weeklyMenu), object: nil)
-        case 4: NotificationCenter.default.post(name: NSNotification.Name(selectRandomDishMenu), object: nil)
+        case 4:
+            if Dishes.instance.dishes.count == 0 {
+                self.alertMessage(titel: "Du har inga maträtter!", message: "Lägg till några maträtter i dina recept och försök igen.")
+            } else {
+                NotificationCenter.default.post(name: NSNotification.Name(selectRandomDishMenu), object: nil)
+            }
         default: break
         }
         

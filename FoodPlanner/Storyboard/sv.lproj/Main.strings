@@ -59,9 +59,6 @@
 /* Class = "UIButton"; normalTitle = "Send invite"; ObjectID = "LFe-Du-5gB"; */
 "LFe-Du-5gB.normalTitle" = "Skicka inbjudan";
 
-/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "MOZ-6n-Msp"; */
-"MOZ-6n-Msp.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
-
 /* Class = "UITextField"; placeholder = "Confirm Password"; ObjectID = "NTG-Qj-Tnv"; */
 "NTG-Qj-Tnv.placeholder" = "Bekräfta lösenord";
 
@@ -125,7 +122,7 @@
 /* Class = "UIButton"; normalTitle = "Logout"; ObjectID = "ebR-fc-AoQ"; */
 "ebR-fc-AoQ.normalTitle" = "Logga ut";
 
-/* Class = "UILabel"; text = "Change color theme"; ObjectID = "ecm-Co-TiJ"; */
+/* Class = "UILabel"; text = "Change theme"; ObjectID = "ecm-Co-TiJ"; */
 "ecm-Co-TiJ.text" = "Ändra tema";
 
 /* Class = "UILabel"; text = "Settings"; ObjectID = "gnM-2a-if2"; */
@@ -140,7 +137,7 @@
 /* Class = "UIBarButtonItem"; title = "Delete"; ObjectID = "loS-Ys-hqt"; */
 "loS-Ys-hqt.title" = "Radera";
 
-/* Class = "UIButton"; normalTitle = "Save the weekly menu"; ObjectID = "mIz-B3-kJy"; */
+/* Class = "UIButton"; normalTitle = "Save weekly menu"; ObjectID = "mIz-B3-kJy"; */
 "mIz-B3-kJy.normalTitle" = "Spara veckomenyn";
 
 /* Class = "UILabel"; text = "Wednesday 13/3"; ObjectID = "nYr-3K-hvh"; */
@@ -193,3 +190,9 @@
 
 /* Class = "UIButton"; normalTitle = "Decline"; ObjectID = "qdQ-yx-HPA"; */
 "qdQ-yx-HPA.normalTitle" = "Avsluta";
+
+/* Class = "UILabel"; text = "End family sharing"; ObjectID = "aEJ-Fj-Iou"; */
+"aEJ-Fj-Iou.text" = "Avsluta familjedelning";
+
+/* Class = "UILabel"; text = "Send an invite to a family member"; ObjectID = "Db1-2d-5Id"; */
+"Db1-2d-5Id.text" = "Bjud in en familjemedlem";

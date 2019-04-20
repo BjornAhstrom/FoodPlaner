@@ -110,7 +110,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
             } else {
                 guard let doc = document else { return }
                 
-                let famAccountId = doc.data()!["familyAccount"] as! String
+                guard let famAccountId = doc.data()?["familyAccount"] as? String else { return }
                 self.ownerFamilyAccountId = famAccountId
                 
                 self.userIdFromFamilyAccount = []
@@ -136,14 +136,17 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     func getDishIdFromFirestore() {
         let uid = auth.currentUser
         guard let userId = uid?.uid else { return }
+        guard let dId = dishId else { return }
         userID = userId
         
-        db.collection("users").document(userId).collection("dishes").document(dishId!).collection("ingredients").getDocuments() {
+        db.collection("users").document(userId).collection("dishes").document(dId).collection("ingredients").getDocuments() {
             (snapshot, error) in
             if let error = error {
                 self.alertMessage(titel: "Error", message: error.localizedDescription)
             } else {
-                for ingId in snapshot!.documents {
+                guard let snapDoc = snapshot?.documents else { return }
+                
+                for ingId in snapDoc {
                     let ingredientID = Ingredient(snapshot: ingId)
                     self.ingredientsId.append(ingredientID.ingredientID)
                 }
@@ -180,22 +183,24 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     func deleteRecipeAndDishImage() {
         let uid = auth.currentUser
         guard let userId = uid?.uid else { return }
+        guard let dId = dishId else { return }
         
         // Deleting ingredients
-        for id in ingredientsId { db.collection("users").document(userId).collection("dishes").document(dishId!).collection("ingredients").document(id).delete()
+        for id in ingredientsId { db.collection("users").document(userId).collection("dishes").document(dId).collection("ingredients").document(id).delete()
         }
         
         // Deleting dish
-        db.collection("users").document(userId).collection("dishes").document(dishId!).delete()
+        db.collection("users").document(userId).collection("dishes").document(dId).delete()
         
         // Deleting image
-        imageReference.child(dishId ?? "No dishId").delete { (error) in
+        imageReference.child(dId).delete { (error) in
             if let error = error {
                 self.alertMessage(titel: "Error", message: error.localizedDescription)
             } else {
                 print("File deleted successfully")
             }
         }
+        tableView.reloadData()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -226,7 +231,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
             cell?.ingredientsAmountLabel.font = Theme.current.textFontInTableViewInShowDishController
             cell?.ingredientsAmountLabel.textColor = Theme.current.textColorInTableViewAndTextViewInShowDishController
         }
-        return cell!
+        return cell ?? cell!
     }
 }
 

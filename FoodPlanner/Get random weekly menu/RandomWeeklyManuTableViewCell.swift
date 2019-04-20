@@ -18,9 +18,10 @@ class RandomWeeklyManuTableViewCell: UITableViewCell {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEE dd/MM"
         
-         let dateFormated = dateFormatter.string(from: date)
+        let dateFormated = dateFormatter.string(from: date)
         
-        dateLabel.text! = dateFormated
+        
+        dateLabel.text? = dateFormated
     }
     
     func setFoodnameOnLabel(foodName: String) {
@@ -29,9 +30,9 @@ class RandomWeeklyManuTableViewCell: UITableViewCell {
         
         // If foodNameLabel is empty set it to (rester)
         if foodNameLabel.text == "" {
-            foodNameLabel.text! = "Rester"
+            foodNameLabel.text? = "Rester"
         } else {
-            foodNameLabel.text! = foodName
+            foodNameLabel.text? = foodName
         }
     }
 }
