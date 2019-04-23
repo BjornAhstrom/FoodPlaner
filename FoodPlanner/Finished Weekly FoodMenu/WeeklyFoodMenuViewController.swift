@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 
 class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var menuTitleLabel: UILabel!
     @IBOutlet weak var foodMenuTableView: UITableView!
     
     private let finishedWeeklyFoodMenyCell = "finishedWeeklyFoodMenyCell"
@@ -35,7 +36,14 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func setColorAndFontonBackgroundAndText() {
+        menuTitleLabel.font = Theme.current.weeklyMenuLabelFontInFinishedWeeklyMenuController
+        menuTitleLabel.textColor = Theme.current.weeklyMenuLabelTextColorInFinishedWeeklyMenuController
         view.backgroundColor = Theme.current.backgrondColorFinishedWeeklyMenuController
+        foodMenuTableView.layer.cornerRadius = 10
+        foodMenuTableView.layer.borderWidth = 1
+        foodMenuTableView.layer.borderColor = Theme.current.borderColorTableViewInFinishedWeeklyMenuController.cgColor
+        foodMenuTableView.backgroundColor = Theme.current.backgroundColorInFinishedWeeklyMenuController
+        
     }
     
     func getFamilyAccountFromFirestore() {
@@ -112,6 +120,7 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
         self.foodMenu = self.foodMenu.sorted(by: {$1.date.compare($0.date) == .orderedDescending})
         let dish = foodMenu[indexPath.row]
         
+        cell?.backgroundColor = Theme.current.backgroundColorInFinishedWeeklyMenuController
         cell?.setDateOnLabel(date: dish.date)
         cell?.setFoodnameOnLabel(foodName: dish.dishName)
         

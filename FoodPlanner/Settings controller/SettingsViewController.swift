@@ -43,7 +43,7 @@ class SettingsViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         setColorFontAndSizeOnLabelsAndButtons()
-        ifUserGetAnInviteThenShowPopup()
+//        ifUserGetAnInviteThenShowPopup()
         applayTheme()
         themeChangerSwitch.isOn = UserDefaults.standard.bool(forKey: switchButtonId)
         
@@ -55,10 +55,6 @@ class SettingsViewController: UIViewController {
         
         changeThemeLabel.font = Theme.current.fonOntLabelsInSettingsViewController
         changeThemeLabel.textColor = Theme.current.colorTextOnLabelsInSettingsViewController
-        
-        //inviteEmailTextField
-        
-        //themeChangerSwitch
         
         for label in labels {
             label.font = Theme.current.fonOntLabelsInSettingsViewController
@@ -86,6 +82,7 @@ class SettingsViewController: UIViewController {
     
     func applayTheme() {
         view.backgroundColor = Theme.current.backgroundColorForSettingsViewController
+        navigationController?.navigationBar.barTintColor = Theme.current.backgroundColorForSettingsViewController
     }
     
     func signOut() {
@@ -230,39 +227,39 @@ class SettingsViewController: UIViewController {
         db.collection("users").document(userId).setData(["name" : name, "email" : email, "familyAccount" : userId])
         
         // Hämtar weeklyMenu och shoppingItems för att sedan ta bort veckomenyn och shoppingItems som användarna har gemensamt
-        db.collection("familyAccounts").document(invite.fromUserId).collection("shoppingItems").addSnapshotListener() {
-            (snapshot, error) in
-            
-            if let error = error {
-                print("Error getting document \(error)")
-            } else {
-                guard let snapDoc = snapshot?.documents else { return }
-                
-                for document in snapDoc {
-                    let items = ShoppingItem(snapshot: document)
-                    guard let id = items.itemId else { return }
-                    
-                    self.db.collection("familyAccounts").document(invite.fromUserId).collection("shoppingItems").document(id).delete()
-                    self.db.collection("familyAccounts").document(userId).collection("shoppingItems").document(id).delete()
-                }
-            }
-        }
+//        db.collection("familyAccounts").document(invite.fromUserId).collection("shoppingItems").addSnapshotListener() {
+//            (snapshot, error) in
+//
+//            if let error = error {
+//                print("Error getting document \(error)")
+//            } else {
+//                guard let snapDoc = snapshot?.documents else { return }
+//
+//                for document in snapDoc {
+//                    let items = ShoppingItem(snapshot: document)
+//                    guard let id = items.itemId else { return }
+//
+//                    self.db.collection("familyAccounts").document(invite.fromUserId).collection("shoppingItems").document(id).delete()
+//                    self.db.collection("familyAccounts").document(userId).collection("shoppingItems").document(id).delete()
+//                }
+//            }
+//        }
         
-        db.collection("familyAccounts").document(invite.fromUserId).collection("weeklyMenu").addSnapshotListener() {
-            (snapshot, error) in
-            
-            if let error = error {
-                print("Error getting document \(error)")
-            } else {
-                guard let snapDoc = snapshot?.documents else { return }
-                
-                for document in snapDoc {
-                    let weeklyMenu = DishAndDate(snapshot: document)
-                    self.db.collection("familyAccounts").document(invite.fromUserId).collection("weeklyMenu").document(weeklyMenu.weeklyMenuID).delete()
-                    self.db.collection("familyAccounts").document(userId).collection("weeklyMenu").document(weeklyMenu.weeklyMenuID).delete()
-                }
-            }
-        }
+//        db.collection("familyAccounts").document(invite.fromUserId).collection("weeklyMenu").addSnapshotListener() {
+//            (snapshot, error) in
+//            
+//            if let error = error {
+//                print("Error getting document \(error)")
+//            } else {
+//                guard let snapDoc = snapshot?.documents else { return }
+//                
+//                for document in snapDoc {
+//                    let weeklyMenu = DishAndDate(snapshot: document)
+//                    self.db.collection("familyAccounts").document(invite.fromUserId).collection("weeklyMenu").document(weeklyMenu.weeklyMenuID).delete()
+//                    self.db.collection("familyAccounts").document(userId).collection("weeklyMenu").document(weeklyMenu.weeklyMenuID).delete()
+//                }
+//            }
+//        }
     }
     
 //    @IBAction func acceptInviteButton(_ sender: UIButton) {
@@ -300,75 +297,75 @@ class SettingsViewController: UIViewController {
         signOut()
     }
     
-    func ifUserGetAnInviteThenShowPopup() {
-        guard let userId = auth.currentUser?.uid else { return }
-        
-        db.collection("users").document(userId).collection("invites").addSnapshotListener() {
-            (snapshot, error) in
-            
-            if let error = error {
-                print("No users \(error)")
-            } else {
-                
-                guard let snapDoc = snapshot?.documents else { return }
-                
-                for document in snapDoc {
-                    let invite = Invite(snapshot: document)
-                    if invite.invite == true {
-                        guard let nameFromUser = invite.fromUserName else { return }
-                        self.accpetOrDeclineInvite(title: "You got an invite", message: "Do you accept the invite from \(nameFromUser)")
-                    }
-                }
-            }
-        }
-    }
+//    func ifUserGetAnInviteThenShowPopup() {
+//        guard let userId = auth.currentUser?.uid else { return }
+//
+//        db.collection("users").document(userId).collection("invites").addSnapshotListener() {
+//            (snapshot, error) in
+//
+//            if let error = error {
+//                print("No users \(error)")
+//            } else {
+//
+//                guard let snapDoc = snapshot?.documents else { return }
+//
+//                for document in snapDoc {
+//                    let invite = Invite(snapshot: document)
+//                    if invite.invite == true {
+//                        guard let nameFromUser = invite.fromUserName else { return }
+//                        self.accpetOrDeclineInvite(title: "You got an invite", message: "Do you accept the invite from \(nameFromUser)")
+//                    }
+//                }
+//            }
+//        }
+//    }
     
-    func accpetOrDeclineInvite(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Accept", style: .default) { (UIAlertAction) in
-            guard let userId = self.auth.currentUser?.uid else { return }
-            
-            self.db.collection("users").document(userId).collection("invites").addSnapshotListener() {
-                (snapshot, error) in
-                
-                if let error = error {
-                    print("No users \(error)")
-                } else {
-                    guard let snapDoc = snapshot?.documents else { return }
-                    
-                    for document in snapDoc {
-                        let invite = Invite(snapshot: document)
-                        self.invites.append(invite)
-                    }
-                    for invite in self.invites {
-                        self.acceptInvite(invite: invite)
-                    }
-                }
-            }
-        })
-        alert.addAction(UIAlertAction(title: "Decline", style: .default) { (UIAlertAction) in
-            self.db.collection("users").getDocuments() {
-                (snapshot, error) in
-                
-                if let error = error {
-                    print("No users \(error)")
-                } else {
-                    
-                    guard let snapDoc = snapshot?.documents else { return }
-                    
-                    for document in snapDoc {
-                        let user = User(snapshot: document)
-                        self.users.append(user)
-                    }
-                }
-                
-                for user in self.users {
-                    let invite = Invite(fromUserId: user.userId, fromUserName: user.name )
-                    self.declineInvite(invite: invite)
-                }
-            }
-        })
-        self.present(alert, animated: true, completion:  nil)
-        
-    }
+//    func accpetOrDeclineInvite(title: String, message: String) {
+//        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "Accept", style: .default) { (UIAlertAction) in
+//            guard let userId = self.auth.currentUser?.uid else { return }
+//
+//            self.db.collection("users").document(userId).collection("invites").addSnapshotListener() {
+//                (snapshot, error) in
+//
+//                if let error = error {
+//                    print("No users \(error)")
+//                } else {
+//                    guard let snapDoc = snapshot?.documents else { return }
+//
+//                    for document in snapDoc {
+//                        let invite = Invite(snapshot: document)
+//                        self.invites.append(invite)
+//                    }
+//                    for invite in self.invites {
+//                        self.acceptInvite(invite: invite)
+//                    }
+//                }
+//            }
+//        })
+//        alert.addAction(UIAlertAction(title: "Decline", style: .default) { (UIAlertAction) in
+//            self.db.collection("users").getDocuments() {
+//                (snapshot, error) in
+//
+//                if let error = error {
+//                    print("No users \(error)")
+//                } else {
+//
+//                    guard let snapDoc = snapshot?.documents else { return }
+//
+//                    for document in snapDoc {
+//                        let user = User(snapshot: document)
+//                        self.users.append(user)
+//                    }
+//                }
+//
+//                for user in self.users {
+//                    let invite = Invite(fromUserId: user.userId, fromUserName: user.name )
+//                    self.declineInvite(invite: invite)
+//                }
+//            }
+//        })
+//        self.present(alert, animated: true, completion:  nil)
+//
+//    }
 }

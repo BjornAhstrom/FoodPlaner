@@ -30,7 +30,7 @@ class RandomWeeklyManuTableViewCell: UITableViewCell {
         
         // If foodNameLabel is empty set it to (rester)
         if foodNameLabel.text == "" {
-            foodNameLabel.text? = "Rester"
+            foodNameLabel.text? = "Rester" // Används inte just nu
         } else {
             foodNameLabel.text? = foodName
         }

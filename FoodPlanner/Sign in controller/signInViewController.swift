@@ -101,10 +101,7 @@ class signInViewController: UIViewController, UITextFieldDelegate {
     
     func signIn() {
         guard let email = emailTextField.text,
-        let password = passwordTextField.text else {
-            self.alertMessage(titel: "Missing info", message: "Please fill out all required fields")
-            return
-        }
+        let password = passwordTextField.text else { return }
 
         auth.signIn(withEmail: email.lowercased(), password: password) { (user, error) in
             guard error == nil else {
@@ -114,7 +111,6 @@ class signInViewController: UIViewController, UITextFieldDelegate {
                 return
             }
             self.goToContainerViewController()
-
         }
     }
     
@@ -131,7 +127,6 @@ class signInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
     @IBAction func createANewAccountButton(_ sender: UIButton) {
         if let createAccountViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: createAccountId) as? CreateAccountViewController {
             
@@ -140,5 +135,4 @@ class signInViewController: UIViewController, UITextFieldDelegate {
             self.present(createAccountViewController, animated: true, completion: nil)
         }
     }
-    
 }

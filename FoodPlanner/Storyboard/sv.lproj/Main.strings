@@ -33,7 +33,7 @@
 "8HO-4F-0Ge.placeholder" = "Namn";
 
 /* Class = "UILabel"; text = "Weekly food menu"; ObjectID = "8YE-dU-iAJ"; */
-"8YE-dU-iAJ.text" = "Veckans matmeny";
+"8YE-dU-iAJ.text" = "Veckans meny";
 
 /* Class = "UILabel"; text = "Amount Unit"; ObjectID = "C2j-S7-uNZ"; */
 "C2j-S7-uNZ.text" = "Mängd Enhet";

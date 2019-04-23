@@ -111,10 +111,18 @@ class DarkTheme: ThemeProtocol {
     
     
     // Shopping list view controller
-    var backgroundColorInShoppingListViewController: UIColor = UIColor(named: "OldPink")!
+    var backgroundColorInShoppingListViewController: UIColor = UIColor(named: "PaleTurquoise")!
     var textColorInTableViewInShoppingViewController: UIColor = UIColor(named: "OldRose")!
     var textFontInTableViewInShoppingViewController: UIFont = UIFont(name: "TimesNewRomanPS-BoldItalicMT", size: 22)!
     var borderColorForCheckBoxInShoppingViewController: UIColor = UIColor(named: "OldRose")!
+    var borderColorForTableViewShoppingViewController: UIColor = UIColor(named: "OldRose")!
+    
+    
+    // Finished weekly menu controller
+    var backgroundColorInFinishedWeeklyMenuController: UIColor = UIColor(named: "PaleTurquoise")!
+    var weeklyMenuLabelFontInFinishedWeeklyMenuController: UIFont = UIFont(name: "TimesNewRomanPS-BoldItalicMT", size: 30)!
+    var weeklyMenuLabelTextColorInFinishedWeeklyMenuController: UIColor = UIColor(named: "OldRose")!
+    var borderColorTableViewInFinishedWeeklyMenuController: UIColor = UIColor(named: "OldRose")!
 }
 
 

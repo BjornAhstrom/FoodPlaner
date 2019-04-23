@@ -106,16 +106,16 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
             createUser()
         }
         if nameText == "" {
-            self.alertMessage(titel: "Namefield can not be empty", message: "Pleace try again")
+            self.alertMessage(titel: "\(NSLocalizedString("allFields", comment: ""))", message: "\(NSLocalizedString("alertMessage_TryAgain", comment: ""))")
         }
         if emailText == "" {
-            self.alertMessage(titel: "Emailfield can not be empty", message: "Pleace try again")
+            self.alertMessage(titel: "\(NSLocalizedString("allFields", comment: ""))", message: "\(NSLocalizedString("alertMessage_TryAgain", comment: ""))")
         }
         if passwordText == "" || confirmPassword == "" {
-            self.alertMessage(titel: "Passwordfield can not be empty", message: "Pleace try again")
+            self.alertMessage(titel: "\(NSLocalizedString("allFields", comment: ""))", message: "\(NSLocalizedString("alertMessage_TryAgain", comment: ""))")
         }
         if passwordMatch == false {
-            self.alertMessage(titel: "Password do not match", message: "Pleace try again")
+           self.alertMessage(titel: "\(NSLocalizedString("passwordMatch", comment: ""))", message: "\(NSLocalizedString("alertMessage_TryAgain", comment: ""))")
         }
     }
     

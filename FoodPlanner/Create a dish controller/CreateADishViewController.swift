@@ -220,7 +220,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         var value = 0.0
         let numberFormatter = NumberFormatter()
         let decimalFiltered = input.replacingOccurrences(of: "٫|,", with: ".", options: .regularExpression)
-        numberFormatter.locale = Locale(identifier: "SW")  //"EN"
+        numberFormatter.locale = Locale(identifier: "\(NSLocalizedString("numberLanguageFormatter", comment: ""))")//"SW"
         if let amountValue = numberFormatter.number(from: decimalFiltered) {
             value = amountValue.doubleValue
         }
@@ -250,7 +250,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         // Check so that the text strings are not empty. If they are empty then an alert
         // comes upp that tells the user to fill in all fields.
         if ingredientText == "" || unitText == "" || unitText == "" {
-            alertMessage(titel: "You must fill in all fields", message: "Please try again")
+            alertMessage(titel: "\(NSLocalizedString("allFields", comment: ""))", message: "\(NSLocalizedString("alertMessage_TryAgain", comment: ""))")
         } else {
             let saveIngredient = Ingredient(ingredientsTitle: ingredientText, amount: ingredientsAmount, unit: unitText)
             ingredients.append(saveIngredient)
@@ -294,7 +294,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         }
         
         if nameOnDishTextField == "" {
-            alertMessage(titel: "Your dish must have a name!", message: "Please try again")
+            alertMessage(titel: "\(NSLocalizedString("mustHaveDishName", comment: ""))", message: "\(NSLocalizedString("alertMessage_TryAgain", comment: ""))")
         } else {
             
             let saveDish = Dish(dishTitle: nameOnDishTextField, dishImageId: dishPicture, ingredientsAndAmount: ingredients, cooking: cookingDescription.text, portions: portionsAmount)
@@ -342,22 +342,22 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     
     // Get a picture from the user's photo album or open the camera.
     func openCameraOrPhotoLibrary() {
-        let actionSheet = UIAlertController(title: "Photo source", message: "Choose a source", preferredStyle: .actionSheet)
+        let actionSheet = UIAlertController(title: "\(NSLocalizedString("photoSourceTitle", comment: ""))", message: "\(NSLocalizedString("chooseMessage", comment: ""))", preferredStyle: .actionSheet)
         
-        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action:UIAlertAction) in
+        actionSheet.addAction(UIAlertAction(title: "\(NSLocalizedString("cameraTitle", comment: ""))", style: .default, handler: { (action:UIAlertAction) in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 self.imagePickerController.sourceType = .camera
                 self.present(self.imagePickerController, animated: true, completion: nil)
             } else {
-                self.alertMessage(titel: "Your device have no camera", message: "Please use your photo library")
+                self.alertMessage(titel: "\(NSLocalizedString("noCameraTitle", comment: ""))", message: "\(NSLocalizedString("noCameraMessage", comment: ""))")
             }
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (action:UIAlertAction) in self.imagePickerController.sourceType = .photoLibrary
+        actionSheet.addAction(UIAlertAction(title: "\(NSLocalizedString("photoLibraryTitle", comment: ""))", style: .default, handler: { (action:UIAlertAction) in self.imagePickerController.sourceType = .photoLibrary
             self.present(self.imagePickerController, animated: true, completion: nil)
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "\(NSLocalizedString("cancelTitle", comment: ""))", style: .cancel, handler: nil))
         
         self.present(actionSheet, animated: true, completion: nil)
     }
@@ -377,7 +377,6 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
-    
 }
 
 extension CreateADishViewController: UITableViewDelegate, UITableViewDataSource {

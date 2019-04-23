@@ -189,9 +189,9 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == segueId {
-            if let destVC = segue.destination as? CreateADishViewController {
-                //destVC.dishes = Dishes.dish
-            }
+//            if let destVC = segue.destination as? CreateADishViewController {
+//                //destVC.dishes = Dishes.dish
+//            }
         }
         
         if segue.identifier == showDishSegue {

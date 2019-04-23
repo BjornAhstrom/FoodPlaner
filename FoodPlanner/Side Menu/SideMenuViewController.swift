@@ -44,27 +44,27 @@ class SideMenuViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-                guard let userId = auth.currentUser?.uid else { return }
+        guard let userId = auth.currentUser?.uid else { return }
         
-                db.collection("users").getDocuments() {
-                    (snapshot, error) in
-        
-                    if let error = error {
-                        print("Error getting document \(error)")
-                    } else {
-                        guard let snapDoc = snapshot?.documents else { return }
-                        
-                        for document in snapDoc {
-                            let name = User(snapshot: document)
-                            self.users.append(name)
-                        }
-                    }
-                    for name in self.users {
-                        if name.userId == userId {
-                            self.accountNameLabel.text = name.name
-                        }
-                    }
+        db.collection("users").getDocuments() {
+            (snapshot, error) in
+            
+            if let error = error {
+                print("Error getting document \(error)")
+            } else {
+                guard let snapDoc = snapshot?.documents else { return }
+                
+                for document in snapDoc {
+                    let name = User(snapshot: document)
+                    self.users.append(name)
                 }
+            }
+            for name in self.users {
+                if name.userId == userId {
+                    self.accountNameLabel.text = name.name
+                }
+            }
+        }
     }
     
     func setColorFontAndSizeOnButtonsAndLebels() {
@@ -117,7 +117,7 @@ class SideMenuViewController: UIViewController {
         guard let addCategoriesText = addCategoriesTextField.text else { return }
         
         if addCategoriesText == "" {
-            self.alertMessage(titel: "\(NSLocalizedString("alertTitle1", comment: ""))", message: "\(NSLocalizedString("alertMessage1", comment: ""))")
+            self.alertMessage(titel: "\(NSLocalizedString("alertTitle1", comment: ""))", message: "\(NSLocalizedString("alertMessage_TryAgain", comment: ""))")
         } else {
             buttons.append(Button(buttonTitle: addCategoriesText))
             
@@ -180,7 +180,7 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-         let destination = UIViewController() as? DishesViewController
+        let destination = UIViewController() as? DishesViewController
         navigationController?.pushViewController(destination!, animated: true)
         
         switch indexPath.row {
@@ -190,7 +190,7 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
         case 3: NotificationCenter.default.post(name: NSNotification.Name(weeklyMenu), object: nil)
         case 4:
             if Dishes.instance.dishes.count == 0 {
-                self.alertMessage(titel: "Du har inga maträtter!", message: "Lägg till några maträtter i dina recept och försök igen.")
+                self.alertMessage(titel: "\(NSLocalizedString("noRecipesTitle", comment: ""))", message: "\(NSLocalizedString("noRecipesMessage", comment: ""))")
             } else {
                 NotificationCenter.default.post(name: NSNotification.Name(selectRandomDishMenu), object: nil)
             }

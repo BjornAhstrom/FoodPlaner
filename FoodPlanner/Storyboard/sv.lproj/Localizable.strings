@@ -9,10 +9,50 @@
 "dateLanguageFormatter" = "sv_SE";
 "StartDate" = "Nästa maträtt är på :";
 "alertTitle1" = "Din knapp måste ha ett namn";
-"alertMessage1" = "Försök igen";
+
+// Create account view controller
+"allFields" = "Alla fält måste fyllas i";
+"passwordMatch" = "Lösenordet matchar inte";
+
+// General
+"alertMessage_TryAgain" = "Försök igen";
+
+// Side menu view controller
 "button1" = "Mina recept";
 "button2" = "Mina recept från bilder";
 "button3" = "Mina webbrecept";
 "button4" = "Veckomeny";
 "button5" = "Skapa en vecomeny";
+"noRecipesTitle" = "Du har inga maträtter!";
+"noRecipesMessage" = "Lägg till några maträtter i dina recept och försök igen.";
+
+// Meal of the day controller
+"inviteAlertTitle" = "Du har fått en inbjudan!";
+"inviteAlertMessage" = "Accepterar du inbjudan från ";
+"acceptInvite" = "Acceptera";
+"declineInvite" = "Avvisa";
+"laterInvite" = "Senare";
+
+// Create a dish controller
+"numberLanguageFormatter" = "SW";
+"mustHaveDishName" = "Din maträtt måste ha ett namn!";
+"photoSourceTitle" = "Bildkälla";
+"chooseMessage" = "Välj en källa";
+"cameraTitle" = "Kamera";
+"noCameraTitle" = "Din enhet har ingen kamera";
+"noCameraMessage" = "Vänligen använd ditt fotobibliotek";
+"photoLibraryTitle" = "Fotobibliotek";
+"cancelTitle" = "Ångra";
+
+// Random weekly menu
+"oneDishTitle" = "Du har för få maträtter!";
+"oneDishMessage1" = "Du har endast ";
+"oneDishMessage2" = " maträtt inlagd i dina recept, så du kommer endast få ut ";
+"oneDishMessage3" = " maträtt i din veckomeny.";
+
+"tooFewDishesTitle" = "Du har för få maträtter!";
+"tooFewDishesMessage1" = "Du har endast ";
+"tooFewDishesMessage2" = " maträtter inlagda i dina recept, så du kommer endast få ut ";
+"tooFewDishesMessage3" = " maträtter i din veckomeny.";
+
 

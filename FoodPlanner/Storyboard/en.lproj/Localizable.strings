@@ -9,11 +9,51 @@
 "dateLanguageFormatter" = "en_US";
 "StartDate" = "the next dish is on:";
 "alertTitle1" = "Your button most have a name";
-"alertMessage1" = "Pleace try again";
+
+// Create account view controller
+"passwordMatch" = "Password do not match";
+
+// General
+"allFields" = "All fields must be filled in";
+"alertMessage_TryAgain" = "Pleace try again";
+
+// Side menu view controller
 "button1" = "My recipes";
 "button2" = "My recipes from pictures";
 "button3" = "My webrecipes";
 "button4" = "Weekly menu";
 "button5" = "Create new food menu";
+"noRecipesTitle" = "You have no dishes!";
+"noRecipesMessage" = "Add some dishes to your recipes and try again.";
+
+// Meal of the day controller
+"inviteAlertTitle" = "You've got an invitation!";
+"inviteAlertMessage" = "Do you accept the invite from ";
+"acceptInvite" = "Accept";
+"declineInvite" = "Decline";
+"laterInvite" = "Later";
+
+
+// Create a dish controller
+"numberLanguageFormatter" = "EN";
+"mustHaveDishName" = "Your dish must have a name!";
+"photoSourceTitle" = "Photo source";
+"chooseMessage" = "Choose a source";
+"cameraTitle" = "Camera";
+"noCameraTitle" = "Your device have no camera";
+"noCameraMessage" = "Please use your photo library";
+"photoLibraryTitle" = "Photo Library";
+"cancelTitle" = "Cancel";
+
+// Random weekly menu
+"oneDishTitle" = "You have too few dishes!";
+"oneDishMessage1" = "You only have ";
+"oneDishMessage2" = " dish in your recipes, so you will only get  ";
+"oneDishMessage3" = " dish in your weekly menu.";
+
+"tooFewDishesTitle" = "You have too few dishes!";
+"tooFewDishesMessage1" = "You only have ";
+"tooFewDishesMessage2" = " dishes included in your recipes, so you will only get ";
+"tooFewDishesMessage3" = " dishes in your weekly menu.";
 
 

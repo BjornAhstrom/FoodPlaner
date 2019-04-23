@@ -28,7 +28,6 @@ class MealOfDayViewController: UIViewController {
     
     var db: Firestore!
     var auth: Auth!
-    //var dishes = Dishes.dishes
     var users: [User] = []
     var invites: [Invite] = []
     var dishId: String?
@@ -38,10 +37,6 @@ class MealOfDayViewController: UIViewController {
     
     var imageReference: StorageReference?
     
-//    var imageReference: StorageReference {
-//            return Storage.storage().reference().child("usersImages").child(userID)
-//    }
-    
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
         auth = Auth.auth()
@@ -50,7 +45,7 @@ class MealOfDayViewController: UIViewController {
         setRadiusBorderColorAndFontOnLabelsViewsAndButtons()
         ifUserGetAnInviteThenShowPopup()
         
-        // Om det inte finns några maträtter att hämta från databasaen, gå direkt till DishesViewController så att användaren kan börja lägga till maträtter.
+        // Om det inte finns några maträtter att hämta från databasen, gå direkt till DishesViewController så att användaren kan börja lägga till maträtter.
         if dishesID == [""] {
             goToDishesViewController()
         }
@@ -158,7 +153,6 @@ class MealOfDayViewController: UIViewController {
     // Hämtar data från veckomenyn för att sedan jämföra dagens datum med datum i veckomenyn och visa rätt maträtt,
     // om menyn inte har en maträtt då ska selectRandomDishController visas
     func getWeeklyMenuFromFireStore() {
-        // Kolla om det är här jag måste nollställa dishes
         db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").order(by: "date", descending: false).addSnapshotListener() {
             (querySnapshot, error) in
             
@@ -182,7 +176,7 @@ class MealOfDayViewController: UIViewController {
                     
                     let date = dateFromDish
                     let dateFormatter = DateFormatter()
-                    dateFormatter.locale = NSLocale(localeIdentifier: "\(NSLocalizedString("dateLanguageFormatter", comment: ""))") as Locale //"sv_SE"
+                    dateFormatter.locale = NSLocale(localeIdentifier: "\(NSLocalizedString("dateLanguageFormatter", comment: ""))") as Locale
                     dateFormatter.dateFormat = "EEEE dd/MM"
                     outputDate = dateFormatter.string(from: date)
                     
@@ -203,9 +197,9 @@ class MealOfDayViewController: UIViewController {
                 self.mealOfTheDayID = mealOfToday?.idFromDish ?? ""
                 self.dishId = mealOfToday?.idFromDish ?? ""
                 
-                //self.downloadImageFromStorage()
                 for usersId in self.userIdFromFamilyAccount {
                     self.imageReference = Storage.storage().reference().child("usersImages").child(usersId)
+                     // Ska inte loopa igenom bilderna
                     self.downloadImageFromStorage()
                 }
             }
@@ -215,6 +209,7 @@ class MealOfDayViewController: UIViewController {
     
     func downloadImageFromStorage() {
         guard let downloadImageRef = imageReference?.child(dishId ?? "No dishId") else { return }
+        print("!!!!!!!! \(dishId ?? "")")
         
         if downloadImageRef.name == dishId {
             let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
@@ -284,7 +279,7 @@ class MealOfDayViewController: UIViewController {
                     let invite = Invite(snapshot: document)
                     if invite.invite == true {
                         guard let nameFromUser = invite.fromUserName else { return }
-                        self.accpetOrDeclineInvite(title: "You got an invite!", message: "Do you accept the invite from \(nameFromUser)?")
+                        self.accpetOrDeclineInvite(title: "\(NSLocalizedString("inviteAlertTitle", comment: ""))", message: "\(NSLocalizedString("inviteAlertMessage", comment: "")) \(nameFromUser)?")
                     }
                 }
             }
@@ -315,7 +310,7 @@ class MealOfDayViewController: UIViewController {
     
     func accpetOrDeclineInvite(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Accept", style: .default) { (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: "\(NSLocalizedString("acceptInvite", comment: ""))", style: .default) { (UIAlertAction) in
             guard let userId = self.auth.currentUser?.uid else { return }
             
             self.db.collection("users").document(userId).collection("invites").addSnapshotListener() {
@@ -337,7 +332,7 @@ class MealOfDayViewController: UIViewController {
             }
         })
         
-        alert.addAction(UIAlertAction(title: "Decline", style: .default) { (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: "\(NSLocalizedString("declineInvite", comment: ""))", style: .default) { (UIAlertAction) in
             self.db.collection("users").getDocuments() {
                 (snapshot, error) in
                 
@@ -358,6 +353,9 @@ class MealOfDayViewController: UIViewController {
                     self.declineInvite(invite: invite)
                 }
             }
+        })
+        
+        alert.addAction(UIAlertAction(title: "\(NSLocalizedString("laterInvite", comment: ""))", style: .default) { (UIAlertAction) in
         })
         self.present(alert, animated: true, completion:  nil)
     }

@@ -33,19 +33,8 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
     var ownerFamilyAccountId: String = ""
     
     override func viewWillAppear(_ animated: Bool) {
-        //getWeeklyMenuAndShoppingItemsFromFirestore()
         getFamilyAccountFromFirestore()
     }
-//    override func becomeFirstResponder() -> Bool {
-//        return true
-//    }
-//
-//    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-//
-//        if motion == .motionShake {
-//            print("!!!!!!!!!!!!Shake")
-//        }
-//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +48,7 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
         datePickerView.minimumDate = Date()
         datePickerView.addTarget(self, action: #selector(storeSelectedDate), for: UIControl.Event.valueChanged)
         
-        phoneShakerImageView.image = UIImage(named: "Phone.png")
+        //phoneShakerImageView.image = UIImage(named: "Phone.png")
         
         let defaultPickerRow  =  initialPickerRow()
         selectDaysPickerView.selectRow(defaultPickerRow, inComponent: 0, animated: false)
@@ -109,10 +98,7 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
                         guard let snapDoc = snapshot?.documents else { return }
                         
                         for document in snapDoc {
-                            //let user = User(snapshot: document)
-                            
                             self.userIdFromFamilyAccount.append(document.documentID)
-                            
                             
                         }
                         self.getWeeklyMenuAndShoppingItemsFromFirestore()
@@ -123,68 +109,57 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
     }
     
     func getWeeklyMenuAndShoppingItemsFromFirestore() {
-        //        let uid = auth.currentUser
-        //        guard let userId = uid?.uid else { return }
-        
-        
-        //for userID in userIdFromFamilyAccount {
-            db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").getDocuments() {
-                (snapshot, error) in
-                
-                if let error = error {
-                    print("Error getting document \(error)")
-                }else {
-                    guard let snapDoc = snapshot?.documents else { return }
-                    
-                    for document in snapDoc {
-                        let dishId = DishAndDate(snapshot: document)
-                        
-                        self.weeklyMenuId.append(dishId.weeklyMenuID)
-                    }
-                }
-            }
+        db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").addSnapshotListener() {
+            (snapshot, error) in
             
-            db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").getDocuments() {
-                (snapshot, error) in
+            if let error = error {
+                print("Error getting document \(error)")
+            }else {
+                guard let snapDoc = snapshot?.documents else { return }
                 
-                if let error = error {
-                    print("Error getting document \(error)")
-                } else {
-                    guard let snapDoc = snapshot?.documents else { return }
+                for document in snapDoc {
+                    let dishId = DishAndDate(snapshot: document)
                     
-                    for document in snapDoc {
-                        let itemId = ShoppingItem(snapshot: document)
-                        
-                        guard let itId = itemId.itemId else { return }
-                        
-                        self.shoppingItemsId.append(itId)
-                    }
+                    self.weeklyMenuId.append(dishId.weeklyMenuID)
                 }
             }
-      //  }
+        }
+        
+        db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").addSnapshotListener() {
+            (snapshot, error) in
+            
+            if let error = error {
+                print("Error getting document \(error)")
+            } else {
+                guard let snapDoc = snapshot?.documents else { return }
+                
+                for document in snapDoc {
+                    let itemId = ShoppingItem(snapshot: document)
+                    
+                    guard let itId = itemId.itemId else { return }
+                    
+                    self.shoppingItemsId.append(itId)
+                }
+            }
+        }
     }
     
     func deleteWeeklyMenu() {
-        //        let uid = auth.currentUser
-        //        guard let userId = uid?.uid else { return }
-        //for userID in userIdFromFamilyAccount {
+        for id in weeklyMenuId {
             
-            for id in weeklyMenuId {
-                
-                db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").document(id).delete() { error in
-                    if let error = error {
-                        print("Error removing document: \(error)")
-                    }
+            db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").document(id).delete() { error in
+                if let error = error {
+                    print("Error removing document: \(error)")
                 }
             }
-            for itemId in shoppingItemsId {
-                db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").document(itemId).delete() { error in
-                    if let error = error {
-                        print("Error removing document: \(error)")
-                    }
+        }
+        for itemId in shoppingItemsId {
+            db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").document(itemId).delete() { error in
+                if let error = error {
+                    print("Error removing document: \(error)")
                 }
             }
-      //  }
+        }
     }
     
     @objc func storeSelectedDate() {

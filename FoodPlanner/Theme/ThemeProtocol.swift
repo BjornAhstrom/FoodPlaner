@@ -96,4 +96,11 @@ protocol ThemeProtocol {
     var textColorInTableViewInShoppingViewController: UIColor { get}
     var textFontInTableViewInShoppingViewController: UIFont { get }
     var borderColorForCheckBoxInShoppingViewController: UIColor { get }
+    var borderColorForTableViewShoppingViewController: UIColor { get }
+    
+    // Finished weekly menu controller
+    var backgroundColorInFinishedWeeklyMenuController: UIColor { get }
+    var weeklyMenuLabelFontInFinishedWeeklyMenuController: UIFont { get }
+    var weeklyMenuLabelTextColorInFinishedWeeklyMenuController: UIColor { get }
+    var borderColorTableViewInFinishedWeeklyMenuController: UIColor { get }
 }

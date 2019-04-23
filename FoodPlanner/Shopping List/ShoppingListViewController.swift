@@ -11,7 +11,7 @@ import Firebase
 
 class ShoppingListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var shoppingListTableView: UITableView!
-    @IBOutlet weak var doneItemButton: UIBarButtonItem!
+    //@IBOutlet weak var doneItemButton: UIBarButtonItem!
     
     var db: Firestore!
     var auth: Auth!
@@ -31,9 +31,12 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func setColorOnButtonsAndLabels() {
-        doneItemButton.tintColor = Theme.current.textColorForLabels
+        //doneItemButton.tintColor = Theme.current.textColorForLabels
         view.backgroundColor = Theme.current.backgroundColorInShoppingListViewController
         shoppingListTableView.backgroundColor = Theme.current.backgroundColorInShoppingListViewController
+        shoppingListTableView.layer.borderWidth = 1
+        shoppingListTableView.layer.borderColor = Theme.current.borderColorForTableViewShoppingViewController.cgColor
+        shoppingListTableView.layer.cornerRadius = 10
     }
     
     func getFamilyAccountFromFirestore() {

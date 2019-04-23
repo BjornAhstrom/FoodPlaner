@@ -83,10 +83,10 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     // Ska göras: Om användaren viljer 2 maträtter då ska det kollas om det finns gånger 3 maträtter, för det ska inte kunna bli samma maträtter som föregående vecka
     func createWeeklyMenu(count: Int) {
         if Dishes.instance.dishes.count == 1 {
-            self.alertMessage(titel: "Du har för få maträtter!", message: "Du har endast \(Dishes.instance.dishes.count) maträtt inlagd i dina recept, så du kommer endast få ut \(Dishes.instance.dishes.count) maträtt i din veckomeny")
+            self.alertMessage(titel: "\(NSLocalizedString("oneDishTitle", comment: ""))", message: "\(NSLocalizedString("oneDishMessage1", comment: "")) \(Dishes.instance.dishes.count) \(NSLocalizedString("oneDishMessage2", comment: "")) \(Dishes.instance.dishes.count) \(NSLocalizedString("oneDishMessage3", comment: ""))")
         }
         else if count > Dishes.instance.dishes.count {
-            self.alertMessage(titel: "Du har för få maträtter!", message: "Du har endast \(Dishes.instance.dishes.count) maträtter inlagda i dina recept, så du kommer endast få ut \(Dishes.instance.dishes.count) maträtter i din veckomeny")
+            self.alertMessage(titel: "\(NSLocalizedString("tooFewDishesTitle", comment: ""))", message: "\(NSLocalizedString("tooFewDishesMessage1", comment: "")) \(Dishes.instance.dishes.count) \(NSLocalizedString("tooFewDishesMessage2", comment: "")) \(Dishes.instance.dishes.count) \(NSLocalizedString("tooFewDishesMessage3", comment: ""))")
         }
         
         let calendar = Calendar.current
@@ -112,7 +112,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         
         for userID in userIdFromFamilyAccount {
             for id in dishId {
-                self.db.collection("users").document(userID).collection("dishes").document(id).collection("ingredients").getDocuments() {
+                self.db.collection("users").document(userID).collection("dishes").document(id).collection("ingredients").addSnapshotListener() {
                     (querySnapshot, error) in
                     
                     if let error = error {
