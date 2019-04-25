@@ -26,9 +26,9 @@
 "noRecipesTitle" = "You have no dishes!";
 "noRecipesMessage" = "Add some dishes to your recipes and try again.";
 
-// Meal of the day controller
+// Get invite
 "inviteAlertTitle" = "You've got an invitation!";
-"inviteAlertMessage" = "Do you accept the invite from ";
+"inviteAlertMessage" = "Do you accept the invite from";
 "acceptInvite" = "Accept";
 "declineInvite" = "Decline";
 "laterInvite" = "Later";
@@ -45,6 +45,15 @@
 "photoLibraryTitle" = "Photo Library";
 "cancelTitle" = "Cancel";
 
+"addIngredientAlertTitle" = "Add ingredients";
+"addIngredientAlertMessage" = "Write ingredients name (Milk), amount (2) and wich unit (dl)";
+"placeholderIngName" = "Ingredients name";
+"placeholderIngAmount" = "Amount";
+"placeholderIngUnit" = "Unit";
+"cancel" = "Cancel";
+"add" = "Add";
+
+
 // Random weekly menu
 "oneDishTitle" = "You have too few dishes!";
 "oneDishMessage1" = "You only have ";
@@ -57,3 +66,5 @@
 "tooFewDishesMessage3" = " dishes in your weekly menu.";
 
 
+// saved dish controller
+"portionsAmount" = "Portions: ";

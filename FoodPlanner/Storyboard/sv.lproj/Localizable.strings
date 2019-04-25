@@ -26,9 +26,9 @@
 "noRecipesTitle" = "Du har inga maträtter!";
 "noRecipesMessage" = "Lägg till några maträtter i dina recept och försök igen.";
 
-// Meal of the day controller
+// Get invite
 "inviteAlertTitle" = "Du har fått en inbjudan!";
-"inviteAlertMessage" = "Accepterar du inbjudan från ";
+"inviteAlertMessage" = "Accepterar du inbjudan från";
 "acceptInvite" = "Acceptera";
 "declineInvite" = "Avvisa";
 "laterInvite" = "Senare";
@@ -44,6 +44,14 @@
 "photoLibraryTitle" = "Fotobibliotek";
 "cancelTitle" = "Ångra";
 
+"addIngredientAlertTitle" = "Lägg till en ingrediens";
+"addIngredientAlertMessage" = "Skriv ingrediens namn ex (Mjölk), mängd (2) och vilken enhet (dl)";
+"placeholderIngName" = "Ingrediens namn";
+"placeholderIngAmount" = "Mängd";
+"placeholderIngUnit" = "Enhet";
+"cancel" = "Avbryt";
+"add" = "Lägg till";
+
 // Random weekly menu
 "oneDishTitle" = "Du har för få maträtter!";
 "oneDishMessage1" = "Du har endast ";
@@ -54,5 +62,8 @@
 "tooFewDishesMessage1" = "Du har endast ";
 "tooFewDishesMessage2" = " maträtter inlagda i dina recept, så du kommer endast få ut ";
 "tooFewDishesMessage3" = " maträtter i din veckomeny.";
+
+// saved dish controller
+"portionsAmount" = "Portioner: ";
 
 

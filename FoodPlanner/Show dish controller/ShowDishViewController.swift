@@ -46,7 +46,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.dataSource = self
         setRadiusBorderColorAndFontOnLabelsViewsAndButtons()
         dishName.text = dish?.dishName ?? ""
-        portionsLabel.text = "Portions: \(dish?.portions ?? 0)"
+        portionsLabel.text = "\(NSLocalizedString("portionsAmount", comment: "")) \(dish?.portions ?? 0)"
         
         cookingDescriptionTextView.text = dish?.cooking
         getFamilyAccountFromFirestore()
@@ -152,7 +152,6 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             }
             for usersId in self.userIdFromFamilyAccount {
-                print("!!!!!!! usersId \(usersId)")
                 self.imageReference = Storage.storage().reference().child("usersImages").child(usersId)
                 self.downloadImageFromStorage()
             }

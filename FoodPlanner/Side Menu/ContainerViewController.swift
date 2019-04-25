@@ -19,6 +19,7 @@ class ContainerViewController: UIViewController {
         super.viewDidLoad()
         swipeLeftAndRight()
         NotificationCenter.default.addObserver(self, selector: #selector(showSideMenu), name: NSNotification.Name( showSideMenuId), object: nil)
+        //self.hideKeyboard() // kolla om det går att ordna
     }
     
     @objc func showSideMenu() {
