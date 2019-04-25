@@ -68,3 +68,6 @@
 
 // saved dish controller
 "portionsAmount" = "Portions: ";
+
+// Meal of the day controller
+"noMeal" = "There is no dish";

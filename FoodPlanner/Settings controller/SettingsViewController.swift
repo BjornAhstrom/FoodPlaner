@@ -99,13 +99,7 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func sendInviteButton(_ sender: UIButton) {
-        let sendInviteQueue = DispatchQueue(label: "sendInviteQueue", qos: .userInitiated)
-        
         self.sendInvite()
-        
-        sendInviteQueue.asyncAfter(deadline: .now() + 1) {
-            // self.inviteEmailTextField.text = ""
-        }
     }
     
     func sendInvite() {
@@ -137,7 +131,8 @@ class SettingsViewController: UIViewController {
                     self.users = []
                 }
             }
-        }        //        self.inviteEmailTextField.text = ""
+        }
+        //self.inviteEmailTextField.text = ""
     }
     
 //    func acceptInvite(invite: Invite) {
@@ -181,12 +176,12 @@ class SettingsViewController: UIViewController {
 //        }
 //    }
     
-    func declineInvite(invite: Invite) {
-        guard let userId = self.auth.currentUser?.uid else { return }
-        
-        // radera inviten
-        db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete()
-    }
+//    func declineInvite(invite: Invite) {
+//        guard let userId = self.auth.currentUser?.uid else { return }
+//
+//        // radera inviten
+//        db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete()
+//    }
     
     @IBAction func endFamilyAccountButton(_ sender: UIButton) {
         guard let userId = self.auth.currentUser?.uid else { return }

@@ -66,4 +66,5 @@
 // saved dish controller
 "portionsAmount" = "Portioner: ";
 
-
+// Meal of the day controller
+"noMeal" = "Det finns ingen maträtt";

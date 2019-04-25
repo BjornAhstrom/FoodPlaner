@@ -424,7 +424,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Lasagne" translatesAutoresizingMaskIntoConstraints="NO" id="hfQ-dc-N7O">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hfQ-dc-N7O">
                                 <rect key="frame" x="51" y="340" width="273" height="229"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="hfQ-dc-N7O" secondAttribute="height" multiplier="273:229" id="C9r-nX-W8o"/>
@@ -1461,7 +1461,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Lasagne" width="640" height="417"/>
         <namedColor name="OldRose">
             <color red="0.75294117647058822" green="0.50196078431372548" blue="0.50588235294117645" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

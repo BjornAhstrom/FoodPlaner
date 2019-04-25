@@ -41,6 +41,7 @@ class MealOfDayViewController: UIViewController {
         db = Firestore.firestore()
         auth = Auth.auth()
          getFamilyAccountFromFirestore()
+        fooodImageView.image = UIImage(named: "Lasagne")
         
         setRadiusBorderColorAndFontOnLabelsViewsAndButtons()
         ifUserGetAnInviteThenShowPopup()
@@ -194,7 +195,7 @@ class MealOfDayViewController: UIViewController {
                         break
                     }
                 }
-                self.mealOfTheDayName = mealOfToday?.dishName ?? "No meal"
+                self.mealOfTheDayName = mealOfToday?.dishName ?? "\(NSLocalizedString("noMeal", comment: ""))"
                 self.mealOfTheDayID = mealOfToday?.idFromDish ?? ""
                 self.dishId = mealOfToday?.idFromDish ?? ""
                 
@@ -210,7 +211,6 @@ class MealOfDayViewController: UIViewController {
     
     func downloadImageFromStorage() {
         guard let downloadImageRef = imageReference?.child(dishId ?? "No dishId") else { return }
-        print("!!!!!!!! \(dishId ?? "")")
         
         if downloadImageRef.name == dishId {
             let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
@@ -301,14 +301,6 @@ class MealOfDayViewController: UIViewController {
         // 3. radera inviten
         db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete()
     }
-    
-    func declineInvite(invite: Invite) {
-        guard let userId = self.auth.currentUser?.uid else { return }
-        
-        // radera inviten
-        db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete()
-    }
-    
     func accpetOrDeclineInvite(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "\(NSLocalizedString("acceptInvite", comment: ""))", style: .default) { (UIAlertAction) in
@@ -348,7 +340,6 @@ class MealOfDayViewController: UIViewController {
                         self.users.append(user)
                     }
                 }
-                
                 for user in self.users {
                     let invite = Invite(fromUserId: user.userId, fromUserName: user.name )
                     self.declineInvite(invite: invite)
@@ -359,5 +350,12 @@ class MealOfDayViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "\(NSLocalizedString("laterInvite", comment: ""))", style: .default) { (UIAlertAction) in
         })
         self.present(alert, animated: true, completion:  nil)
+    }
+    
+    func declineInvite(invite: Invite) {
+        guard let userId = self.auth.currentUser?.uid else { return }
+        
+        // radera inviten
+        db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete()
     }
 }
