@@ -92,7 +92,7 @@ class signInViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func textFieldDidBeginEditing() {
-        UITextView.animate(withDuration: 0.2, animations: { self.view.frame.origin.y = -170})
+        UITextView.animate(withDuration: 0.2, animations: { self.view.frame.origin.y = -109})
     }
     
     @objc func textFieldDidEndEditing() {

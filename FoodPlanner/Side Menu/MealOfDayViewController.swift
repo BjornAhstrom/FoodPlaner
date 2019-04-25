@@ -124,7 +124,8 @@ class MealOfDayViewController: UIViewController {
                 (querySnapshot, error) in
                 
                 if let error = error {
-                    self.alertMessage(titel: "Error", message: error.localizedDescription)
+                    print("Error getting document, \(error.localizedDescription)")
+                    //self.alertMessage(titel: "Error", message: error.localizedDescription)
                 } else {
                     guard let snapshot = querySnapshot else {
                         return

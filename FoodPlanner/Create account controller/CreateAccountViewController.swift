@@ -16,7 +16,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet private weak var emailTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet private weak var confirmPasswordTextField: UITextField!
-    @IBOutlet private weak var termsLabel: UILabel!
+//    @IBOutlet private weak var termsLabel: UILabel!
     @IBOutlet private weak var continueButton: UIButton!
     
     private var passwordMatch: Bool = false
@@ -43,8 +43,8 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.textColor]
 
         
-        termsLabel.font = UIFont(name: Theme.current.fontForLabels, size: 12)
-        termsLabel.textColor = Theme.current.textColor
+//        termsLabel.font = UIFont(name: Theme.current.fontForLabels, size: 12)
+//        termsLabel.textColor = Theme.current.textColor
         
         continueButton.layer.cornerRadius = 25
         continueButton.layer.backgroundColor = Theme.current.colorForButtons.cgColor
@@ -83,11 +83,19 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func textFieldDidBeginEditing() {
-        UITextView.animate(withDuration: 0.2, animations: { self.view.frame.origin.y = -190})
+        UITextView.animate(withDuration: 0.2, animations: { self.nameTextField.frame.origin.y = 100 })
+        UITextView.animate(withDuration: 0.2, animations: { self.emailTextField.frame.origin.y = 164 })
+        UITextView.animate(withDuration: 0.2, animations: { self.passwordTextField.frame.origin.y = 228 })
+        UITextView.animate(withDuration: 0.2, animations: { self.confirmPasswordTextField.frame.origin.y = 292 })
+        UITextView.animate(withDuration: 0.2, animations: { self.continueButton.frame.origin.y = 420 })
     }
     
     @objc func textFieldDidEndEditing() {
-        UITextView.animate(withDuration: 0.2, animations: { self.view.frame.origin.y = 0})
+        UITextView.animate(withDuration: 0.3, animations: { self.nameTextField.frame.origin.y = 150 })
+        UITextView.animate(withDuration: 0.3, animations: { self.emailTextField.frame.origin.y = 214 })
+        UITextView.animate(withDuration: 0.3, animations: { self.passwordTextField.frame.origin.y = 278 })
+        UITextView.animate(withDuration: 0.3, animations: { self.confirmPasswordTextField.frame.origin.y = 342 })
+        UITextView.animate(withDuration: 0.3, animations: { self.continueButton.frame.origin.y = 470})
     }
     
     @IBAction func continueButton(_ sender: UIButton) {

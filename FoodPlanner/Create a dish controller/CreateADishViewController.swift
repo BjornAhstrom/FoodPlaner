@@ -211,9 +211,63 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         openCameraOrPhotoLibrary()
     }
     
+    func alertForAddAIngredient() {
+        //Create the alert controller.
+        let alert = UIAlertController(title: "Add ingredients", message: "Write ingredients name (Milk), amount (2) and wich unit (dl)", preferredStyle: .alert)
+        let subview = (alert.view.subviews.first?.subviews.first?.subviews.first!)! as UIView
+        subview.backgroundColor = Theme.current.backgroundColorAddDishController
+        
+        //Add the text field. You can configure it however you need.
+        alert.addTextField { (ingredientField) in
+            ingredientField.placeholder = "Ingredients name"
+        }
+        
+        alert.addTextField { (amountField) in
+            amountField.placeholder = "Amount"
+        }
+        
+        alert.addTextField { (unitField) in
+            unitField.placeholder = "Unit"
+        }
+        
+        //the cancel action doing nothing
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+        
+        //the confirm action taking the inputs
+        let acceptAction = UIAlertAction(title: "Add", style: .default, handler: { [weak alert] (error) in
+            guard let ingredientField = alert?.textFields?[0], let amountField = alert?.textFields?[1], let unitField = alert?.textFields?[2] else {
+                print("Issue with Alert TextFields \(error)")
+                return
+            }
+            guard let ingredientText = ingredientField.text, let amountText = amountField.text, let unitText = unitField.text else {
+                print("Issue with TextFields Text \(error)")
+                return
+            }
+            self.createIngredients(ingredientText: ingredientText, amountText: amountText, unitText: unitText)
+        })
+        
+        //adding the actions to alertController
+        alert.addAction(acceptAction)
+        alert.addAction(cancelAction)
+        
+        // Presenting the alert
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func ingredientsAmountStepper(_ sender: UIStepper) {
             ingredientsAmount = Double(sender.value)
         stepperTextField.text =  String(ingredientsAmount)
+    }
+   
+    @IBAction func portionsAmountStepper(_ sender: UIStepper) {
+        portionsAmount = Int(sender.value)
+        portonsAmountTextField.text = String(portionsAmount)
+    }
+ 
+    
+    @IBAction func addIngredientsButton(_ sender: UIButton) {
+        alertForAddAIngredient()
+        //createIngredients()
     }
     
     func getDoubleFromLocalNumber(input: String) -> Double {
@@ -227,24 +281,13 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         return value
     }
     
-    
-    @IBAction func portionsAmountStepper(_ sender: UIStepper) {
-        portionsAmount = Int(sender.value)
-        portonsAmountTextField.text = String(portionsAmount)
-    }
- 
-    
-    @IBAction func addIngredientsButton(_ sender: UIButton) {
-        createIngredients()
-    }
-    
-    func createIngredients() {
+    func createIngredients(ingredientText: String, amountText: String, unitText: String) {
         // Convert the text string to an Double
-        guard let stepperText = stepperTextField.text else { return }
-        guard let ingredientText = ingredientTextField.text else { return }
-        guard let unitText = unitTextField.text else { return }
+//        guard let amountText = stepperTextField.text else { return }
+//        guard let ingredientText = ingredientTextField.text else { return }
+//        guard let unitText = unitTextField.text else { return }
         
-        let ingAmount = getDoubleFromLocalNumber(input: stepperText)
+        let ingAmount = getDoubleFromLocalNumber(input: amountText)
         ingredientsAmount = ingAmount
         
         // Check so that the text strings are not empty. If they are empty then an alert

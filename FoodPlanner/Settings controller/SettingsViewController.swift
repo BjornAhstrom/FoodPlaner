@@ -140,23 +140,23 @@ class SettingsViewController: UIViewController {
         }        //        self.inviteEmailTextField.text = ""
     }
     
-    func acceptInvite(invite: Invite) {
-        guard let userId = self.auth.currentUser?.uid else { return }
-        guard let name = self.auth.currentUser?.displayName else { return }
-        //guard let userNameFromInvite = invite.fromUserName else { return }
-        guard let email = self.auth.currentUser?.email else { return }
-        
-        // 1. lägg till dig själv som medlem i familyaccountet som du är invitad till, och lägg til
-        db.collection("familyAccounts").document(invite.fromUserId).collection("members").document(userId).setData(["name" : name])
-        
-//        db.collection("familyAccount").document(userId).collection("members").document(invite.fromUserId).setData(["name" : userNameFromInvite])
-        
-        // 2. lägg till familyaccountet om du accpterar som ditt eget familyaccount
-        db.collection("users").document(userId).setData(["name" : name, "email" : email, "familyAccount" : invite.fromUserId])
-        
-        // Delete the invite from firestore
-        db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete()
-    }
+//    func acceptInvite(invite: Invite) {
+//        guard let userId = self.auth.currentUser?.uid else { return }
+//        guard let name = self.auth.currentUser?.displayName else { return }
+//        //guard let userNameFromInvite = invite.fromUserName else { return }
+//        guard let email = self.auth.currentUser?.email else { return }
+//
+//        // 1. lägg till dig själv som medlem i familyaccountet som du är invitad till, och lägg til
+//        db.collection("familyAccounts").document(invite.fromUserId).collection("members").document(userId).setData(["name" : name])
+//
+////        db.collection("familyAccount").document(userId).collection("members").document(invite.fromUserId).setData(["name" : userNameFromInvite])
+//
+//        // 2. lägg till familyaccountet om du accpterar som ditt eget familyaccount
+//        db.collection("users").document(userId).setData(["name" : name, "email" : email, "familyAccount" : invite.fromUserId])
+//
+//        // Delete the invite from firestore
+//        db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete()
+//    }
     
 //    @IBAction func declineInviteButton(_ sender: UIButton) {
 //        db.collection("users").getDocuments() {
