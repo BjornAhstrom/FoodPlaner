@@ -126,8 +126,18 @@ class SettingsViewController: UIViewController {
                 if user.email == inviteWithEmail.lowercased() {
                     
                     let invite = Invite(fromUserId: userId, fromUserName: name)
-                    
-                    self.db.collection("users").document(user.userId).collection("invites").document(userId).setData(invite.toAny())
+                     print("david")
+                    self.db.collection("users").document(user.userId).collection("invites").document(userId).setData(invite.toAny()) {
+                         error  in
+                        if let error = error {
+                            print("david ERROR: \(error)")
+                        } else {
+                            print("david success")
+                        }
+                        
+                        
+                        
+                    } //  addDocument(data: invite.toAny())
                     self.users = []
                 }
             }

@@ -15,6 +15,15 @@
 		1E04B7A62237D4C600CCB8A8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E04B7A52237D4C500CCB8A8 /* GoogleService-Info.plist */; };
 		1E04B7B2223A8E1000CCB8A8 /* SelectRandomDishesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E04B7B1223A8E1000CCB8A8 /* SelectRandomDishesViewController.swift */; };
 		1E0851F8225386CE0030DB81 /* ShoppingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0851F7225386CE0030DB81 /* ShoppingItem.swift */; };
+		1E3530602271D15800557014 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E35305E2271D15800557014 /* Interface.storyboard */; };
+		1E3530622271D15900557014 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E3530612271D15900557014 /* Assets.xcassets */; };
+		1E3530692271D15900557014 /* ShoppingList Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1E3530682271D15900557014 /* ShoppingList Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1E35306E2271D15900557014 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E35306D2271D15900557014 /* InterfaceController.swift */; };
+		1E3530702271D15900557014 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E35306F2271D15900557014 /* ExtensionDelegate.swift */; };
+		1E3530722271D15900557014 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3530712271D15900557014 /* NotificationController.swift */; };
+		1E3530742271D15900557014 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3530732271D15900557014 /* ComplicationController.swift */; };
+		1E3530762271D15900557014 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E3530752271D15900557014 /* Assets.xcassets */; };
+		1E35307B2271D15900557014 /* ShoppingList.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1E35305C2271D15800557014 /* ShoppingList.app */; };
 		1E47D4ED225C9710005E0FFF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47D4EC225C9710005E0FFF /* User.swift */; };
 		1E47D4F1225F78A7005E0FFF /* Invite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47D4F0225F78A7005E0FFF /* Invite.swift */; };
 		1E47D4FA22638D03005E0FFF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1E47D4FC22638D03005E0FFF /* Localizable.strings */; };
@@ -59,6 +68,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1E35306A2271D15900557014 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1EC628D4222473B70049BCD6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1E3530672271D15900557014;
+			remoteInfo = "ShoppingList Extension";
+		};
+		1E3530792271D15900557014 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1EC628D4222473B70049BCD6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1E35305B2271D15800557014;
+			remoteInfo = ShoppingList;
+		};
 		1EC628F1222473B80049BCD6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1EC628D4222473B70049BCD6 /* Project object */;
@@ -75,6 +98,31 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1E3530812271D15900557014 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1E3530692271D15900557014 /* ShoppingList Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1E3530832271D15900557014 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				1E35307B2271D15900557014 /* ShoppingList.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		019C5D289DD59F2AE27831DD /* Pods_FoodPlannerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FoodPlannerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		026F5E48AAFD23C53AD510C1 /* Pods-FoodPlannerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodPlannerUITests.release.xcconfig"; path = "Target Support Files/Pods-FoodPlannerUITests/Pods-FoodPlannerUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -86,6 +134,18 @@
 		1E04B7A52237D4C500CCB8A8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1E04B7B1223A8E1000CCB8A8 /* SelectRandomDishesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRandomDishesViewController.swift; sourceTree = "<group>"; };
 		1E0851F7225386CE0030DB81 /* ShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItem.swift; sourceTree = "<group>"; };
+		1E35305C2271D15800557014 /* ShoppingList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoppingList.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E35305F2271D15800557014 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		1E3530612271D15900557014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1E3530632271D15900557014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1E3530682271D15900557014 /* ShoppingList Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "ShoppingList Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E35306D2271D15900557014 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		1E35306F2271D15900557014 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		1E3530712271D15900557014 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		1E3530732271D15900557014 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		1E3530752271D15900557014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1E3530772271D15900557014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1E3530782271D15900557014 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		1E47D4EC225C9710005E0FFF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1E47D4F0225F78A7005E0FFF /* Invite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invite.swift; sourceTree = "<group>"; };
 		1E47D4F422638B79005E0FFF /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Main.strings; sourceTree = "<group>"; };
@@ -144,6 +204,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1E3530652271D15900557014 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1EC628D9222473B70049BCD6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -210,6 +277,37 @@
 				1E47D4FC22638D03005E0FFF /* Localizable.strings */,
 			);
 			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		1E35305D2271D15800557014 /* ShoppingList */ = {
+			isa = PBXGroup;
+			children = (
+				1E35305E2271D15800557014 /* Interface.storyboard */,
+				1E3530612271D15900557014 /* Assets.xcassets */,
+				1E3530632271D15900557014 /* Info.plist */,
+			);
+			path = ShoppingList;
+			sourceTree = "<group>";
+		};
+		1E35306C2271D15900557014 /* ShoppingList Extension */ = {
+			isa = PBXGroup;
+			children = (
+				1E35306D2271D15900557014 /* InterfaceController.swift */,
+				1E35306F2271D15900557014 /* ExtensionDelegate.swift */,
+				1E3530712271D15900557014 /* NotificationController.swift */,
+				1E3530732271D15900557014 /* ComplicationController.swift */,
+				1E3530752271D15900557014 /* Assets.xcassets */,
+				1E3530772271D15900557014 /* Info.plist */,
+				1E3530782271D15900557014 /* PushNotificationPayload.apns */,
+			);
+			path = "ShoppingList Extension";
+			sourceTree = "<group>";
+		};
+		1E3530842271F1AB00557014 /* Apple Watch Shopping List */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Apple Watch Shopping List";
 			sourceTree = "<group>";
 		};
 		1E3C6B5D22358FA70085F92B /* Create a dish controller */ = {
@@ -311,6 +409,8 @@
 				1EC628DE222473B70049BCD6 /* FoodPlanner */,
 				1EC628F3222473B80049BCD6 /* FoodPlannerTests */,
 				1EC628FE222473B80049BCD6 /* FoodPlannerUITests */,
+				1E35305D2271D15800557014 /* ShoppingList */,
+				1E35306C2271D15900557014 /* ShoppingList Extension */,
 				1EC628DD222473B70049BCD6 /* Products */,
 				0D5C420E64E34E2D4EE44472 /* Pods */,
 				0626589BC87C88ED4FFB3770 /* Frameworks */,
@@ -323,6 +423,8 @@
 				1EC628DC222473B70049BCD6 /* FoodPlanner.app */,
 				1EC628F0222473B80049BCD6 /* FoodPlannerTests.xctest */,
 				1EC628FB222473B80049BCD6 /* FoodPlannerUITests.xctest */,
+				1E35305C2271D15800557014 /* ShoppingList.app */,
+				1E3530682271D15900557014 /* ShoppingList Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -345,6 +447,7 @@
 				1E041351223BCD83007B3406 /* Finished Weekly FoodMenu */,
 				1EDD24322243A84800A5C3D3 /* Shopping List */,
 				1E768BDA225B5C78006EC7A1 /* Settings controller */,
+				1E3530842271F1AB00557014 /* Apple Watch Shopping List */,
 				1EC628E6222473B70049BCD6 /* Assets.xcassets */,
 				1EC628E8222473B70049BCD6 /* LaunchScreen.storyboard */,
 				1E04B7A52237D4C500CCB8A8 /* GoogleService-Info.plist */,
@@ -417,6 +520,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1E35305B2271D15800557014 /* ShoppingList */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1E3530822271D15900557014 /* Build configuration list for PBXNativeTarget "ShoppingList" */;
+			buildPhases = (
+				1E35305A2271D15800557014 /* Resources */,
+				1E3530812271D15900557014 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1E35306B2271D15900557014 /* PBXTargetDependency */,
+			);
+			name = ShoppingList;
+			productName = ShoppingList;
+			productReference = 1E35305C2271D15800557014 /* ShoppingList.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		1E3530672271D15900557014 /* ShoppingList Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1E3530802271D15900557014 /* Build configuration list for PBXNativeTarget "ShoppingList Extension" */;
+			buildPhases = (
+				1E3530642271D15900557014 /* Sources */,
+				1E3530652271D15900557014 /* Frameworks */,
+				1E3530662271D15900557014 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ShoppingList Extension";
+			productName = "ShoppingList Extension";
+			productReference = 1E3530682271D15900557014 /* ShoppingList Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		1EC628DB222473B70049BCD6 /* FoodPlanner */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1EC62904222473B80049BCD6 /* Build configuration list for PBXNativeTarget "FoodPlanner" */;
@@ -426,10 +563,12 @@
 				1EC628D9222473B70049BCD6 /* Frameworks */,
 				1EC628DA222473B70049BCD6 /* Resources */,
 				8C9D07908499943F7D86910A /* [CP] Embed Pods Frameworks */,
+				1E3530832271D15900557014 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1E35307A2271D15900557014 /* PBXTargetDependency */,
 			);
 			name = FoodPlanner;
 			productName = FoodPlaner;
@@ -480,10 +619,16 @@
 		1EC628D4222473B70049BCD6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1020;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Björn Åhström";
 				TargetAttributes = {
+					1E35305B2271D15800557014 = {
+						CreatedOnToolsVersion = 10.2;
+					};
+					1E3530672271D15900557014 = {
+						CreatedOnToolsVersion = 10.2;
+					};
 					1EC628DB222473B70049BCD6 = {
 						CreatedOnToolsVersion = 10.1;
 					};
@@ -514,11 +659,30 @@
 				1EC628DB222473B70049BCD6 /* FoodPlanner */,
 				1EC628EF222473B80049BCD6 /* FoodPlannerTests */,
 				1EC628FA222473B80049BCD6 /* FoodPlannerUITests */,
+				1E35305B2271D15800557014 /* ShoppingList */,
+				1E3530672271D15900557014 /* ShoppingList Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1E35305A2271D15800557014 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E3530622271D15900557014 /* Assets.xcassets in Resources */,
+				1E3530602271D15800557014 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1E3530662271D15900557014 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E3530762271D15900557014 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1EC628DA222473B70049BCD6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -655,6 +819,17 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1E3530642271D15900557014 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E3530722271D15900557014 /* NotificationController.swift in Sources */,
+				1E3530742271D15900557014 /* ComplicationController.swift in Sources */,
+				1E3530702271D15900557014 /* ExtensionDelegate.swift in Sources */,
+				1E35306E2271D15900557014 /* InterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1EC628D8222473B70049BCD6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -718,6 +893,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1E35306B2271D15900557014 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1E3530672271D15900557014 /* ShoppingList Extension */;
+			targetProxy = 1E35306A2271D15900557014 /* PBXContainerItemProxy */;
+		};
+		1E35307A2271D15900557014 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1E35305B2271D15800557014 /* ShoppingList */;
+			targetProxy = 1E3530792271D15900557014 /* PBXContainerItemProxy */;
+		};
 		1EC628F2222473B80049BCD6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1EC628DB222473B70049BCD6 /* FoodPlanner */;
@@ -731,6 +916,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1E35305E2271D15800557014 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E35305F2271D15800557014 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		1E47D4FC22638D03005E0FFF /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -762,6 +955,90 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1E35307C2271D15900557014 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DN92XS8U86;
+				IBSC_MODULE = ShoppingList_Extension;
+				INFOPLIST_FILE = ShoppingList/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = se.Bjorn.Ahstrom.FoodPlanner.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 5.2;
+			};
+			name = Debug;
+		};
+		1E35307D2271D15900557014 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DN92XS8U86;
+				IBSC_MODULE = ShoppingList_Extension;
+				INFOPLIST_FILE = ShoppingList/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = se.Bjorn.Ahstrom.FoodPlanner.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 5.2;
+			};
+			name = Release;
+		};
+		1E35307E2271D15900557014 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DN92XS8U86;
+				INFOPLIST_FILE = "ShoppingList Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.Bjorn.Ahstrom.FoodPlanner.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 5.2;
+			};
+			name = Debug;
+		};
+		1E35307F2271D15900557014 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DN92XS8U86;
+				INFOPLIST_FILE = "ShoppingList Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.Bjorn.Ahstrom.FoodPlanner.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 5.2;
+			};
+			name = Release;
+		};
 		1EC62902222473B80049BCD6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1011,6 +1288,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1E3530802271D15900557014 /* Build configuration list for PBXNativeTarget "ShoppingList Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E35307E2271D15900557014 /* Debug */,
+				1E35307F2271D15900557014 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1E3530822271D15900557014 /* Build configuration list for PBXNativeTarget "ShoppingList" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E35307C2271D15900557014 /* Debug */,
+				1E35307D2271D15900557014 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1EC628D7222473B70049BCD6 /* Build configuration list for PBXProject "FoodPlanner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

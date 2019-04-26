@@ -26,8 +26,8 @@
 /* Class = "UILabel"; text = "By creating an account you agre to our Terms of Service an Privacy Policy"; ObjectID = "6aA-5O-YIk"; */
 "6aA-5O-YIk.text" = "By creating an account you agre to our Terms of Service an Privacy Policy";
 
-/* Class = "UIButton"; normalTitle = "Add"; ObjectID = "6fd-13-rCZ"; */
-"6fd-13-rCZ.normalTitle" = "Add";
+/* Class = "UIButton"; normalTitle = "Ingredients"; ObjectID = "6fd-13-rCZ"; */
+"6fd-13-rCZ.normalTitle" = "Ingredients";
 
 /* Class = "UITextField"; placeholder = "Full name"; ObjectID = "8HO-4F-0Ge"; */
 "8HO-4F-0Ge.placeholder" = "Full name";

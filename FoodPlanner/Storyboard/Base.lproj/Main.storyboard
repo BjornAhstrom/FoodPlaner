@@ -884,7 +884,7 @@
                                 </connections>
                             </button>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ovc-iS-REz">
-                                <rect key="frame" x="0.0" y="68" width="430" height="44"/>
+                                <rect key="frame" x="0.0" y="68" width="375" height="44"/>
                                 <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
                                     <navigationItem title="Add disch" id="sTq-dr-pNX">
@@ -935,7 +935,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="PLq-Ye-y9A">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" allowsSelectionDuringEditing="YES" rowHeight="34" estimatedRowHeight="-1" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="PLq-Ye-y9A">
                                 <rect key="frame" x="11" y="377" width="353" height="189"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
@@ -948,20 +948,22 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b5E-5y-Tgu">
-                                                    <rect key="frame" x="9" y="0.0" width="160" height="30.333333333333332"/>
+                                                    <rect key="frame" x="9" y="0.0" width="160" height="34.333333333333336"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="160" id="8KC-Cq-SWf"/>
-                                                        <constraint firstAttribute="height" constant="30" id="q4b-pl-8hZ"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="34" id="mTx-kz-W3g"/>
+                                                        <constraint firstAttribute="height" constant="34" id="q4b-pl-8hZ"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fdo-3k-3aN">
-                                                    <rect key="frame" x="177" y="0.0" width="112" height="30.333333333333332"/>
+                                                    <rect key="frame" x="232" y="0.0" width="112" height="34.333333333333336"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="112" id="bW6-mO-Qhd"/>
-                                                        <constraint firstAttribute="height" constant="30" id="pLH-sp-H4O"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="34" id="bdN-hO-nNS"/>
+                                                        <constraint firstAttribute="height" constant="34" id="pLH-sp-H4O"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>

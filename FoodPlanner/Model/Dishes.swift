@@ -36,7 +36,7 @@ class Dishes {
     }
     
     func dish(index: Int) -> Dish? {
-        if index >= 0 && index <= dishes.count {
+        if index >= 0 && index <= dishes.count && !dishes.isEmpty {
             return dishes[index]
         }
         return nil

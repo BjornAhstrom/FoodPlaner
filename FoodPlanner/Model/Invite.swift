@@ -34,7 +34,7 @@ class Invite {
         let snapshotValue = snapshot.data() as [String : Any]
         
         //   toUserId = snapshotValue["toUserId"] as! String
-        fromUserId = snapshotValue["fromUserId"] as! String
+        fromUserId = snapshotValue["fromUserId"] as? String ?? ""
         fromUserName = snapshotValue["fromUserName"] as? String
       //  familyAccount = snapshotValue["familyAccount"] as! String
         invite = snapshotValue["invite"] as? Bool ?? false

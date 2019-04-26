@@ -27,9 +27,9 @@ class OnboardingViewController: UIViewController {
         setColorFontAndSizeOnButtonsAndLabels()
         disableButton()
         
-        image = [UIImage(named: "1"), UIImage(named: "2"), UIImage(named: "3")] as! [UIImage]
+        image = [UIImage(named: "MealOfTheDay"), UIImage(named: "CreateWeeklyMenu"), UIImage(named: "ShoppingList")] as! [UIImage]
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(named: "1")
+        imageView.image = UIImage(named: "MealOfTheDay")
         explanatoryTextView.text! = "First side"
         
         swipeLeftAndRight()
@@ -66,7 +66,7 @@ class OnboardingViewController: UIViewController {
         }
         
         if i == 2 {
-            explanatoryTextView.text! = "third side"
+            explanatoryTextView.text! = "Third side"
             pageStatusBar.currentPage = 2
             enableButton()
         }
@@ -90,7 +90,7 @@ class OnboardingViewController: UIViewController {
         }
         
         if i == 2 {
-            explanatoryTextView.text! = "third side"
+            explanatoryTextView.text! = "Third side"
             pageStatusBar.currentPage = 2
             enableButton()
         }

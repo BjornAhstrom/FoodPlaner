@@ -63,7 +63,6 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
             getDishesFromFirestore()
-            //Dishes.dishes
         } else {
             filterSearcTableView(inputText: searchText)
         }
@@ -173,6 +172,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
         
         if let dish = Dishes.instance.dish(index: indexPath.row) {
+        
             cell.textLabel?.text = dish.dishName
             
             let backgroundView = UIView()

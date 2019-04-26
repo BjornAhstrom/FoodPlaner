@@ -42,6 +42,7 @@ class MealOfDayViewController: UIViewController {
         auth = Auth.auth()
          getFamilyAccountFromFirestore()
         fooodImageView.image = UIImage(named: "Lasagne")
+        foodNameLabel.text = "\(NSLocalizedString("noMeal", comment: ""))"
         
         setRadiusBorderColorAndFontOnLabelsViewsAndButtons()
         ifUserGetAnInviteThenShowPopup()
@@ -355,7 +356,16 @@ class MealOfDayViewController: UIViewController {
     func declineInvite(invite: Invite) {
         guard let userId = self.auth.currentUser?.uid else { return }
         
+        print("david delete")
         // radera inviten
-        db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete()
+        db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete() {
+            error in
+            if let error = error {
+                print("david Error: \(error)")
+            } else {
+                print("david sucess")
+            }
+            
+        }
     }
 }

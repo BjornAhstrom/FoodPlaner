@@ -192,7 +192,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         db.collection("users").document(userId).collection("dishes").document(dId).delete()
         
         // Deleting image
-        imageReference.child(dId).delete { (error) in
+        imageReference.child("usersImages").child(userId).child(dId).delete { (error) in
             if let error = error {
                 self.alertMessage(titel: "Error", message: error.localizedDescription)
             } else {
