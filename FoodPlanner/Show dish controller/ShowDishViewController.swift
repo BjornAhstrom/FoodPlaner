@@ -160,6 +160,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     
     func downloadImageFromStorage() {
         let downloadImageRef = imageReference.child(dishId ?? "No dishId")
+        print("!!!!!!! Download image \(dishId)")
         
         if downloadImageRef.name == dishId {
             let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
@@ -192,11 +193,11 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         db.collection("users").document(userId).collection("dishes").document(dId).delete()
         
         // Deleting image
-        imageReference.child("usersImages").child(userId).child(dId).delete { (error) in
+        Storage.storage().reference().child("usersImages").child(userId).child(dId).delete { (error) in
             if let error = error {
-                self.alertMessage(titel: "Error", message: error.localizedDescription)
+                print("!!!File errory \(error.localizedDescription)")
             } else {
-                print("File deleted successfully")
+                print("!!!File deleted successfully")
             }
         }
         tableView.reloadData()

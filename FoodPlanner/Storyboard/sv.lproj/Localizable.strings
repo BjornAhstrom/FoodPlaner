@@ -41,7 +41,7 @@
 "cameraTitle" = "Kamera";
 "noCameraTitle" = "Din enhet har ingen kamera";
 "noCameraMessage" = "Vänligen använd ditt fotobibliotek";
-"photoLibraryTitle" = "Fotobibliotek";
+"photoLibraryTitle" = "Bilder";
 "cancelTitle" = "Ångra";
 
 "addIngredientAlertTitle" = "Lägg till en ingrediens";

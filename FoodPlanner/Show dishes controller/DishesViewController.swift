@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 
 class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate {
+    
     func updateSearchResults(for searchController: UISearchController) {
         self.showDishTableView.reloadData()
     }
@@ -92,18 +93,13 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 self.db.collection("familyAccounts").document(famAccountId).collection("members").addSnapshotListener() {
                     (snapshot, error) in
                     
-                    
                     if let error = error {
                         print("Error getting document \(error)")
                     } else {
-                        guard let snapDoc = snapshot?.documents else { return }
                         
+                        guard let snapDoc = snapshot?.documents else { return }
                         for document in snapDoc {
-                            //let user = User(snapshot: document)
-                            
                             self.userIdFromFamilyAccount.append(document.documentID)
-                            
-                            
                         }
                         self.getDishesFromFirestore()
                     }
@@ -140,15 +136,16 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                     
                                     dish.add(ingredient: ing)
                                 }
-                                 _ = Dishes.instance.add(dish: dish)
-                                 self.showDishTableView.reloadData()
+                                _ = Dishes.instance.add(dish: dish)
+                                self.showDishTableView.reloadData()
                             }
                         case .removed:
                             let dish = Dish(snapshot: change.document)
-                        
+                            
                             // find dish in dishes and remove it
                             if let index =  Dishes.instance.dishes.index(of: dish) {
                                 Dishes.instance.dishes.remove(at: index)
+                                self.showDishTableView.reloadData()
                             }
                         default:
                             print("changed")
@@ -172,7 +169,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
         
         if let dish = Dishes.instance.dish(index: indexPath.row) {
-        
+            
             cell.textLabel?.text = dish.dishName
             
             let backgroundView = UIView()
@@ -189,9 +186,9 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == segueId {
-//            if let destVC = segue.destination as? CreateADishViewController {
-//                //destVC.dishes = Dishes.dish
-//            }
+            //            if let destVC = segue.destination as? CreateADishViewController {
+            //                //destVC.dishes = Dishes.dish
+            //            }
         }
         
         if segue.identifier == showDishSegue {

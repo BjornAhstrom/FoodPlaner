@@ -42,7 +42,7 @@
 "cameraTitle" = "Camera";
 "noCameraTitle" = "Your device have no camera";
 "noCameraMessage" = "Please use your photo library";
-"photoLibraryTitle" = "Photo Library";
+"photoLibraryTitle" = "Photos";
 "cancelTitle" = "Cancel";
 
 "addIngredientAlertTitle" = "Add ingredients";
