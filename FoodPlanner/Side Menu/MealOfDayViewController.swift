@@ -34,12 +34,16 @@ class MealOfDayViewController: UIViewController {
     var userID: String = ""
     var userIdFromFamilyAccount: [String] = []
     var ownerFamilyAccountId: String = ""
+    var theDaysDate: String = ""
     
     var imageReference: StorageReference?
     
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
         auth = Auth.auth()
+        let todayDate = dateFormatter(toDayDate: Date())
+        dateLabel.text = todayDate
+        
          getFamilyAccountFromFirestore()
         fooodImageView.image = UIImage(named: "Lasagne")
         foodNameLabel.text = "\(NSLocalizedString("noMeal", comment: ""))"
@@ -170,18 +174,20 @@ class MealOfDayViewController: UIViewController {
                 let todayDate = Date()
                 
                 var mealOfToday : DishAndDate?
-                var outputDate: String = ""
+                //var outputDate: String = ""
                 
                 for document in snapshot.documents {
                     let weeklyMenu = DishAndDate(snapshot: document)
 
                     let dateFromDish = weeklyMenu.date
                     
-                    let date = dateFromDish
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.locale = NSLocale(localeIdentifier: "\(NSLocalizedString("dateLanguageFormatter", comment: ""))") as Locale
-                    dateFormatter.dateFormat = "EEEE dd/MM"
-                    outputDate = dateFormatter.string(from: date)
+//                    let date = dateFromDish
+//                    let dateFormatter = DateFormatter()
+//                    dateFormatter.locale = NSLocale(localeIdentifier: "\(NSLocalizedString("dateLanguageFormatter", comment: ""))") as Locale
+//                    dateFormatter.dateFormat = "EEEE dd/MM"
+//                    outputDate = dateFormatter.string(from: date)
+                    
+                    let outputDate = self.dateFormatter(toDayDate: dateFromDish)
                     
                     let order = Calendar.current.compare(todayDate, to: dateFromDish, toGranularity: .day)
                     
@@ -208,6 +214,17 @@ class MealOfDayViewController: UIViewController {
             }
             self.foodNameLabel.text = self.mealOfTheDayName
         }
+    }
+    
+    func dateFormatter(toDayDate: Date) -> String {
+        var outputDate: String = ""
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = NSLocale(localeIdentifier: "\(NSLocalizedString("dateLanguageFormatter", comment: ""))") as Locale
+        dateFormatter.dateFormat = "EEEE dd/MM"
+        outputDate = dateFormatter.string(from: toDayDate)
+        
+        return outputDate
     }
     
     func downloadImageFromStorage() {

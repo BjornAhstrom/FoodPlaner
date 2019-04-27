@@ -6,9 +6,11 @@
   Copyright © 2019 Björn Åhström. All rights reserved.
 */
 
+// Meal of the day controller
+"noMeal" = "There is no dish";
 "dateLanguageFormatter" = "en_US";
 "StartDate" = "the next dish is on:";
-"alertTitle1" = "Your button most have a name";
+
 
 // Create account view controller
 "passwordMatch" = "Password do not match";
@@ -25,6 +27,7 @@
 "button5" = "Create new food menu";
 "noRecipesTitle" = "You have no dishes!";
 "noRecipesMessage" = "Add some dishes to your recipes and try again.";
+"alertTitle1" = "Your button most have a name";
 
 // Get invite
 "inviteAlertTitle" = "You've got an invitation!";
@@ -69,5 +72,4 @@
 // saved dish controller
 "portionsAmount" = "Portions: ";
 
-// Meal of the day controller
-"noMeal" = "There is no dish";
+

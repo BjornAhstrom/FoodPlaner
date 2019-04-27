@@ -6,9 +6,11 @@
   Copyright © 2019 Björn Åhström. All rights reserved.
 */
 
+// Meal of the day controller
+"noMeal" = "Det finns ingen maträtt";
 "dateLanguageFormatter" = "sv_SE";
 "StartDate" = "Nästa maträtt är på :";
-"alertTitle1" = "Din knapp måste ha ett namn";
+
 
 // Create account view controller
 "allFields" = "Alla fält måste fyllas i";
@@ -25,6 +27,7 @@
 "button5" = "Skapa en vecomeny";
 "noRecipesTitle" = "Du har inga maträtter!";
 "noRecipesMessage" = "Lägg till några maträtter i dina recept och försök igen.";
+"alertTitle1" = "Din knapp måste ha ett namn";
 
 // Get invite
 "inviteAlertTitle" = "Du har fått en inbjudan!";
@@ -66,5 +69,4 @@
 // saved dish controller
 "portionsAmount" = "Portioner: ";
 
-// Meal of the day controller
-"noMeal" = "Det finns ingen maträtt";
+
