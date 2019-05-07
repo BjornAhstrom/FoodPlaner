@@ -10,11 +10,6 @@ import UIKit
 import Firebase
 
 class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate {
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        self.showDishTableView.reloadData()
-    }
-    
     @IBOutlet weak var showDishTableView: UITableView!
     
     private let segueId = "addDishSegue"
@@ -45,6 +40,10 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func setColorFontOnTextAndBackgroundColor() {
         showDishTableView.backgroundColor = Theme.current.backgroundColorInDishesView
         view.backgroundColor = Theme.current.backgroundColorInDishesView
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        self.showDishTableView.reloadData()
     }
     
     func searchBarSetup() {

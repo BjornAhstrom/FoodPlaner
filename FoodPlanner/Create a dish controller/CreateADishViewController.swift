@@ -70,8 +70,10 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         view.backgroundColor = Theme.current.backgroundColorAddDishController
         tableView.layer.borderWidth = 1
         tableView.layer.borderColor = Theme.current.borderColorForIngredentsTableViewAddDishController.cgColor
+        tableView.backgroundColor = Theme.current.backgroundColorAddDishController
         tableView.layer.cornerRadius = 10
         cookingDescriptionTextView.layer.borderColor = Theme.current.borderColorForCookingDescriptionAddDishController.cgColor
+        cookingDescriptionTextView.backgroundColor = Theme.current.backgroundColorAddDishController
         cookingDescriptionTextView.layer.borderWidth = 1
         cookingDescriptionTextView.layer.cornerRadius = 10
         dishImageView.layer.masksToBounds = true
@@ -217,7 +219,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         let subview = (alert.view.subviews.first?.subviews.first?.subviews.first!)! as UIView
         subview.backgroundColor = Theme.current.backgroundColorAddDishController
         
-        //Add the text field. You can configure it however you need.
+        //Add the text field, with placeholder.
         alert.addTextField { (ingredientField) in
             ingredientField.placeholder = "\(NSLocalizedString("placeholderIngName", comment: ""))"
         }
@@ -230,7 +232,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
             unitField.placeholder = "\(NSLocalizedString("placeholderIngUnit", comment: ""))"
         }
         
-        //the cancel action doing nothing
+        //the cancel action
         let cancelAction = UIAlertAction(title: "\(NSLocalizedString("cancel", comment: ""))", style: .destructive, handler: { (_) in self.showPortionsStepperLabelAndTextField() })
         
         //the confirm action taking the inputs
@@ -264,7 +266,6 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         portonsAmountTextField.text = String(portionsAmount)
     }
  
-    
     @IBAction func addIngredientsButton(_ sender: UIButton) {
         alertForAddAIngredient()
         //createIngredients()
@@ -435,11 +436,7 @@ extension CreateADishViewController: UITableViewDelegate, UITableViewDataSource 
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseCellIngredients") as? IngredientTableViewCell
         
         cell?.setIngredientsTitle(title: ingredient, amount: ingredient, unit: ingredient)
-        
-        let backgroundView = UIView()
-        
-        backgroundView.backgroundColor = UIColor.white
-        cell?.selectedBackgroundView = backgroundView
+        cell?.backgroundColor = Theme.current.backgroundColorAddDishController
         
         return cell ?? cell!
     }

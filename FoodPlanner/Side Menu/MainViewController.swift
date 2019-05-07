@@ -25,6 +25,12 @@ class MainViewController: UIViewController {
     private let showSideMenu = "showSideMenu"
     private var settingsSegueId = "settingsSegue"
     private var goToSettingsId = "settingsController"
+    private var ownCreatedViewSegueId = "ownCreatedViewSegue"
+    private var ownCreatedViewId = "ownCreatedViewId"
+    private var myRecipesFromPicturesSegueId = "myRecipesFromPicturessegueId"
+    private var myRecipesFromPictureId = "myRecipesFromPictureId"
+    private var myWebRecipesSegueId = "myWebRecipesSegueId"
+    private var myWebRecipesId = "myWebRecipesId"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +46,12 @@ class MainViewController: UIViewController {
          NotificationCenter.default.addObserver(self, selector: #selector(goToShoppingList), name: NSNotification.Name(shoppingList), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(goToSettings), name: NSNotification.Name(goToSettingsId), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(goToOwnCreatedView), name: NSNotification.Name(ownCreatedViewId), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(goToMyRecipesFromPictures), name: NSNotification.Name(myRecipesFromPictureId), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(goToMyWebRecipes), name: NSNotification.Name(myWebRecipesId), object: nil)
         
     }
     
@@ -63,10 +75,21 @@ class MainViewController: UIViewController {
         performSegue(withIdentifier: settingsSegueId, sender: nil)
     }
     
+    @objc func goToOwnCreatedView() {
+        performSegue(withIdentifier: ownCreatedViewSegueId, sender: nil)
+    }
+    
+    @objc func goToMyRecipesFromPictures() {
+        performSegue(withIdentifier: myRecipesFromPicturesSegueId, sender: nil)
+    }
+    
+    @objc func goToMyWebRecipes() {
+        performSegue(withIdentifier: myWebRecipesSegueId, sender: nil)
+    }
+    
     @IBAction func moreTappedButton() {
         NotificationCenter.default.post(name: NSNotification.Name(showSideMenu), object: nil)
     }
-    
 }
 
 extension UIViewController {

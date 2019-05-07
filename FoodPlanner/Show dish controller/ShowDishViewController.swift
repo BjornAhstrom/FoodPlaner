@@ -217,8 +217,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: savedDishCell, for: indexPath) as? ShowDishTableViewCell
         
-        if let ingredients = dish?.ingredientsAndAmount
-        {
+        if let ingredients = dish?.ingredientsAndAmount {
             let title = ingredients[indexPath.row].ingredientsTitle
             let amount = ingredients[indexPath.row].amount
             let unit = ingredients[indexPath.row].unit

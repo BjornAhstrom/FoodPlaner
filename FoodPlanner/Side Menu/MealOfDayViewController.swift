@@ -41,6 +41,7 @@ class MealOfDayViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
         auth = Auth.auth()
+        
         let todayDate = dateFormatter(toDayDate: Date())
         dateLabel.text = todayDate
         

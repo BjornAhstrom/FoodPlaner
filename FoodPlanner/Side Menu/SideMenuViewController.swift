@@ -25,6 +25,9 @@ class SideMenuViewController: UIViewController {
     private let shoppingList = "shoppingList"
     private var goToSettingsId = "settingsController"
     private let buttonCellId = "buttonCell"
+    private var ownCreatedViewId = "ownCreatedViewId"
+    private var myRecipesFromPictureId = "myRecipesFromPictureId"
+    private var myWebRecipesId = "myWebRecipesId"
     
     var db: Firestore!
     var auth: Auth!
@@ -126,7 +129,7 @@ class SideMenuViewController: UIViewController {
             tableView.insertRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
             
-            addCategoriesTextField.text? = ""
+            addCategoriesTextField.text = ""
             //self.hideKeyboard()
         }
     }
@@ -180,21 +183,27 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        let destination = UIViewController() as? DishesViewController
-        navigationController?.pushViewController(destination!, animated: true)
+        
+        guard let destination = UIViewController() as? DishesViewController else { return }
+        navigationController?.pushViewController(destination, animated: true)
         
         switch indexPath.row {
         case 0: NotificationCenter.default.post(name: NSNotification.Name(addAndShowDish), object: nil)
-        case 1: print("1")
-        case 2: print("2")
+        case 1: NotificationCenter.default.post(name: NSNotification.Name(myRecipesFromPictureId), object: nil)
+        case 2: NotificationCenter.default.post(name: NSNotification.Name(myWebRecipesId), object: nil)
         case 3: NotificationCenter.default.post(name: NSNotification.Name(weeklyMenu), object: nil)
         case 4:
+            NotificationCenter.default.post(name: NSNotification.Name(weeklyMenu), object: nil)
             if Dishes.instance.dishes.count == 0 {
                 self.alertMessage(titel: "\(NSLocalizedString("noRecipesTitle", comment: ""))", message: "\(NSLocalizedString("noRecipesMessage", comment: ""))")
             } else {
                 NotificationCenter.default.post(name: NSNotification.Name(selectRandomDishMenu), object: nil)
             }
-        default: break
+        
+        default:
+            if indexPath.row >= 5 {
+                NotificationCenter.default.post(name: NSNotification.Name(ownCreatedViewId), object: nil)
+            }
         }
         
         NotificationCenter.default.post(name: NSNotification.Name(showSideMenu), object: nil)
