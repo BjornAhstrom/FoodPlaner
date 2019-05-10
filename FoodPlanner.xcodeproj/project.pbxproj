@@ -970,7 +970,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DN92XS8U86;
 				IBSC_MODULE = ShoppingList_Extension;
-				INFOPLIST_FILE = ShoppingList/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Shopping List Apple Watch/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = se.Bjorn.Ahstrom.FoodPlanner.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -990,7 +990,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DN92XS8U86;
 				IBSC_MODULE = ShoppingList_Extension;
-				INFOPLIST_FILE = ShoppingList/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Shopping List Apple Watch/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = se.Bjorn.Ahstrom.FoodPlanner.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;

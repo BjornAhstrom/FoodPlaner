@@ -160,7 +160,7 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     
     func downloadImageFromStorage() {
         let downloadImageRef = imageReference.child(dishId ?? "No dishId")
-        print("!!!!!!! Download image \(dishId)")
+       // print("!!!!!!! Download image \(dishId ?? "No id")")
         
         if downloadImageRef.name == dishId {
             let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
