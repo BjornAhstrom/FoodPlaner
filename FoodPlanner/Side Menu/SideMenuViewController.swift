@@ -179,14 +179,7 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("!!!!!!!!!!!!!! indexPath\(indexPath.row)")
         tableView.deselectRow(at: indexPath, animated: false)
-        
-//        guard let destination = UIViewController() as? DishesViewController else {
-//            print("!!!!!!!! Error")
-//            return
-//        }
-//        navigationController?.pushViewController(destination, animated: true)
         
         switch indexPath.row {
         case 0: NotificationCenter.default.post(name: NSNotification.Name(addAndShowDish), object: nil)
