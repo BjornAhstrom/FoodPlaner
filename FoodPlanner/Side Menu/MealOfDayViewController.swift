@@ -45,7 +45,7 @@ class MealOfDayViewController: UIViewController {
         let todayDate = dateFormatter(toDayDate: Date())
         dateLabel.text = todayDate
         
-         getFamilyAccountFromFirestore()
+        getFamilyAccountFromFirestore()
         fooodImageView.image = UIImage(named: "Lasagne")
         foodNameLabel.text = "\(NSLocalizedString("noMeal", comment: ""))"
         
@@ -53,9 +53,22 @@ class MealOfDayViewController: UIViewController {
         ifUserGetAnInviteThenShowPopup()
         
         // Om det inte finns några maträtter att hämta från databasen, gå direkt till DishesViewController så att användaren kan börja lägga till maträtter.
+        print("!!!!!!!!!!!!!!!!!!!1")
         if dishesID == [""] {
+            print("!!!!!!!!!!!!!!!!!!! 2 \(dishesID)")
             goToDishesViewController()
         }
+        
+        // 1: Om användaren har maträtter och veckomenyn är tom, då ska navändaren skickas till SelectRandomDishesController.
+       
+        
+        // 2: Om Användaren är helt ny och inte har några maträtter då ska användaren få upp ett medelande som talar om för den att lägga till maträtter.
+        if Dishes.instance.dishes.count == 0 {
+            self.alertMessage(titel: "Du har inga maträtter!", message: "Gå till (Mina recept) och lägg till några maträtter!")
+        }
+        
+        // 3:
+        
     }
     
     override func viewDidLoad() {
@@ -108,7 +121,7 @@ class MealOfDayViewController: UIViewController {
                     (snapshot, error) in
                     
                     if let error = error {
-                        print("Error getting document \(error)")
+                        print("Error getting document \(error.localizedDescription)")
                     } else {
                         guard let snapDoc = snapshot?.documents else { return }
                         
@@ -132,7 +145,7 @@ class MealOfDayViewController: UIViewController {
                 
                 if let error = error {
                     print("Error getting document, \(error.localizedDescription)")
-                    //self.alertMessage(titel: "Error", message: error.localizedDescription)
+                    
                 } else {
                     guard let snapshot = querySnapshot else {
                         return
@@ -165,7 +178,7 @@ class MealOfDayViewController: UIViewController {
             (querySnapshot, error) in
             
             if let error = error {
-                print("Error getting document \(error)")
+                print("Error getting document \(error.localizedDescription)")
             } else {
                 guard let snapshot = querySnapshot else {
                     
@@ -175,18 +188,11 @@ class MealOfDayViewController: UIViewController {
                 let todayDate = Date()
                 
                 var mealOfToday : DishAndDate?
-                //var outputDate: String = ""
                 
                 for document in snapshot.documents {
                     let weeklyMenu = DishAndDate(snapshot: document)
 
                     let dateFromDish = weeklyMenu.date
-                    
-//                    let date = dateFromDish
-//                    let dateFormatter = DateFormatter()
-//                    dateFormatter.locale = NSLocale(localeIdentifier: "\(NSLocalizedString("dateLanguageFormatter", comment: ""))") as Locale
-//                    dateFormatter.dateFormat = "EEEE dd/MM"
-//                    outputDate = dateFormatter.string(from: date)
                     
                     let outputDate = self.dateFormatter(toDayDate: dateFromDish)
                     
@@ -234,14 +240,12 @@ class MealOfDayViewController: UIViewController {
         if downloadImageRef.name == dishId {
             let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
                 if let error = error {
-                    //self.alertMessage(titel: "Error", message: error.localizedDescription)
-                    print("Error getting image \(error)")
+                    print("Error getting image \(error.localizedDescription)")
                 } else {
                     if let data = data {
                         let image = UIImage(data: data)
                         self.fooodImageView.image = image
                     }
-                    print(error ?? "No error")
                 }
             }
             downloadTask.observe(.progress) { (snapshot) in
@@ -374,7 +378,6 @@ class MealOfDayViewController: UIViewController {
     func declineInvite(invite: Invite) {
         guard let userId = self.auth.currentUser?.uid else { return }
         
-        print("david delete")
         // radera inviten
         db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete() {
             error in

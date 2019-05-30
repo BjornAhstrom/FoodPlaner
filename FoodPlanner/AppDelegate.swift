@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         
+        // First time user will see the onbording screen
         let launchedBefore = UserDefaults.standard.bool(forKey: hasLaunchedId)
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let launchStoryboard = UIStoryboard(name: OnboardingStoryboard, bundle: nil)
@@ -49,6 +50,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UserDefaults.standard.object(forKey: saveThemeId) != nil {
             Theme.current = UserDefaults.standard.bool(forKey: saveThemeId) ? PinkTheme() : DarkTheme()
         }
+        
+        // set all navigionbars to transperant
+        let navigationBar = UINavigationBar.appearance()
+        
+        navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationBar.shadowImage = UIImage()
+        navigationBar.isTranslucent = true
         
         return true
     }

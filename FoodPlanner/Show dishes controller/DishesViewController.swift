@@ -35,6 +35,15 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         auth = Auth.auth()
         getFamilyAccountFromFirestore()
         self.showDishTableView.reloadData()
+        
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.0)
+        
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.isTranslucent = true
+        
+        
     }
     
     func setColorFontOnTextAndBackgroundColor() {
@@ -154,7 +163,6 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
-    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1

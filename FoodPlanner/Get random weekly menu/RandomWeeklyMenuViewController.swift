@@ -42,7 +42,6 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         self.weeklyMenuTableView.reloadData()
         
         getFamilyAccountFromFirestore()
-        //getRandomDishesFromFirestore(count: getNumberOfDishesFromUser)
     }
     
     func getFamilyAccountFromFirestore() {
@@ -80,7 +79,8 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     
-    // Ska göras: Om användaren viljer 2 maträtter då ska det kollas om det finns gånger 3 maträtter, för det ska inte kunna bli samma maträtter som föregående vecka
+    // Ska göras: Om användaren väljer 2 maträtter då ska det kollas om det finns gånger 3 maträtter, för det ska inte kunna bli samma maträtter som föregående vecka
+    
     func createWeeklyMenu(count: Int) {
         if Dishes.instance.dishes.count == 1 {
             self.alertMessage(titel: "\(NSLocalizedString("oneDishTitle", comment: ""))", message: "\(NSLocalizedString("oneDishMessage1", comment: "")) \(Dishes.instance.dishes.count) \(NSLocalizedString("oneDishMessage2", comment: "")) \(Dishes.instance.dishes.count) \(NSLocalizedString("oneDishMessage3", comment: ""))")
