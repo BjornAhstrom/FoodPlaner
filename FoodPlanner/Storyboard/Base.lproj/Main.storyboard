@@ -509,11 +509,11 @@
         <scene sceneID="lyZ-6g-W2F">
             <objects>
                 <viewController storyboardIdentifier="SelectRandomWeekId" id="EJn-uI-tt1" customClass="SelectRandomDishesViewController" customModule="FoodPlanner" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="WWt-7p-RsM">
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="WWt-7p-RsM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tTe-Gb-24O">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tTe-Gb-24O">
                                 <rect key="frame" x="78" y="734" width="219" height="43"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="43" id="7aT-6f-269"/>
@@ -526,13 +526,13 @@
                                     <segue destination="hPC-BK-ZrQ" kind="show" identifier="goToRandomWeeklyMenuSegue" id="Xwq-MD-JMr"/>
                                 </connections>
                             </button>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yTh-i2-TG3">
+                            <pickerView contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yTh-i2-TG3">
                                 <rect key="frame" x="27.666666666666657" y="445" width="320" height="143"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="143" id="tUj-Zt-QDh"/>
                                 </constraints>
                             </pickerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose number of dishes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qtd-UK-BUK">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Choose number of dishes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qtd-UK-BUK">
                                 <rect key="frame" x="21" y="409" width="333" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="BgW-oU-dwx"/>
@@ -839,20 +839,64 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cus-KD-wPM">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cus-KD-wPM">
                                 <rect key="frame" x="0.0" y="88" width="375" height="690"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="dishesCellId" id="gLX-pA-G4v">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="dishesCellId" rowHeight="86" id="HXY-jP-m27" customClass="DishesTableViewCell" customModule="FoodPlanner" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="86"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gLX-pA-G4v" id="fdN-EZ-bRh">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HXY-jP-m27" id="ei7-Fs-20Z">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="86"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZDC-On-rb0">
+                                                    <rect key="frame" x="15" y="13" width="345" height="60"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dcn-XE-Vb6">
+                                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="60" id="2Ot-46-gnm"/>
+                                                                <constraint firstAttribute="height" constant="60" id="jgI-Uw-EDQ"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dF6-7S-7Gd">
+                                                            <rect key="frame" x="68" y="8" width="269" height="44"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="44" id="Z2x-Am-n2b"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstItem="dcn-XE-Vb6" firstAttribute="top" secondItem="ZDC-On-rb0" secondAttribute="top" id="38a-UA-N4q"/>
+                                                        <constraint firstItem="dF6-7S-7Gd" firstAttribute="leading" secondItem="dcn-XE-Vb6" secondAttribute="trailing" constant="8" id="3f6-h3-2iy"/>
+                                                        <constraint firstAttribute="height" constant="60" id="41F-Fa-Amo"/>
+                                                        <constraint firstItem="dF6-7S-7Gd" firstAttribute="top" secondItem="ZDC-On-rb0" secondAttribute="top" constant="8" id="CpA-yP-qEx"/>
+                                                        <constraint firstAttribute="trailing" secondItem="dF6-7S-7Gd" secondAttribute="trailing" constant="8" id="K8a-p2-BEk"/>
+                                                        <constraint firstAttribute="bottom" secondItem="dF6-7S-7Gd" secondAttribute="bottom" constant="8" id="Nn6-59-BS5"/>
+                                                        <constraint firstAttribute="bottom" secondItem="dcn-XE-Vb6" secondAttribute="bottom" id="a7M-cC-kk5"/>
+                                                        <constraint firstItem="dcn-XE-Vb6" firstAttribute="leading" secondItem="ZDC-On-rb0" secondAttribute="leading" id="ieY-LC-qEJ"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ZDC-On-rb0" firstAttribute="leading" secondItem="ei7-Fs-20Z" secondAttribute="leadingMargin" id="NrA-9l-bih"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ZDC-On-rb0" secondAttribute="bottom" constant="2" id="RwQ-gp-VYo"/>
+                                                <constraint firstItem="ZDC-On-rb0" firstAttribute="trailing" secondItem="ei7-Fs-20Z" secondAttribute="trailingMargin" id="oSx-HU-OgZ"/>
+                                                <constraint firstItem="ZDC-On-rb0" firstAttribute="top" secondItem="ei7-Fs-20Z" secondAttribute="topMargin" constant="2" id="p1G-Gv-Ysq"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                                         <connections>
-                                            <segue destination="Ywb-fi-2ds" kind="presentation" identifier="showDishSegue" modalTransitionStyle="crossDissolve" id="Cqj-nd-FV5"/>
+                                            <outlet property="dishImage" destination="dcn-XE-Vb6" id="oyt-oz-xkW"/>
+                                            <outlet property="ingredientLabel" destination="dF6-7S-7Gd" id="JaW-Wb-65D"/>
+                                            <outlet property="viewInTableView" destination="ZDC-On-rb0" id="BOm-s3-0gt"/>
+                                            <segue destination="Ywb-fi-2ds" kind="presentation" identifier="showDishSegue" modalTransitionStyle="crossDissolve" id="mR0-Sd-iTf"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1138,7 +1182,7 @@
             <objects>
                 <viewController id="Ywb-fi-2ds" customClass="ShowDishViewController" customModule="FoodPlanner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qyk-Bz-uue">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yVR-dM-32K">
@@ -1151,7 +1195,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Steps" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZT-Yc-wOS">
-                                <rect key="frame" x="16" y="539" width="343" height="34"/>
+                                <rect key="frame" x="16" y="561" width="343" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="OtI-Ft-bdK"/>
                                 </constraints>
@@ -1196,7 +1240,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MOZ-6n-Msp">
-                                <rect key="frame" x="21" y="588" width="333" height="146"/>
+                                <rect key="frame" x="21" y="610" width="333" height="168"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1210,7 +1254,7 @@
                                 </constraints>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ct2-ns-aXX">
-                                <rect key="frame" x="21" y="364" width="333" height="158"/>
+                                <rect key="frame" x="21" y="364" width="333" height="180"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="savedDishCell" rowHeight="36" id="jdQ-gI-fLE" customClass="ShowDishTableViewCell" customModule="FoodPlanner" customModuleProvider="target">
@@ -1543,7 +1587,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="kMZ-Nz-yCl"/>
+        <segue reference="mR0-Sd-iTf"/>
         <segue reference="gmm-vc-jZc"/>
         <segue reference="Yho-Qf-ziR"/>
     </inferredMetricsTieBreakers>

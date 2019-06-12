@@ -53,14 +53,27 @@ class MealOfDayViewController: UIViewController {
         ifUserGetAnInviteThenShowPopup()
         
         // Om det inte finns några maträtter att hämta från databasen, gå direkt till DishesViewController så att användaren kan börja lägga till maträtter.
-        print("!!!!!!!!!!!!!!!!!!!1")
-        if dishesID == [""] {
-            print("!!!!!!!!!!!!!!!!!!! 2 \(dishesID)")
-            goToDishesViewController()
-        }
-        
-        // 1: Om användaren har maträtter och veckomenyn är tom, då ska navändaren skickas till SelectRandomDishesController.
+//        print("!!!!!!!!!!!!!!!!!!!1")
+//        if dishesID == [""] {
+//
+//            goToDishesViewController()
+//        }
+        someAlertMessage()
        
+        
+        // PRIO: Spara bild till fil så att bilden inte behös hämtas varje gång MealOfTheDayControllern visas.
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    func someAlertMessage() {
+        // 1: Om användaren har maträtter och veckomenyn är tom, då ska användaren skickas till SelectRandomDishesController eller om det ska koma upp ett medlande som talar om att det inte finns någon meny skapad ännu.
+        if Dishes.instance.dishes.count != 0 && mealOfTheDayID == "" {
+            self.alertMessage(titel: "Din veckomeny är tom!", message: "Gå till (Skapa en vecko meny) och skapa din nya veckans meny")
+        }
         
         // 2: Om Användaren är helt ny och inte har några maträtter då ska användaren få upp ett medelande som talar om för den att lägga till maträtter.
         if Dishes.instance.dishes.count == 0 {
@@ -68,11 +81,6 @@ class MealOfDayViewController: UIViewController {
         }
         
         // 3:
-        
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
     }
     
     func setRadiusBorderColorAndFontOnLabelsViewsAndButtons() {

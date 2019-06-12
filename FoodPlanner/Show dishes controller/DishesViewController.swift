@@ -19,6 +19,8 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var db: Firestore!
     var auth: Auth!
     var userIdFromFamilyAccount: [String] = []
+    var imageReference: StorageReference!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +34,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
+        imageReference = Storage.storage().reference()
         auth = Auth.auth()
         getFamilyAccountFromFirestore()
         self.showDishTableView.reloadData()
@@ -134,6 +137,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             
                             let dish = Dish(snapshot: change.document)
                             print("added \(dish.dishName)")
+                            print("added \(dish.dishID)")
                             self.db.collection("users").document(userID).collection("dishes").document(change.document.documentID).collection("ingredients").addSnapshotListener() {
                                 (querySnapshot, error) in
                                 
@@ -164,6 +168,28 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
+    func downloadImageFromStorage(dishId: String, imageView: UIImageView) {
+        let downloadImageRef = imageReference?.child(dishId)
+        if downloadImageRef?.name == dishId {
+            
+            let downloadTask = downloadImageRef?.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
+                if let error = error {
+                    print("No image \(error.localizedDescription)")
+                } else {
+                    if let data = data {
+                        let image = UIImage(data: data)
+                        imageView.image = image
+                        imageView.contentMode = .scaleAspectFill
+                    }
+                    print(error?.localizedDescription ?? "No error")
+                }
+            }
+            downloadTask?.observe(.progress) { (snapshot) in
+                print(snapshot.progress ?? "No more progress")
+            }
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -173,22 +199,43 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? DishesTableViewCell
         
         if let dish = Dishes.instance.dish(index: indexPath.row) {
             
-            cell.textLabel?.text = dish.dishName
+            for userId in userIdFromFamilyAccount {
             
+                self.imageReference = Storage.storage().reference().child("usersImages").child(userId)
+            }
+
             let backgroundView = UIView()
+            cell?.backgroundColor = Theme.current.backgroundColorInDishesView
             
-            cell.textLabel?.textColor = Theme.current.textColorInTableViewInDishesView
-            cell.textLabel?.font = Theme.current.textFontInTableViewInDishesView
-            cell.backgroundColor = Theme.current.backgroundColorInDishesView
-            cell.textLabel?.textAlignment = .center
             backgroundView.backgroundColor = UIColor.white
-            cell.selectedBackgroundView = backgroundView
+            cell?.selectedBackgroundView = backgroundView
+            
+            cell?.ingredientLabel?.textColor = Theme.current.textColorInTableViewInDishesView
+            cell?.ingredientLabel?.font = Theme.current.textFontInTableViewInDishesView
+            cell?.ingredientLabel.text = dish.dishName
+            
+            let rectShape = CAShapeLayer()
+
+            rectShape.bounds = (cell?.viewInTableView.frame)!
+            rectShape.position = (cell?.viewInTableView.center)!
+            rectShape.path = UIBezierPath(roundedRect: (cell?.viewInTableView.bounds)!, byRoundingCorners: [.bottomLeft , .topLeft], cornerRadii: CGSize(width: 20, height: 20)).cgPath
+            cell?.viewInTableView.layer.mask = rectShape
+            cell?.viewInTableView.layer.cornerRadius = 12
+            
+            cell?.dishImage.layer.borderColor = UIColor.gray.cgColor
+            cell?.dishImage.layer.borderWidth = 1
+            cell?.dishImage.layer.masksToBounds = false
+            cell?.dishImage.layer.cornerRadius = (cell?.dishImage.frame.width)! / 2
+            cell?.dishImage.layer.shadowColor = UIColor.darkGray.cgColor
+            cell?.dishImage.layer.shadowRadius = 2
+            cell?.dishImage.clipsToBounds = true
+            downloadImageFromStorage(dishId: dish.dishID, imageView: cell!.dishImage)
         }
-        return cell
+        return cell ?? cell!
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
