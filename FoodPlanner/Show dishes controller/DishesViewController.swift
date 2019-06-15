@@ -111,6 +111,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                         guard let snapDoc = snapshot?.documents else { return }
                         for document in snapDoc {
                             self.userIdFromFamilyAccount.append(document.documentID)
+                            print("!!!!!!!!!!! UserId \(self.userIdFromFamilyAccount)")
                         }
                         self.getDishesFromFirestore()
                     }
@@ -136,8 +137,6 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                         case .added:
                             
                             let dish = Dish(snapshot: change.document)
-                            print("added \(dish.dishName)")
-                            print("added \(dish.dishID)")
                             self.db.collection("users").document(userID).collection("dishes").document(change.document.documentID).collection("ingredients").addSnapshotListener() {
                                 (querySnapshot, error) in
                                 
@@ -169,6 +168,8 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func downloadImageFromStorage(dishId: String, imageView: UIImageView) {
+        
+        
         let downloadImageRef = imageReference?.child(dishId)
         if downloadImageRef?.name == dishId {
             
@@ -178,6 +179,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 } else {
                     if let data = data {
                         let image = UIImage(data: data)
+                        print("!!!!!!!!!!!! image \(image)")
                         imageView.image = image
                         imageView.contentMode = .scaleAspectFill
                     }
@@ -185,7 +187,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             }
             downloadTask?.observe(.progress) { (snapshot) in
-                print(snapshot.progress ?? "No more progress")
+                //print(snapshot.progress ?? "No more progress")
             }
         }
     }
@@ -204,10 +206,15 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if let dish = Dishes.instance.dish(index: indexPath.row) {
             
             for userId in userIdFromFamilyAccount {
-            
-                self.imageReference = Storage.storage().reference().child("usersImages").child(userId)
-            }
 
+                self.imageReference = Storage.storage().reference().child("usersImages").child(userId)
+                print("!!!!!!!! userId in download images \(userId)")
+
+                downloadImageFromStorage(dishId: dish.dishID, imageView: cell!.dishImage)
+
+            }
+                print("!!!!!!!!!! DishId \(dish.dishID)")
+            
             let backgroundView = UIView()
             cell?.backgroundColor = Theme.current.backgroundColorInDishesView
             
@@ -218,23 +225,27 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell?.ingredientLabel?.font = Theme.current.textFontInTableViewInDishesView
             cell?.ingredientLabel.text = dish.dishName
             
+            
             let rectShape = CAShapeLayer()
 
             rectShape.bounds = (cell?.viewInTableView.frame)!
             rectShape.position = (cell?.viewInTableView.center)!
-            rectShape.path = UIBezierPath(roundedRect: (cell?.viewInTableView.bounds)!, byRoundingCorners: [.bottomLeft , .topLeft], cornerRadii: CGSize(width: 20, height: 20)).cgPath
+            rectShape.path = UIBezierPath(roundedRect: (cell?.viewInTableView.bounds)!, byRoundingCorners: [.bottomLeft, .topLeft], cornerRadii: CGSize(width: 50, height: 50)).cgPath
             cell?.viewInTableView.layer.mask = rectShape
             cell?.viewInTableView.layer.cornerRadius = 12
             
-            cell?.dishImage.layer.borderColor = UIColor.gray.cgColor
+            
+            cell?.dishImage.layer.borderColor = UIColor.lightGray.cgColor
             cell?.dishImage.layer.borderWidth = 1
-            cell?.dishImage.layer.masksToBounds = false
+            cell?.dishImage.layer.masksToBounds = true
             cell?.dishImage.layer.cornerRadius = (cell?.dishImage.frame.width)! / 2
-            cell?.dishImage.layer.shadowColor = UIColor.darkGray.cgColor
-            cell?.dishImage.layer.shadowRadius = 2
             cell?.dishImage.clipsToBounds = true
-            downloadImageFromStorage(dishId: dish.dishID, imageView: cell!.dishImage)
+            cell?.dishImage.layer.shadowColor = UIColor.black.cgColor
+            cell?.dishImage.layer.shadowOpacity = 0.5
+            cell?.dishImage.layer.shadowRadius = -2
+            cell?.dishImage.layer.shadowOffset = CGSize(width: 1, height: 0)
         }
+        
         return cell ?? cell!
     }
     
