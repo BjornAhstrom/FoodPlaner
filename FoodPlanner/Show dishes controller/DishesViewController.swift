@@ -192,7 +192,9 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? DishesTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? DishesTableViewCell else {
+            fatalError("The deque cell is not an instace of DishesTableViewCell.")
+        }
         
         if let dish = Dishes.instance.dish(index: indexPath.row) {
             
@@ -200,33 +202,33 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
                 self.imageReference = Storage.storage().reference().child("usersImages").child(userId)
 
-                cell?.dishImage.downloadImageFromStorage(dishId: dish.dishID, imageReference: imageReference)
+                cell.dishImage.downloadImageFromStorage(dishId: dish.dishID, imageReference: imageReference)
             }
             
             let backgroundView = UIView()
-            cell?.backgroundColor = Theme.current.backgroundColorInDishesView
+            cell.backgroundColor = Theme.current.backgroundColorInDishesView
             
             backgroundView.backgroundColor = UIColor.white
-            cell?.selectedBackgroundView = backgroundView
+            cell.selectedBackgroundView = backgroundView
             
-            cell?.ingredientLabel?.textColor = Theme.current.textColorInTableViewInDishesView
-            cell?.ingredientLabel?.font = Theme.current.textFontInTableViewInDishesView
-            cell?.ingredientLabel.text = dish.dishName
+            cell.ingredientLabel?.textColor = Theme.current.textColorInTableViewInDishesView
+            cell.ingredientLabel?.font = Theme.current.textFontInTableViewInDishesView
+            cell.ingredientLabel.text = dish.dishName
             
             
             let rectShape = CAShapeLayer()
 
-            rectShape.bounds = (cell?.viewInTableView.frame)!
-            rectShape.position = (cell?.viewInTableView.center)!
-            rectShape.path = UIBezierPath(roundedRect: (cell?.viewInTableView.bounds)!, byRoundingCorners: [.bottomLeft, .topLeft], cornerRadii: CGSize(width: 50, height: 50)).cgPath
-            cell?.viewInTableView.layer.mask = rectShape
-            cell?.viewInTableView.layer.cornerRadius = 12
+            rectShape.bounds = (cell.viewInTableView.frame)
+            rectShape.position = (cell.viewInTableView.center)
+            rectShape.path = UIBezierPath(roundedRect: (cell.viewInTableView.bounds), byRoundingCorners: [.bottomLeft, .topLeft], cornerRadii: CGSize(width: 50, height: 50)).cgPath
+            cell.viewInTableView.layer.mask = rectShape
+            cell.viewInTableView.layer.cornerRadius = 12
             
-            cellDishImageView(dishImage: cell!.dishImage)
+            cellDishImageView(dishImage: cell.dishImage)
             
         }
         
-        return cell ?? cell!
+        return cell
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

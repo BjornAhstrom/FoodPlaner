@@ -116,14 +116,16 @@ class WeeklyFoodMenuViewController: UIViewController, UITableViewDelegate, UITab
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: finishedWeeklyFoodMenyCell, for: indexPath) as? FinishedWeeklyMenuTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: finishedWeeklyFoodMenyCell, for: indexPath) as? FinishedWeeklyMenuTableViewCell else {
+            fatalError("The dequeued cell is not an instance of FinishedWeeklyMenuTableViewCell.")
+        }
         self.foodMenu = self.foodMenu.sorted(by: {$1.date.compare($0.date) == .orderedDescending})
         let dish = foodMenu[indexPath.row]
         
-        cell?.backgroundColor = Theme.current.backgroundColorInFinishedWeeklyMenuController
-        cell?.setDateOnLabel(date: dish.date)
-        cell?.setFoodnameOnLabel(foodName: dish.dishName)
+        cell.backgroundColor = Theme.current.backgroundColorInFinishedWeeklyMenuController
+        cell.setDateOnLabel(date: dish.date)
+        cell.setFoodnameOnLabel(foodName: dish.dishName)
         
-        return cell ?? cell!
+        return cell
     }
 }

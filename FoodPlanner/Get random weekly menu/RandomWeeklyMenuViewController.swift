@@ -157,14 +157,16 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: randomMenuCell, for: indexPath) as? RandomWeeklyManuTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: randomMenuCell, for: indexPath) as? RandomWeeklyManuTableViewCell else {
+            fatalError("The dequeued cell is not an instance of RandomWeeklyManuTableViewCell.")
+        }
         
         let foodAndDate = weeklyMenu[indexPath.row]
         
-        cell?.setDateOnLabel(date: foodAndDate.date)
-        cell?.setFoodnameOnLabel(foodName: foodAndDate.dishName)
+        cell.setDateOnLabel(date: foodAndDate.date)
+        cell.setFoodnameOnLabel(foodName: foodAndDate.dishName)
         
-        return cell ?? cell!
+        return cell
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

@@ -193,8 +193,6 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         Storage.storage().reference().child("usersImages").child(userId).child(dId).delete { (error) in
             if let error = error {
                 print("!!!File errory \(error.localizedDescription)")
-            } else {
-                print("!!!File deleted successfully")
             }
         }
         tableView?.reloadData()
@@ -212,7 +210,9 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: savedDishCell, for: indexPath) as? ShowDishTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: savedDishCell, for: indexPath) as? ShowDishTableViewCell else {
+            fatalError("The dequed cell is not an instace of ShowDishTableViewCell.")
+        }
         
         if let ingredients = dish?.ingredientsAndAmount {
             let title = ingredients[indexPath.row].ingredientsTitle
@@ -220,14 +220,14 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
             let unit = ingredients[indexPath.row].unit
             
 //            cell?.backgroundColor = Theme.current.backgroundColorInTableViewAndTextViewInShowDishController
-            cell?.ingredientsNameLabel.font = Theme.current.textFontInTableViewInShowDishController
-            cell?.ingredientsNameLabel.textColor = Theme.current.textColorInTableViewAndTextViewInShowDishController
-            cell?.ingredientsNameLabel.text = title
-            cell?.ingredientsAmountLabel.text = "\(amount) \(unit)"
-            cell?.ingredientsAmountLabel.font = Theme.current.textFontInTableViewInShowDishController
-            cell?.ingredientsAmountLabel.textColor = Theme.current.textColorInTableViewAndTextViewInShowDishController
+            cell.ingredientsNameLabel.font = Theme.current.textFontInTableViewInShowDishController
+            cell.ingredientsNameLabel.textColor = Theme.current.textColorInTableViewAndTextViewInShowDishController
+            cell.ingredientsNameLabel.text = title
+            cell.ingredientsAmountLabel.text = "\(amount) \(unit)"
+            cell.ingredientsAmountLabel.font = Theme.current.textFontInTableViewInShowDishController
+            cell.ingredientsAmountLabel.textColor = Theme.current.textColorInTableViewAndTextViewInShowDishController
         }
-        return cell ?? cell!
+        return cell
     }
 }
 

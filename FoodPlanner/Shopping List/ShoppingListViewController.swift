@@ -108,16 +108,18 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "shoppingListCell", for: indexPath) as? ShoppingListTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "shoppingListCell", for: indexPath) as? ShoppingListTableViewCell else {
+            fatalError("The dequeued cell is not an instance of ShoppingListTableViewCell.")
+        }
         
         let item = shoppingItems[indexPath.row]
         
-        cell?.backgroundColor = Theme.current.backgroundColorInShoppingListViewController
-        cell?.setIngredients(name: item.ingredient.ingredientsTitle, amount: Int(item.ingredient.amount), unit: item.ingredient.unit)
-        cell?.setCheckBox(item.checkBox)
-        cell?.checkBox()
+        cell.backgroundColor = Theme.current.backgroundColorInShoppingListViewController
+        cell.setIngredients(name: item.ingredient.ingredientsTitle, amount: Int(item.ingredient.amount), unit: item.ingredient.unit)
+        cell.setCheckBox(item.checkBox)
+        cell.checkBox()
         
-        return cell ?? cell!
+        return cell
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

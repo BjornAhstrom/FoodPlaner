@@ -166,16 +166,19 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let button = buttons[indexPath.row]
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: buttonCellId) as? ButtonCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: buttonCellId) as? ButtonCell else {
+            fatalError("The dequeued cell is not an instance of ButtonCell.")
+        }
         
-        cell?.setButtonTile(title: button)
+        
+        cell.setButtonTile(title: button)
         
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.white
-        cell?.selectedBackgroundView = backgroundView
-        cell?.backgroundColor = Theme.current.backgroundColorSideMenu
+        cell.selectedBackgroundView = backgroundView
+        cell.backgroundColor = Theme.current.backgroundColorSideMenu
         
-        return cell ?? cell!
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
