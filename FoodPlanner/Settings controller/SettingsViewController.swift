@@ -49,6 +49,16 @@ class SettingsViewController: UIViewController {
         
     }
     
+    override func becomeFirstResponder() -> Bool {
+        return true
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            print("!!!!!!!!!!!!!!!! Shake detected!!!!")
+        }
+    }
+    
     func setColorFontAndSizeOnLabelsAndButtons() {
         settingLabel.font = Theme.current.fontOnSettingLabelInSettingsViewController
         settingLabel.textColor = Theme.current.colorTextOnLabelsInSettingsViewController

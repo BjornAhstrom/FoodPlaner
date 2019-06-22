@@ -37,6 +37,7 @@ class MealOfDayViewController: UIViewController {
     var theDaysDate: String = ""
     
     var imageReference: StorageReference?
+    let cache = NSCache<NSString, UIImage>()
     
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
@@ -45,7 +46,7 @@ class MealOfDayViewController: UIViewController {
         let todayDate = dateFormatter(toDayDate: Date())
         dateLabel.text = todayDate
         
-         getFamilyAccountFromFirestore()
+        getFamilyAccountFromFirestore()
         fooodImageView.image = UIImage(named: "Lasagne")
         foodNameLabel.text = "\(NSLocalizedString("noMeal", comment: ""))"
         
@@ -53,13 +54,34 @@ class MealOfDayViewController: UIViewController {
         ifUserGetAnInviteThenShowPopup()
         
         // Om det inte finns några maträtter att hämta från databasen, gå direkt till DishesViewController så att användaren kan börja lägga till maträtter.
-        if dishesID == [""] {
-            goToDishesViewController()
-        }
+//        print("!!!!!!!!!!!!!!!!!!!1")
+//        if dishesID == [""] {
+//
+//            goToDishesViewController()
+//        }
+        //someAlertMessage()
+       
+        
+        // PRIO: Spara bild till fil så att bilden inte behös hämtas varje gång MealOfTheDayControllern visas.
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func someAlertMessage() {
+        // 1: Om användaren har maträtter och veckomenyn är tom, då ska användaren skickas till SelectRandomDishesController eller om det ska koma upp ett medlande som talar om att det inte finns någon meny skapad ännu.
+        if Dishes.instance.dishes.count != 0 && mealOfTheDayID == "" {
+            self.alertMessage(titel: "Din veckomeny är tom!", message: "Gå till (Skapa en vecko meny) och skapa din nya veckans meny")
+        }
+        
+        // 2: Om Användaren är helt ny och inte har några maträtter då ska användaren få upp ett medelande som talar om för den att lägga till maträtter.
+        if Dishes.instance.dishes.count == 0 {
+            self.alertMessage(titel: "Du har inga maträtter!", message: "Gå till (Mina recept) och lägg till några maträtter!")
+        }
+        
+        // 3:
     }
     
     func setRadiusBorderColorAndFontOnLabelsViewsAndButtons() {
@@ -81,10 +103,10 @@ class MealOfDayViewController: UIViewController {
         recipeButton.backgroundColor = Theme.current.recipeButtonBackgroundColor
         view.backgroundColor = Theme.current.backgroundColorMealOfTheDay
         
-        navigationController?.navigationBar.barTintColor = Theme.current.backgroundColorInDishesView
-        navigationController?.navigationBar.tintColor = Theme.current.navigationbarTextColor
-        navigationController?.navigationBar.barStyle = .default
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.navigationbarTextColor]
+//        navigationController?.navigationBar.barTintColor = Theme.current.backgroundColorInDishesView
+//        navigationController?.navigationBar.tintColor = Theme.current.navigationbarTextColor
+//        navigationController?.navigationBar.barStyle = .default
+//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.navigationbarTextColor]
     }
     
     func getFamilyAccountFromFirestore() {
@@ -108,7 +130,7 @@ class MealOfDayViewController: UIViewController {
                     (snapshot, error) in
                     
                     if let error = error {
-                        print("Error getting document \(error)")
+                        print("Error getting document \(error.localizedDescription)")
                     } else {
                         guard let snapDoc = snapshot?.documents else { return }
                         
@@ -132,7 +154,7 @@ class MealOfDayViewController: UIViewController {
                 
                 if let error = error {
                     print("Error getting document, \(error.localizedDescription)")
-                    //self.alertMessage(titel: "Error", message: error.localizedDescription)
+                    
                 } else {
                     guard let snapshot = querySnapshot else {
                         return
@@ -165,7 +187,7 @@ class MealOfDayViewController: UIViewController {
             (querySnapshot, error) in
             
             if let error = error {
-                print("Error getting document \(error)")
+                print("Error getting document \(error.localizedDescription)")
             } else {
                 guard let snapshot = querySnapshot else {
                     
@@ -175,18 +197,11 @@ class MealOfDayViewController: UIViewController {
                 let todayDate = Date()
                 
                 var mealOfToday : DishAndDate?
-                //var outputDate: String = ""
                 
                 for document in snapshot.documents {
                     let weeklyMenu = DishAndDate(snapshot: document)
 
                     let dateFromDish = weeklyMenu.date
-                    
-//                    let date = dateFromDish
-//                    let dateFormatter = DateFormatter()
-//                    dateFormatter.locale = NSLocale(localeIdentifier: "\(NSLocalizedString("dateLanguageFormatter", comment: ""))") as Locale
-//                    dateFormatter.dateFormat = "EEEE dd/MM"
-//                    outputDate = dateFormatter.string(from: date)
                     
                     let outputDate = self.dateFormatter(toDayDate: dateFromDish)
                     
@@ -210,7 +225,7 @@ class MealOfDayViewController: UIViewController {
                 for usersId in self.userIdFromFamilyAccount {
                     self.imageReference = Storage.storage().reference().child("usersImages").child(usersId)
                      // Ska inte loopa igenom bilderna
-                    self.downloadImageFromStorage()
+                    self.fooodImageView.downloadImageFromStorage(dishId: self.dishId ?? "No dishId", imageReference: self.imageReference)
                 }
             }
             self.foodNameLabel.text = self.mealOfTheDayName
@@ -226,28 +241,6 @@ class MealOfDayViewController: UIViewController {
         outputDate = dateFormatter.string(from: toDayDate)
         
         return outputDate
-    }
-    
-    func downloadImageFromStorage() {
-        guard let downloadImageRef = imageReference?.child(dishId ?? "No dishId") else { return }
-        
-        if downloadImageRef.name == dishId {
-            let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
-                if let error = error {
-                    //self.alertMessage(titel: "Error", message: error.localizedDescription)
-                    print("Error getting image \(error)")
-                } else {
-                    if let data = data {
-                        let image = UIImage(data: data)
-                        self.fooodImageView.image = image
-                    }
-                    print(error ?? "No error")
-                }
-            }
-            downloadTask.observe(.progress) { (snapshot) in
-                //print(snapshot.progress ?? "No more progress")
-            }
-        }
     }
     
     func goToDishesViewController() {
@@ -374,7 +367,6 @@ class MealOfDayViewController: UIViewController {
     func declineInvite(invite: Invite) {
         guard let userId = self.auth.currentUser?.uid else { return }
         
-        print("david delete")
         // radera inviten
         db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete() {
             error in

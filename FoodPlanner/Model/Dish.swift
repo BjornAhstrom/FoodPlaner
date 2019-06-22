@@ -19,6 +19,10 @@ class Dish: Equatable {
     var cooking: String?
     var dishID: String
     var portions: Int = 0
+    var meat: Bool = false
+    var fish: Bool = false
+    var bird: Bool = false
+    var vego: Bool = false
     
     
     static func == (lhs: Dish, rhs: Dish) -> Bool {
@@ -26,12 +30,15 @@ class Dish: Equatable {
     }
     
     
-    init(dishTitle: String, dishImageId: UIImage, ingredientsAndAmount: [Ingredient], cooking: String, portions: Int) {
+    init(dishTitle: String, dishImageId: UIImage, ingredientsAndAmount: [Ingredient], cooking: String, portions: Int, meat: Bool, fish: Bool, bird: Bool, vego: Bool) {
         self.dishName = dishTitle
         self.dishImageId = dishImageId
         self.ingredientsAndAmount = ingredientsAndAmount
         self.cooking = cooking
         self.portions = portions
+        self.meat = meat
+        self.fish = fish
+        self.vego = vego
         dishID = ""
     }
     
@@ -40,6 +47,10 @@ class Dish: Equatable {
         dishName = snapshotValue["dishName"] as! String
         cooking = snapshotValue["cooking"] as? String ?? ""
         portions = snapshotValue["portions"] as? Int ?? 0
+        meat = snapshotValue["meat"] as? Bool ?? false
+        fish = snapshotValue["fish"] as? Bool ?? false
+        bird = snapshotValue["bird"] as? Bool ?? false
+        vego = snapshotValue["vego"] as? Bool ?? false
         dishID = snapshot.documentID
     }
     
@@ -48,6 +59,6 @@ class Dish: Equatable {
     }
     
     func toAny() -> [String : Any] {
-        return ["dishName": dishName, "cooking": cooking!, "portions": portions]
+        return ["dishName": dishName, "cooking": cooking!, "portions": portions, "meat": meat, "fish": fish, "bird": bird, "vego": vego]
     }
 }

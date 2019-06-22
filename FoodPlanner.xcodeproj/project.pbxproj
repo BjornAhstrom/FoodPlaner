@@ -15,6 +15,7 @@
 		1E04B7A62237D4C600CCB8A8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E04B7A52237D4C500CCB8A8 /* GoogleService-Info.plist */; };
 		1E04B7B2223A8E1000CCB8A8 /* SelectRandomDishesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E04B7B1223A8E1000CCB8A8 /* SelectRandomDishesViewController.swift */; };
 		1E0851F8225386CE0030DB81 /* ShoppingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0851F7225386CE0030DB81 /* ShoppingItem.swift */; };
+		1E14434322BE302E0067FA0F /* DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E14434222BE302E0067FA0F /* DownloadImage.swift */; };
 		1E195C552278836F000FEA40 /* ShoppingListeItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E195C542278836F000FEA40 /* ShoppingListeItems.swift */; };
 		1E195C562278836F000FEA40 /* ShoppingListeItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E195C542278836F000FEA40 /* ShoppingListeItems.swift */; };
 		1E3530602271D15800557014 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E35305E2271D15800557014 /* Interface.storyboard */; };
@@ -44,6 +45,7 @@
 		1E7E33C022303CCE000CAA9A /* CreateADishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E33BF22303CCE000CAA9A /* CreateADishViewController.swift */; };
 		1E7E33C22230E46E000CAA9A /* IngredientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E33C12230E46E000CAA9A /* IngredientTableViewCell.swift */; };
 		1E7E33C42230E4DA000CAA9A /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E33C32230E4DA000CAA9A /* Ingredient.swift */; };
+		1EBD665622AD7BDF007F3491 /* DishesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBD665522AD7BDF007F3491 /* DishesTableViewCell.swift */; };
 		1EC628E0222473B70049BCD6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC628DF222473B70049BCD6 /* AppDelegate.swift */; };
 		1EC628E2222473B70049BCD6 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC628E1222473B70049BCD6 /* OnboardingViewController.swift */; };
 		1EC628E5222473B70049BCD6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EC628E3222473B70049BCD6 /* Main.storyboard */; };
@@ -136,6 +138,7 @@
 		1E04B7A52237D4C500CCB8A8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1E04B7B1223A8E1000CCB8A8 /* SelectRandomDishesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRandomDishesViewController.swift; sourceTree = "<group>"; };
 		1E0851F7225386CE0030DB81 /* ShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItem.swift; sourceTree = "<group>"; };
+		1E14434222BE302E0067FA0F /* DownloadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadImage.swift; sourceTree = "<group>"; };
 		1E195C542278836F000FEA40 /* ShoppingListeItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListeItems.swift; sourceTree = "<group>"; };
 		1E35305C2271D15800557014 /* ShoppingList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoppingList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E35305F2271D15800557014 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
@@ -171,6 +174,7 @@
 		1E7E33BF22303CCE000CAA9A /* CreateADishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateADishViewController.swift; sourceTree = "<group>"; };
 		1E7E33C12230E46E000CAA9A /* IngredientTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientTableViewCell.swift; sourceTree = "<group>"; };
 		1E7E33C32230E4DA000CAA9A /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
+		1EBD665522AD7BDF007F3491 /* DishesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishesTableViewCell.swift; sourceTree = "<group>"; };
 		1EC628DC222473B70049BCD6 /* FoodPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EC628DF222473B70049BCD6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EC628E1222473B70049BCD6 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -336,6 +340,7 @@
 			isa = PBXGroup;
 			children = (
 				1E7E33B222300451000CAA9A /* DishesViewController.swift */,
+				1EBD665522AD7BDF007F3491 /* DishesTableViewCell.swift */,
 			);
 			path = "Show dishes controller";
 			sourceTree = "<group>";
@@ -385,6 +390,7 @@
 		1E7E33772229544C000CAA9A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1E14434222BE302E0067FA0F /* DownloadImage.swift */,
 				1E7E3381222C20F5000CAA9A /* Dish.swift */,
 				1E7E33C32230E4DA000CAA9A /* Ingredient.swift */,
 				1E7E339F222EE266000CAA9A /* Dishes.swift */,
@@ -872,6 +878,8 @@
 				1E044E912232AA3600889883 /* ShowDishTableViewCell.swift in Sources */,
 				1EF42E3F2226F62900CE28AD /* ContainerViewController.swift in Sources */,
 				1EC629192224FD2D0049BCD6 /* PinkTheme.swift in Sources */,
+				1E14434322BE302E0067FA0F /* DownloadImage.swift in Sources */,
+				1EBD665622AD7BDF007F3491 /* DishesTableViewCell.swift in Sources */,
 				1E7E337922295478000CAA9A /* CheckPassword.swift in Sources */,
 				1E633C2C223691C200C87D6D /* RandomWeeklyMenuViewController.swift in Sources */,
 				1E04B7B2223A8E1000CCB8A8 /* SelectRandomDishesViewController.swift in Sources */,

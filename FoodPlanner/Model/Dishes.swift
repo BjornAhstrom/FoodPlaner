@@ -54,6 +54,7 @@ class Dishes {
     func randomDishes(count: Int) -> [Dish] {
         // Kollar så att det finns tillräckligt med maträtter. Om det inte finns det då får användaren ut dem maträtterna som finns
         var randomMeals: [Dish] = []
+        
         if count > dishes.count {
             randomMeals = dishes
             return randomMeals
@@ -65,7 +66,10 @@ class Dishes {
                 let random = dishes[randomIndex]
                 
                 // Jämför så att det inte blir samma maträtt mer än en gång, om det finns minst dubbelt så många maträtter än vad anvädaren vill ha ut i sin veckomeny
-                if (!randomMeals.contains(random)) {
+                if (!randomMeals.contains(random) && !dishes.contains(random) ) {
+                    randomMeals.append(random)
+                }
+                else if !randomMeals.contains(random) {
                     randomMeals.append(random)
                 }
             }

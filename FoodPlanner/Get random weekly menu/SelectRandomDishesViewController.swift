@@ -34,6 +34,21 @@ class SelectRandomDishesViewController: UIViewController, UIPickerViewDataSource
     
     override func viewWillAppear(_ animated: Bool) {
         getFamilyAccountFromFirestore()
+        self.becomeFirstResponder()
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        get {
+            return true
+        }
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        
+        if motion == .motionShake {
+            deleteWeeklyMenu()
+            performSegue(withIdentifier: "goToRandomWeeklyMenuSegue", sender: self)
+        }
     }
     
     override func viewDidLoad() {

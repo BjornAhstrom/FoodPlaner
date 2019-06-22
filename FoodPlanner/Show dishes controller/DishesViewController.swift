@@ -19,6 +19,9 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var db: Firestore!
     var auth: Auth!
     var userIdFromFamilyAccount: [String] = []
+    var imageReference: StorageReference!
+    let cache = NSCache<NSString, UIImage>()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,9 +35,21 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
+        imageReference = Storage.storage().reference()
         auth = Auth.auth()
         getFamilyAccountFromFirestore()
         self.showDishTableView.reloadData()
+        
+        
+        
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.0)
+        
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.isTranslucent = true
+        
+        
     }
     
     func setColorFontOnTextAndBackgroundColor() {
@@ -99,6 +114,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                         guard let snapDoc = snapshot?.documents else { return }
                         for document in snapDoc {
                             self.userIdFromFamilyAccount.append(document.documentID)
+                            print("!!!!!!!!!!! UserId \(self.userIdFromFamilyAccount)")
                         }
                         self.getDishesFromFirestore()
                     }
@@ -124,7 +140,6 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                         case .added:
                             
                             let dish = Dish(snapshot: change.document)
-                            print("added \(dish.dishName)")
                             self.db.collection("users").document(userID).collection("dishes").document(change.document.documentID).collection("ingredients").addSnapshotListener() {
                                 (querySnapshot, error) in
                                 
@@ -155,6 +170,18 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
+    func cellDishImageView(dishImage: UIImageView) {
+        
+        dishImage.layer.borderColor = UIColor.lightGray.cgColor
+        dishImage.layer.borderWidth = 1
+        dishImage.layer.masksToBounds = true
+        dishImage.layer.cornerRadius = (dishImage.frame.width) / 2
+        dishImage.clipsToBounds = true
+        dishImage.layer.shadowColor = UIColor.black.cgColor
+        dishImage.layer.shadowOpacity = 0.5
+        dishImage.layer.shadowRadius = -2
+        dishImage.layer.shadowOffset = CGSize(width: 1, height: 0)
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -165,22 +192,41 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? DishesTableViewCell
         
         if let dish = Dishes.instance.dish(index: indexPath.row) {
             
-            cell.textLabel?.text = dish.dishName
+            for userId in userIdFromFamilyAccount {
+
+                self.imageReference = Storage.storage().reference().child("usersImages").child(userId)
+
+                cell?.dishImage.downloadImageFromStorage(dishId: dish.dishID, imageReference: imageReference)
+            }
             
             let backgroundView = UIView()
+            cell?.backgroundColor = Theme.current.backgroundColorInDishesView
             
-            cell.textLabel?.textColor = Theme.current.textColorInTableViewInDishesView
-            cell.textLabel?.font = Theme.current.textFontInTableViewInDishesView
-            cell.backgroundColor = Theme.current.backgroundColorInDishesView
-            cell.textLabel?.textAlignment = .center
             backgroundView.backgroundColor = UIColor.white
-            cell.selectedBackgroundView = backgroundView
+            cell?.selectedBackgroundView = backgroundView
+            
+            cell?.ingredientLabel?.textColor = Theme.current.textColorInTableViewInDishesView
+            cell?.ingredientLabel?.font = Theme.current.textFontInTableViewInDishesView
+            cell?.ingredientLabel.text = dish.dishName
+            
+            
+            let rectShape = CAShapeLayer()
+
+            rectShape.bounds = (cell?.viewInTableView.frame)!
+            rectShape.position = (cell?.viewInTableView.center)!
+            rectShape.path = UIBezierPath(roundedRect: (cell?.viewInTableView.bounds)!, byRoundingCorners: [.bottomLeft, .topLeft], cornerRadii: CGSize(width: 50, height: 50)).cgPath
+            cell?.viewInTableView.layer.mask = rectShape
+            cell?.viewInTableView.layer.cornerRadius = 12
+            
+            cellDishImageView(dishImage: cell!.dishImage)
+            
         }
-        return cell
+        
+        return cell ?? cell!
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
