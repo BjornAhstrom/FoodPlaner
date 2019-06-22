@@ -9,12 +9,12 @@
 import UIKit
 
 class IngredientTableViewCell: UITableViewCell {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var amountAndUnitLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel?
+    @IBOutlet weak var amountAndUnitLabel: UILabel?
     
     func setIngredientsTitle(title: Ingredient, amount: Ingredient, unit: Ingredient) {
-        titleLabel.text = "\(title.ingredientsTitle)"
-        amountAndUnitLabel.text = "\(amount.amount) \(unit.unit)"
+        titleLabel?.text = "\(title.ingredientsTitle)"
+        amountAndUnitLabel?.text = "\(amount.amount) \(unit.unit)"
     }
 
 }

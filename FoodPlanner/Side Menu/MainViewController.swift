@@ -13,6 +13,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var hamburgerMenuButton: UIBarButtonItem!
     @IBOutlet weak var shoppingListMenuButton: UIBarButtonItem!
+    @IBOutlet weak var navigationBar: UINavigationItem!
     
     private let addAndShowDish = "addAndShowDish"
     private let selectRandomDishMenu = "selectRandomDishMenu"
@@ -32,13 +33,18 @@ class MainViewController: UIViewController {
     private var myWebRecipesSegueId = "myWebRecipesSegueId"
     private var myWebRecipesId = "myWebRecipesId"
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.view.backgroundColor = Theme.current.backgroundColorMealOfTheDay
+//        mainView.backgroundColor = Theme.current.backgroundColorMealOfTheDay
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = Theme.current.backgroundColorMealOfTheDay
-        
         hamburgerMenuButton.image = UIImage(named: "HamburgerMenuIcon")
         shoppingListMenuButton.image = UIImage(named: "cartMenuIcon")
+        
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
         
         NotificationCenter.default.addObserver(self, selector: #selector(showDishList), name: NSNotification.Name( addAndShowDish), object: nil)
         

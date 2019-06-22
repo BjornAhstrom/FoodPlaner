@@ -20,6 +20,7 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var auth: Auth!
     var userIdFromFamilyAccount: [String] = []
     var imageReference: StorageReference!
+    let cache = NSCache<NSString, UIImage>()
 
     
     override func viewDidLoad() {
@@ -38,6 +39,8 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         auth = Auth.auth()
         getFamilyAccountFromFirestore()
         self.showDishTableView.reloadData()
+        
+        
         
 //        self.navigationController?.navigationBar.isTranslucent = true
 //        self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.0)
@@ -167,29 +170,17 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func downloadImageFromStorage(dishId: String, imageView: UIImageView) {
+    func cellDishImageView(dishImage: UIImageView) {
         
-        
-        let downloadImageRef = imageReference?.child(dishId)
-        if downloadImageRef?.name == dishId {
-            
-            let downloadTask = downloadImageRef?.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
-                if let error = error {
-                    print("No image \(error.localizedDescription)")
-                } else {
-                    if let data = data {
-                        let image = UIImage(data: data)
-                        print("!!!!!!!!!!!! image \(image)")
-                        imageView.image = image
-                        imageView.contentMode = .scaleAspectFill
-                    }
-                    print(error?.localizedDescription ?? "No error")
-                }
-            }
-            downloadTask?.observe(.progress) { (snapshot) in
-                //print(snapshot.progress ?? "No more progress")
-            }
-        }
+        dishImage.layer.borderColor = UIColor.lightGray.cgColor
+        dishImage.layer.borderWidth = 1
+        dishImage.layer.masksToBounds = true
+        dishImage.layer.cornerRadius = (dishImage.frame.width) / 2
+        dishImage.clipsToBounds = true
+        dishImage.layer.shadowColor = UIColor.black.cgColor
+        dishImage.layer.shadowOpacity = 0.5
+        dishImage.layer.shadowRadius = -2
+        dishImage.layer.shadowOffset = CGSize(width: 1, height: 0)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -208,12 +199,9 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             for userId in userIdFromFamilyAccount {
 
                 self.imageReference = Storage.storage().reference().child("usersImages").child(userId)
-                print("!!!!!!!! userId in download images \(userId)")
 
-                downloadImageFromStorage(dishId: dish.dishID, imageView: cell!.dishImage)
-
+                cell?.dishImage.downloadImageFromStorage(dishId: dish.dishID, imageReference: imageReference)
             }
-                print("!!!!!!!!!! DishId \(dish.dishID)")
             
             let backgroundView = UIView()
             cell?.backgroundColor = Theme.current.backgroundColorInDishesView
@@ -234,16 +222,8 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell?.viewInTableView.layer.mask = rectShape
             cell?.viewInTableView.layer.cornerRadius = 12
             
+            cellDishImageView(dishImage: cell!.dishImage)
             
-            cell?.dishImage.layer.borderColor = UIColor.lightGray.cgColor
-            cell?.dishImage.layer.borderWidth = 1
-            cell?.dishImage.layer.masksToBounds = true
-            cell?.dishImage.layer.cornerRadius = (cell?.dishImage.frame.width)! / 2
-            cell?.dishImage.clipsToBounds = true
-            cell?.dishImage.layer.shadowColor = UIColor.black.cgColor
-            cell?.dishImage.layer.shadowOpacity = 0.5
-            cell?.dishImage.layer.shadowRadius = -2
-            cell?.dishImage.layer.shadowOffset = CGSize(width: 1, height: 0)
         }
         
         return cell ?? cell!

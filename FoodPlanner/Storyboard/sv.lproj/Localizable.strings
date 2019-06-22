@@ -68,5 +68,7 @@
 
 // saved dish controller
 "portionsAmount" = "Portioner: ";
+"ingredients" = "Ingredienser";
+"steps" = "Tillagning";
 
 

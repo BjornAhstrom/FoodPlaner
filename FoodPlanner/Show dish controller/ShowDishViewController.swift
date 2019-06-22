@@ -10,14 +10,17 @@ import UIKit
 import Firebase
 
 class ShowDishViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet private weak var dishName: UILabel!
-    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var dishName: UILabel?
+    @IBOutlet private weak var imageView: UIImageView?
     @IBOutlet private weak var tableView: UITableView?
-    @IBOutlet private weak var cookingDescriptionTextView: UITextView!
+    @IBOutlet private weak var cookingDescriptionTextView: UITextView?
     @IBOutlet private var labels: [UILabel]?
     @IBOutlet weak var navigationBar: UINavigationBar?
     @IBOutlet var itemButtons: [UIBarButtonItem]?
     @IBOutlet weak var portionsLabel: UILabel?
+    @IBOutlet weak var ingredientsLabel: UILabel?
+    @IBOutlet weak var stepsLabel: UILabel?
+    @IBOutlet weak var deleteButton: UIButton?
     
     
     private var savedDishCell: String = "savedDishCell"
@@ -46,10 +49,12 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
         tableView?.delegate = self
         tableView?.dataSource = self
         setRadiusBorderColorAndFontOnLabelsViewsAndButtons()
-        dishName.text = dish?.dishName ?? ""
+        dishName?.text = dish?.dishName ?? ""
         portionsLabel?.text = "\(NSLocalizedString("portionsAmount", comment: "")) \(dish?.portions ?? 0)"
+        ingredientsLabel?.text = "\(NSLocalizedString("ingredients", comment: ""))"
+        stepsLabel?.text = "\(NSLocalizedString("steps", comment: ""))"
         
-        cookingDescriptionTextView.text = dish?.cooking
+        cookingDescriptionTextView?.text = dish?.cooking
         getFamilyAccountFromFirestore()
         //getDishIdFromFirestore()
         
@@ -57,26 +62,30 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func setRadiusBorderColorAndFontOnLabelsViewsAndButtons() {
-//        for label in labels {
-//            label.textColor = Theme.current.labelTextColorInShowDishController
-//            label.font = Theme.current.labelFontInShowDishController
-//        }
+        for label in labels! {
+            label.textColor = Theme.current.labelTextColorInShowDishController
+            label.font = Theme.current.labelFontInShowDishController
+        }
+        
+        deleteButton?.layer.borderWidth = 1
+        deleteButton?.layer.borderColor = Theme.current.borderCollorOnButtonsInSettingViewController.cgColor
+        deleteButton?.layer.cornerRadius = 10
         
         portionsLabel?.textColor = Theme.current.labelTextColorInShowDishController
         portionsLabel?.font = Theme.current.portionsLabelFontInShowDishController
-        dishName.font = Theme.current.dishNameLabelFontInShowDishController
-        dishName.textColor = Theme.current.labelTextColorInShowDishController
+        dishName?.font = Theme.current.dishNameLabelFontInShowDishController
+        dishName?.textColor = Theme.current.labelTextColorInShowDishController
 //        imageView.layer.masksToBounds = true
 //        imageView.layer.cornerRadius = 10
 //        imageView.layer.borderColor = Theme.current.borderColorInTableViewAndTextViewAndImageViewInShowDishController.cgColor
 //        imageView.layer.borderWidth = 1
-        imageView.contentMode = .scaleAspectFill
+        imageView?.contentMode = .scaleAspectFill
 //        cookingDescriptionTextView.layer.masksToBounds = true
 //        cookingDescriptionTextView.layer.borderColor = Theme.current.borderColorInTableViewAndTextViewAndImageViewInShowDishController.cgColor
 //        cookingDescriptionTextView.layer.borderWidth = 1
 //        cookingDescriptionTextView.layer.cornerRadius = 12
-        cookingDescriptionTextView.font = Theme.current.textFontInTextViewInShowDishController
-        cookingDescriptionTextView.textColor = Theme.current.textColorInTableViewAndTextViewInShowDishController
+        cookingDescriptionTextView?.font = Theme.current.textFontInTextViewInShowDishController
+        cookingDescriptionTextView?.textColor = Theme.current.textColorInTableViewAndTextViewInShowDishController
 //        cookingDescriptionTextView.backgroundColor = Theme.current.backgroundColorInTableViewAndTextViewInShowDishController
 //        tableView?.backgroundColor = Theme.current.backgroundColorInTableViewAndTextViewInShowDishController
 //        tableView?.layer.masksToBounds = true
@@ -85,11 +94,12 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
 //        tableView?.layer.cornerRadius = 12
         
 //        navigationBar?.barTintColor = Theme.current.backgroundColorShowDishController
-        view.backgroundColor = Theme.current.backgroundColorShowDishController
+//        view.backgroundColor = Theme.current.backgroundColorShowDishController
         
 //        for itemBtn in itemButtons ?? <#default value#> {
 //            itemBtn.tintColor = Theme.current.navigationbarTextColor
 //        }
+        
     }
     
     @IBAction func doneItemButton(_ sender: UIBarButtonItem) {
@@ -161,29 +171,8 @@ class ShowDishViewController: UIViewController, UITableViewDelegate, UITableView
             }
             for usersId in self.userIdFromFamilyAccount {
                 self.imageReference = Storage.storage().reference().child("usersImages").child(usersId)
-                self.downloadImageFromStorage()
-            }
-        }
-    }
-    
-    func downloadImageFromStorage() {
-        let downloadImageRef = imageReference.child(dishId ?? "No dishId")
-       // print("!!!!!!! Download image \(dishId ?? "No id")")
-        
-        if downloadImageRef.name == dishId {
-            let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
-                if let error = error {
-                    print("No image \(error)")
-                } else {
-                    if let data = data {
-                        let image = UIImage(data: data)
-                        self.imageView.image = image
-                    }
-                    print(error ?? "No error")
-                }
-            }
-            downloadTask.observe(.progress) { (snapshot) in
-                //print(snapshot.progress ?? "No more progress")
+                
+                self.imageView?.downloadImageFromStorage(dishId: self.dishId ?? "No dishId", imageReference: self.imageReference)
             }
         }
     }

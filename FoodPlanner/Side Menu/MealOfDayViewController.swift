@@ -37,6 +37,7 @@ class MealOfDayViewController: UIViewController {
     var theDaysDate: String = ""
     
     var imageReference: StorageReference?
+    let cache = NSCache<NSString, UIImage>()
     
     override func viewWillAppear(_ animated: Bool) {
         db = Firestore.firestore()
@@ -58,7 +59,7 @@ class MealOfDayViewController: UIViewController {
 //
 //            goToDishesViewController()
 //        }
-        someAlertMessage()
+        //someAlertMessage()
        
         
         // PRIO: Spara bild till fil så att bilden inte behös hämtas varje gång MealOfTheDayControllern visas.
@@ -102,10 +103,10 @@ class MealOfDayViewController: UIViewController {
         recipeButton.backgroundColor = Theme.current.recipeButtonBackgroundColor
         view.backgroundColor = Theme.current.backgroundColorMealOfTheDay
         
-        navigationController?.navigationBar.barTintColor = Theme.current.backgroundColorInDishesView
-        navigationController?.navigationBar.tintColor = Theme.current.navigationbarTextColor
-        navigationController?.navigationBar.barStyle = .default
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.navigationbarTextColor]
+//        navigationController?.navigationBar.barTintColor = Theme.current.backgroundColorInDishesView
+//        navigationController?.navigationBar.tintColor = Theme.current.navigationbarTextColor
+//        navigationController?.navigationBar.barStyle = .default
+//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.current.navigationbarTextColor]
     }
     
     func getFamilyAccountFromFirestore() {
@@ -224,7 +225,7 @@ class MealOfDayViewController: UIViewController {
                 for usersId in self.userIdFromFamilyAccount {
                     self.imageReference = Storage.storage().reference().child("usersImages").child(usersId)
                      // Ska inte loopa igenom bilderna
-                    self.downloadImageFromStorage()
+                    self.fooodImageView.downloadImageFromStorage(dishId: self.dishId ?? "No dishId", imageReference: self.imageReference)
                 }
             }
             self.foodNameLabel.text = self.mealOfTheDayName
@@ -240,26 +241,6 @@ class MealOfDayViewController: UIViewController {
         outputDate = dateFormatter.string(from: toDayDate)
         
         return outputDate
-    }
-    
-    func downloadImageFromStorage() {
-        guard let downloadImageRef = imageReference?.child(dishId ?? "No dishId") else { return }
-        
-        if downloadImageRef.name == dishId {
-            let downloadTask = downloadImageRef.getData(maxSize: 1024 * 1024 * 12) { (data, error) in
-                if let error = error {
-                    print("Error getting image \(error.localizedDescription)")
-                } else {
-                    if let data = data {
-                        let image = UIImage(data: data)
-                        self.fooodImageView.image = image
-                    }
-                }
-            }
-            downloadTask.observe(.progress) { (snapshot) in
-                //print(snapshot.progress ?? "No more progress")
-            }
-        }
     }
     
     func goToDishesViewController() {
