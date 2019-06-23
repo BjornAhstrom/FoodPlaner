@@ -322,7 +322,7 @@ class MealOfDayViewController: UIViewController {
                 (snapshot, error) in
                 
                 if let error = error {
-                    print("No users \(error)")
+                    print("No users \(error.localizedDescription)")
                 } else {
                     guard let snapDoc = snapshot?.documents else { return }
                     
@@ -342,7 +342,7 @@ class MealOfDayViewController: UIViewController {
                 (snapshot, error) in
                 
                 if let error = error {
-                    print("No users \(error)")
+                    print("No users \(error.localizedDescription)")
                 } else {
                     
                     guard let snapDoc = snapshot?.documents else { return }
@@ -371,7 +371,7 @@ class MealOfDayViewController: UIViewController {
         db.collection("users").document(userId).collection("invites").document(invite.fromUserId).delete() {
             error in
             if let error = error {
-                print("david Error: \(error)")
+                print("david Error: \(error.localizedDescription)")
             } else {
                 print("david sucess")
             }

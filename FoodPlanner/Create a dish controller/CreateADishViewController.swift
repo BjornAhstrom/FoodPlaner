@@ -184,17 +184,20 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         let subview = (alert.view.subviews.first?.subviews.first?.subviews.first!)! as UIView
         subview.backgroundColor = Theme.current.backgroundColorAddDishController
         
-        //Add the text field, with placeholder.
+        //Add the text field, with placeholder and a sentence start with big letter, in addition to amountField, the user can only enter numbers
         alert.addTextField { (ingredientField) in
             ingredientField.placeholder = "\(NSLocalizedString("placeholderIngName", comment: ""))"
+            ingredientField.autocapitalizationType = .sentences
         }
         
         alert.addTextField { (amountField) in
             amountField.placeholder = "\(NSLocalizedString("placeholderIngAmount", comment: ""))"
+            amountField.keyboardType = .decimalPad
         }
         
         alert.addTextField { (unitField) in
             unitField.placeholder = "\(NSLocalizedString("placeholderIngUnit", comment: ""))"
+            unitField.autocapitalizationType = .sentences
         }
         
         //the cancel action
@@ -210,7 +213,6 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
                 print("Issue with TextFields Text \(error)")
                 return
             }
-            print("!!!!!!!!! 1 \(ingredientText) \(amountText) \(unitText)")
             self.createIngredients(ingredientText: ingredientText, amountText: amountText, unitText: unitText)
         })
         

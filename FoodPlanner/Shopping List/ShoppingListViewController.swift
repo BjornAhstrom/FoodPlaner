@@ -34,9 +34,9 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
         //doneItemButton.tintColor = Theme.current.textColorForLabels
         view.backgroundColor = Theme.current.backgroundColorInShoppingListViewController
         shoppingListTableView.backgroundColor = Theme.current.backgroundColorInShoppingListViewController
-        shoppingListTableView.layer.borderWidth = 1
-        shoppingListTableView.layer.borderColor = Theme.current.borderColorForTableViewShoppingViewController.cgColor
-        shoppingListTableView.layer.cornerRadius = 10
+//        shoppingListTableView.layer.borderWidth = 1
+//        shoppingListTableView.layer.borderColor = Theme.current.borderColorForTableViewShoppingViewController.cgColor
+//        shoppingListTableView.layer.cornerRadius = 10
     }
     
     func getFamilyAccountFromFirestore() {
@@ -82,21 +82,18 @@ class ShoppingListViewController: UIViewController, UITableViewDelegate, UITable
             self.shoppingItems = []
             if let error = error {
                 self.alertMessage(titel: "Error", message: error.localizedDescription)
-                print("Error getting document \(error)")
+                print("Error getting document \(error.localizedDescription)")
             } else {
                 guard let snapDoc = snapshot?.documents else { return }
                 for document in snapDoc {
                     let item = ShoppingItem(snapshot: document)
+                    
                     self.shoppingItems.append(item)
+                    self.shoppingItems.sort(by: { $0.ingredient.ingredientsTitle.lowercased() < $1.ingredient.ingredientsTitle.lowercased()})
                 }
             }
             self.shoppingListTableView.reloadData()
         }
-        //        if let index = self.ingredients.firstIndex(of: ingredient) {
-        //            self.ingredients[index].amount += ingredient.amount
-        //        } else {
-        //            self.ingredients.append(ingredient)
-        //        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
