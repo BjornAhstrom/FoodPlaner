@@ -75,3 +75,10 @@
 "steps" = "Steps";
 
 
+// Show all dishes controller
+"meat" = "Meat";
+"fish" = "Fish";
+"bird" = "Bird";
+"vego" = "Vegetarian";
+
+

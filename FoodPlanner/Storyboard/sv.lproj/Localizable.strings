@@ -71,4 +71,9 @@
 "ingredients" = "Ingredienser";
 "steps" = "Tillagning";
 
+// Show all dishes controller
+"meat" = "Kött";
+"fish" = "Fisk";
+"bird" = "Fågel";
+"vego" = "Vegetariskt";
 

@@ -13,6 +13,7 @@ class DishesTableViewCell: UITableViewCell {
     @IBOutlet weak var viewInTableView: UIView!
     @IBOutlet weak var dishImage: UIImageView!
     @IBOutlet weak var ingredientLabel: UILabel!
+    @IBOutlet weak var typeOfDishLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,6 +22,8 @@ class DishesTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        
+        dishImage.contentMode = .scaleToFill
 
         // Configure the view for the selected state
     }

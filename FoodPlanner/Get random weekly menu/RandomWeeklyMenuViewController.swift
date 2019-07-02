@@ -10,16 +10,16 @@ import UIKit
 import Firebase
 
 class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var weeklyMenuTableView: UITableView!
-    @IBOutlet weak var saveMenuButton: UIButton!
+    @IBOutlet weak var weeklyMenuTableView: UITableView?
+    @IBOutlet weak var saveMenuButton: UIButton?
     
     private let randomMenuCell: String = "randomMenyCell"
     private let showWeeklyFoodMenuSegue = "showWeeklyFoodMenuSegue"
     
-    var db: Firestore!
-    var auth: Auth!
+    var db: Firestore?
+    var auth: Auth?
     
-    var weeklyMenu = [DishAndDate]()
+    var weeklyMenu = [DishAndDate?]()
     var ingredients: [Ingredient] = []
     var shoppingItems: [ShoppingItem] = []
     var selectedDateFromUser: Date!
@@ -36,18 +36,18 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         auth = Auth.auth()
         
         setFontAndColorsOnButton()
-        weeklyMenuTableView.dataSource = self
-        weeklyMenuTableView.delegate = self
+        weeklyMenuTableView?.dataSource = self
+        weeklyMenuTableView?.delegate = self
         
-        self.weeklyMenuTableView.reloadData()
+        self.weeklyMenuTableView?.reloadData()
         
         getFamilyAccountFromFirestore()
     }
     
     func getFamilyAccountFromFirestore() {
-        guard let userId = auth.currentUser?.uid else { return }
+        guard let userId = auth?.currentUser?.uid else { return }
         
-        db.collection("users").document(userId).getDocument() {
+        db?.collection("users").document(userId).getDocument() {
             (document, error) in
             
             if let error = error {
@@ -59,7 +59,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
                 self.ownerFamilyAccountId = famAccountId
                 
                 self.userIdFromFamilyAccount = []
-                self.db.collection("familyAccounts").document(famAccountId).collection("members").getDocuments() {
+                self.db?.collection("familyAccounts").document(famAccountId).collection("members").getDocuments() {
                     (snapshot, error) in
                     
                     if let error = error {
@@ -79,8 +79,7 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     
-    // Ska göras: Om användaren väljer 2 maträtter då ska det kollas om det finns gånger 3 maträtter, för det ska inte kunna bli samma maträtter som föregående vecka
-    
+    // Ska göras: Om användaren väljer 2 maträtter då ska det kollas om det finns 2 gånger 3 maträtter, för det ska inte kunna bli samma maträtter som föregående vecka
     func createWeeklyMenu(count: Int) {
         if Dishes.instance.dishes.count == 1 {
             self.alertMessage(titel: "\(NSLocalizedString("oneDishTitle", comment: ""))", message: "\(NSLocalizedString("oneDishMessage1", comment: "")) \(Dishes.instance.dishes.count) \(NSLocalizedString("oneDishMessage2", comment: "")) \(Dishes.instance.dishes.count) \(NSLocalizedString("oneDishMessage3", comment: ""))")
@@ -102,17 +101,17 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
             
             let foodAndDate = DishAndDate(dishName: dish.dishName, date: newDate, idFromDish: dish.dishID)
             dishId.append(dish.dishID)
-            self.db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").addDocument(data: foodAndDate.toAny())
+            self.db?.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("weeklyMenu").addDocument(data: foodAndDate.toAny())
             
             self.weeklyMenu.append(foodAndDate)
             index += delta
         }
         
-        self.weeklyMenu = self.weeklyMenu.sorted(by: {$0.date.compare($1.date) == .orderedAscending})
+        self.weeklyMenu = self.weeklyMenu.sorted(by: {$0?.date.compare($1?.date ?? Date()) == .orderedAscending})
         
         for userID in userIdFromFamilyAccount {
             for id in dishId {
-                self.db.collection("users").document(userID).collection("dishes").document(id).collection("ingredients").addSnapshotListener() {
+                self.db?.collection("users").document(userID).collection("dishes").document(id).collection("ingredients").addSnapshotListener() {
                     (querySnapshot, error) in
                     
                     if let error = error {
@@ -127,24 +126,24 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
                             let items = ShoppingItem(ingredient: ing, checkBox: false)
                             self.shoppingItems.append(items)
                             
-                            self.db.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").addDocument(data: items.toAny())
+                            self.db?.collection("familyAccounts").document(self.ownerFamilyAccountId).collection("shoppingItems").addDocument(data: items.toAny())
                         }
                     }
                 }
             }
         }
-        self.weeklyMenuTableView.reloadData()
+        self.weeklyMenuTableView?.reloadData()
     }
     
     @IBAction func saveWeeklyMenu(_ sender: UIButton) {
     }
     
     func setFontAndColorsOnButton() {
-        saveMenuButton.layer.borderColor = Theme.current.colorForBorder.cgColor
-        saveMenuButton.layer.borderWidth = 2
-        saveMenuButton.layer.cornerRadius = 15
-        saveMenuButton.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 20)
-        saveMenuButton.setTitleColor(Theme.current.textColor, for: .normal)
+        saveMenuButton?.layer.borderColor = Theme.current.colorForBorder.cgColor
+        saveMenuButton?.layer.borderWidth = 2
+        saveMenuButton?.layer.cornerRadius = 15
+        saveMenuButton?.titleLabel?.font = UIFont(name: Theme.current.fontForButtons, size: 20)
+        saveMenuButton?.setTitleColor(Theme.current.textColor, for: .normal)
         view.backgroundColor = Theme.current.backgroundColorRandomWeeklyMenuController
     }
     
@@ -163,8 +162,11 @@ class RandomWeeklyMenuViewController: UIViewController, UITableViewDelegate, UIT
         
         let foodAndDate = weeklyMenu[indexPath.row]
         
-        cell.setDateOnLabel(date: foodAndDate.date)
-        cell.setFoodnameOnLabel(foodName: foodAndDate.dishName)
+        cell.setDateOnLabel(date: foodAndDate?.date ?? Date())
+        cell.setFoodnameOnLabel(foodName: foodAndDate?.dishName ?? "No Dish")
+        
+        //        cell.setDateOnLabel(date: Date())
+        //        cell.setFoodnameOnLabel(foodName: "TestRätt")
         
         return cell
     }

@@ -510,11 +510,11 @@
         <scene sceneID="lyZ-6g-W2F">
             <objects>
                 <viewController storyboardIdentifier="SelectRandomWeekId" id="EJn-uI-tt1" customClass="SelectRandomDishesViewController" customModule="FoodPlanner" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="WWt-7p-RsM">
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="WWt-7p-RsM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tTe-Gb-24O">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tTe-Gb-24O">
                                 <rect key="frame" x="78" y="734" width="219" height="43"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="43" id="7aT-6f-269"/>
@@ -527,13 +527,13 @@
                                     <segue destination="hPC-BK-ZrQ" kind="show" identifier="goToRandomWeeklyMenuSegue" id="Xwq-MD-JMr"/>
                                 </connections>
                             </button>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yTh-i2-TG3">
+                            <pickerView contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yTh-i2-TG3">
                                 <rect key="frame" x="27.666666666666657" y="445" width="320" height="143"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="143" id="tUj-Zt-QDh"/>
                                 </constraints>
                             </pickerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose number of dishes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qtd-UK-BUK">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Choose number of dishes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qtd-UK-BUK">
                                 <rect key="frame" x="21" y="409" width="333" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="BgW-oU-dwx"/>
@@ -871,17 +871,29 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="swJ-0s-anG">
+                                                            <rect key="frame" x="118" y="75" width="201" height="27"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="27" id="YHz-Sw-GgB"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="swJ-0s-anG" secondAttribute="trailing" constant="8" id="7cc-Z6-YdN"/>
+                                                        <constraint firstAttribute="bottom" secondItem="swJ-0s-anG" secondAttribute="bottom" constant="8" id="7kI-hQ-xah"/>
                                                         <constraint firstItem="dF6-7S-7Gd" firstAttribute="leading" secondItem="dcn-XE-Vb6" secondAttribute="trailing" constant="8" id="7mm-5P-b1g"/>
                                                         <constraint firstAttribute="bottom" secondItem="dcn-XE-Vb6" secondAttribute="bottom" id="8UF-Q0-mPI"/>
+                                                        <constraint firstItem="swJ-0s-anG" firstAttribute="leading" secondItem="dcn-XE-Vb6" secondAttribute="trailing" constant="8" id="HrM-Ih-u7F"/>
                                                         <constraint firstItem="dcn-XE-Vb6" firstAttribute="leading" secondItem="ZDC-On-rb0" secondAttribute="leading" id="JAb-Yp-Z19"/>
                                                         <constraint firstItem="dcn-XE-Vb6" firstAttribute="top" secondItem="ZDC-On-rb0" secondAttribute="top" id="ZBU-ZY-Vwk"/>
                                                         <constraint firstAttribute="trailing" secondItem="dF6-7S-7Gd" secondAttribute="trailing" constant="8" id="h6T-kM-1mA"/>
                                                         <constraint firstItem="dF6-7S-7Gd" firstAttribute="top" secondItem="ZDC-On-rb0" secondAttribute="top" constant="8" id="hh1-Qz-fYA"/>
+                                                        <constraint firstItem="swJ-0s-anG" firstAttribute="top" secondItem="dF6-7S-7Gd" secondAttribute="bottom" constant="11" id="mLZ-M9-GeW"/>
                                                         <constraint firstAttribute="height" constant="110" id="ulf-ra-lGy"/>
-                                                        <constraint firstAttribute="bottom" secondItem="dF6-7S-7Gd" secondAttribute="bottom" constant="46" id="wO9-Fe-3Ip"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -896,6 +908,7 @@
                                         <connections>
                                             <outlet property="dishImage" destination="dcn-XE-Vb6" id="oyt-oz-xkW"/>
                                             <outlet property="ingredientLabel" destination="dF6-7S-7Gd" id="JaW-Wb-65D"/>
+                                            <outlet property="typeOfDishLabel" destination="swJ-0s-anG" id="RNT-Av-rmi"/>
                                             <outlet property="viewInTableView" destination="ZDC-On-rb0" id="BOm-s3-0gt"/>
                                             <segue destination="yfb-Ht-BVf" kind="show" identifier="showDishSegue" id="LOv-9s-fvt"/>
                                         </connections>
@@ -1080,7 +1093,7 @@
                                                 <rect key="frame" x="8" y="1279" width="359" height="358"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
@@ -1603,7 +1616,7 @@
                                                 <rect key="frame" x="8" y="785" width="359" height="297"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
@@ -1976,7 +1989,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="brK-jj-UBi"/>
+        <segue reference="LOv-9s-fvt"/>
         <segue reference="gmm-vc-jZc"/>
         <segue reference="wBu-fI-UUo"/>
     </inferredMetricsTieBreakers>

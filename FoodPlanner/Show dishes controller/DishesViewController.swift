@@ -215,7 +215,19 @@ class DishesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.ingredientLabel?.font = Theme.current.textFontInTableViewInDishesView
             cell.ingredientLabel.text = dish.dishName
             
-            
+            if dish.meat == true {
+                cell.typeOfDishLabel.text = "\(NSLocalizedString("meat", comment: ""))"
+            }
+            else if dish.fish == true {
+                cell.typeOfDishLabel.text = "\(NSLocalizedString("fish", comment: ""))"
+            }
+            else if dish.bird == true {
+                cell.typeOfDishLabel.text = "\(NSLocalizedString("bird", comment: ""))"
+            }
+            else if dish.vego == true {
+                cell.typeOfDishLabel.text = "\(NSLocalizedString("vego", comment: ""))"
+            }
+        
             let rectShape = CAShapeLayer()
 
             rectShape.bounds = (cell.viewInTableView.frame)

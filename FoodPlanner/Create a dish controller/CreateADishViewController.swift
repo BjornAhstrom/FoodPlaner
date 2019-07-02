@@ -178,13 +178,13 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
         openCameraOrPhotoLibrary()
     }
     
-    func alertForAddAIngredient() {
+    func createAnAlertToAddAnIngredient() {
         //Create the alert controller.
         let alert = UIAlertController(title: "\(NSLocalizedString("addIngredientAlertTitle", comment: ""))", message: "\(NSLocalizedString("addIngredientAlertMessage", comment: ""))", preferredStyle: .alert)
         let subview = (alert.view.subviews.first?.subviews.first?.subviews.first!)! as UIView
         subview.backgroundColor = Theme.current.backgroundColorAddDishController
         
-        //Add the text field, with placeholder and a sentence start with big letter, in addition to amountField, the user can only enter numbers
+        //Add the text field, with placeholder and sentence start with big letter, in addition to amountField, the user can only enter numbers
         alert.addTextField { (ingredientField) in
             ingredientField.placeholder = "\(NSLocalizedString("placeholderIngName", comment: ""))"
             ingredientField.autocapitalizationType = .sentences
@@ -235,7 +235,7 @@ class CreateADishViewController: UIViewController, UINavigationControllerDelegat
     }
  
     @IBAction func addIngredientsButton(_ sender: UIButton) {
-        alertForAddAIngredient()
+        createAnAlertToAddAnIngredient()
         //createIngredients()
     }
     
